@@ -40,8 +40,30 @@ const nunito = Nunito({
 });
 
 export const metadata: Metadata = {
+  metadataBase: new URL(
+    process.env.VERCEL_URL
+      ? `https://${process.env.VERCEL_URL}`
+      : "http://localhost:3000"
+  ),
   title: "한영수 & 구자민 — 2026.07.05",
   description: "저희 두 사람의 특별한 날에 초대합니다.",
+  openGraph: {
+    title: "한영수 & 구자민 — 2026.07.05",
+    description: "저희 두 사람의 특별한 날에 초대합니다.",
+    images: [
+      {
+        url: "/char-real.jpeg",
+        width: 1200,
+        height: 630,
+        alt: "한영수 & 구자민 웨딩",
+      },
+    ],
+    type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    images: ["/char-real.jpeg"],
+  },
 };
 
 export default function RootLayout({
