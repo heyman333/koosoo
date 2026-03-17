@@ -406,7 +406,7 @@ export default function Home() {
           >
             카카오맵
           </a>
-          <a href="tmap://search?searchKeyword=건국대학교%20동문회관" className="map-btn">
+          <a href="tmap://search?name=건국대학교 동문회관" className="map-btn">
             T Map
           </a>
         </div>
