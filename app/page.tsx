@@ -3,6 +3,7 @@
 import { useEffect, useRef, useState } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
+import KakaoMap from "./KakaoMap";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -363,10 +364,7 @@ export default function Home() {
       <section className="w-section fade-in">
         <h2 className="sec-title">Location</h2>
 
-        <div className="map-placeholder">
-          <span>건국대학교 동문회관</span>
-          <span style={{ fontSize: 11, color: "#ccc" }}>서울 광진구 능동로 120</span>
-        </div>
+        <KakaoMap />
 
         <div className="loc-info">
           <p className="loc-venue">건국대학교 동문회관</p>
