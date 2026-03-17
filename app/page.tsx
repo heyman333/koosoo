@@ -205,6 +205,7 @@ export default function Home() {
       <div className="cursor-dot" ref={cursorRef} />
       <div id="progress-bar" />
 
+      <div className="page-container">
       {/* ══ HERO — illust → photo crossfade ══════════════════════════════════ */}
       <section className="illust-crossfade-section">
         {/* 실사 사진 (베이스) */}
@@ -469,6 +470,7 @@ export default function Home() {
         <br />
         2026 · 07 · 05
       </footer>
+      </div>
 
       {/* ══ GUESTBOOK MODAL ═════════════════════════════════════════════════ */}
       {modalOpen && (

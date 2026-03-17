@@ -12,7 +12,7 @@
 * { box-sizing: border-box; margin: 0; padding: 0; }
 html { scroll-behavior: auto; }
 body {
-  background: #fff;
+  background: #e8e4de;
   color: #2c2a24;
   overflow-x: hidden;
   font-family: var(--font-pretendard), 'Apple SD Gothic Neo', sans-serif;
@@ -20,12 +20,24 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
+.page-container {
+  max-width: 480px;
+  margin: 0 auto;
+  background: #fff;
+  position: relative;
+  overflow: hidden;
+  box-shadow: 0 0 60px rgba(0,0,0,0.12);
+}
+
 /* ── Progress Bar ── */
 #progress-bar {
   position: fixed;
-  top: 0; left: 0;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
   height: 1px;
   width: 0%;
+  max-width: 480px;
   background: #bbb;
   z-index: 100;
   pointer-events: none;
