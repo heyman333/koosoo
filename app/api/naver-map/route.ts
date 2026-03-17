@@ -10,8 +10,8 @@ export async function GET() {
 
   const url =
     "https://maps.apigw.ntruss.com/map-static/v2/raster" +
-    "?w=600&h=400&center=127.0733,37.5416&level=16" +
-    "&markers=type:d|size:mid|pos:127.0733%2037.5416";
+    "?w=600&h=400&center=127.074664,37.538338&level=16" +
+    "&markers=type:d|size:mid|pos:127.074664%2037.538338";
 
   const res = await fetch(url, {
     headers: {
