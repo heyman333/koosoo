@@ -106,6 +106,45 @@ export default function Home() {
   const [gbName, setGbName] = useState("");
   const [gbMsg, setGbMsg] = useState("");
 
+  /* ── smooth scroll throttle (desktop only) ── */
+  useEffect(() => {
+    const isTouch = window.matchMedia("(hover: none)").matches;
+    if (isTouch) return;
+
+    const SPEED = 0.55; // 낮을수록 느림 (0~1)
+    const LERP  = 0.10; // 낮을수록 부드러움
+
+    let targetY = window.scrollY;
+    let rafId   = 0;
+    let running = false;
+
+    const maxY = () =>
+      document.documentElement.scrollHeight - window.innerHeight;
+
+    const tick = () => {
+      const diff = targetY - window.scrollY;
+      if (Math.abs(diff) < 0.5) {
+        window.scrollTo(0, targetY);
+        running = false;
+        return;
+      }
+      window.scrollTo(0, window.scrollY + diff * LERP);
+      rafId = requestAnimationFrame(tick);
+    };
+
+    const onWheel = (e: WheelEvent) => {
+      e.preventDefault();
+      targetY = Math.max(0, Math.min(targetY + e.deltaY * SPEED, maxY()));
+      if (!running) { running = true; rafId = requestAnimationFrame(tick); }
+    };
+
+    window.addEventListener("wheel", onWheel, { passive: false });
+    return () => {
+      window.removeEventListener("wheel", onWheel);
+      cancelAnimationFrame(rafId);
+    };
+  }, []);
+
   /* ── cursor ── */
   useEffect(() => {
     const cursor = cursorRef.current;
