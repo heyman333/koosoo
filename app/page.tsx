@@ -181,6 +181,25 @@ export default function Home() {
     return () => obs.disconnect();
   }, []);
 
+  /* ── profile shimmer (re-triggers every time in view) ── */
+  useEffect(() => {
+    const obs = new IntersectionObserver(
+      (entries) =>
+        entries.forEach((e) => {
+          if (e.isIntersecting) {
+            e.target.classList.remove("shimmer-active");
+            void (e.target as HTMLElement).offsetWidth; // force reflow
+            e.target.classList.add("shimmer-active");
+          } else {
+            e.target.classList.remove("shimmer-active");
+          }
+        }),
+      { threshold: 0.15 }
+    );
+    document.querySelectorAll(".profile-img").forEach((el) => obs.observe(el));
+    return () => obs.disconnect();
+  }, []);
+
   /* ── helpers ── */
   function copyText(txt: string) {
     navigator.clipboard.writeText(txt).then(() => alert("복사되었습니다."));
@@ -321,7 +340,7 @@ export default function Home() {
       </section>
 
       {/* ══ PROFILE ═════════════════════════════════════════════════════════ */}
-      <section className="w-section fade-in">
+      <section className="w-section profile-section fade-in">
         <h2 className="sec-title">Groom &amp; Bride</h2>
 
         <div className="profile-wrap">
