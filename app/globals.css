@@ -175,8 +175,8 @@ body {
 .ic-names-amp {
   font-style: normal;
   font-weight: 300;
-  opacity: 0.6;
-  margin: 0 0.2em;
+  opacity: 0.45;
+  margin: 0 0.3em;
 }
 .ic-names-date {
   font-size: 10px;

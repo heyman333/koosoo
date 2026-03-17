@@ -229,8 +229,8 @@ export default function Home() {
 
         {/* 이름 오버레이 (사진 전환 후) */}
         <div className="ic-names">
-          <p className="ic-names-text">Han Yeongsoo <span className="ic-names-amp">&amp;</span> Koo Jamin</p>
-          <span className="ic-names-date">2026 · 07 · 05 · Sunday · 1:00 PM</span>
+          <p className="ic-names-text">Han Yeongsoo <span className="ic-names-amp">·</span> Koo Jamin</p>
+          <span className="ic-names-date">2026 · 07 · 05 · Sun · 13:00</span>
         </div>
 
         {/* 스크롤 힌트 */}
