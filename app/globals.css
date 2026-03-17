@@ -566,6 +566,7 @@ body {
 }
 .loc-info {
   text-align: center;
+  margin-top: 1.2rem;
   margin-bottom: 1.2rem;
 }
 .loc-venue {

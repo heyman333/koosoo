@@ -269,7 +269,7 @@ export default function Home() {
         {/* 실사 사진 (베이스) */}
         <div className="ic-real-layer">
           {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img src="/char-real.jpeg" className="ic-real-img" alt="" />
+          <img src="/w08.jpg" className="ic-real-img" alt="" />
         </div>
 
         {/* 캐릭터 일러스트 레이아웃 */}
