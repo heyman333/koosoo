@@ -91,7 +91,11 @@ const GALLERY_PHOTOS = [
   "/w01.jpg", "/w02.jpg", "/w03.jpg",
   "/w04.jpg", "/w05.jpg", "/w06.jpg",
   "/w07.jpg", "/w08.jpg", "/w09.jpg",
+  "/w10.jpg", "/w01.jpg", "/w02.jpg",
+  "/w03.jpg", "/w04.jpg", "/w05.jpg",
 ];
+
+const GALLERY_WIDE = ["/w06.jpg", "/w07.jpg", "/w08.jpg"];
 
 /* ════════════════════════════════════════════════════════════════════════════ */
 export default function Home() {
@@ -332,16 +336,16 @@ export default function Home() {
         <h2 className="sec-title">Invitation</h2>
 
         <p className="invite-text">
-          무더운 여름, 운명처럼 만나<br />
-          사랑에 빠지는 데는<br />
-          그리 오랜 시간이 걸리지 않았습니다.<br />
+          무더운 여름,<br />
+          운명처럼 만나<br />
+          사랑에 빠지는 데 많은 시간이 들지 않았습니다.<br />
           <br />
-          세상을 알록달록하게 만들어 주는,<br />
-          매일매일 크게 웃게 해 주는<br />
-          서로에게 감사하며,<br />
+          세상을 알록달록하게 만들어주는,<br />
+          매일매일 크게 웃게 해주는<br />
+          서로에게 감사하며<br />
           그 여름에 약속을 나누려 합니다.<br />
           <br />
-          함께해 주시면 기쁘게 간직하겠습니다.
+          함께해주시면 기쁘게 간직하겠습니다.
         </p>
 
         <div className="inv-divider" />
@@ -412,6 +416,15 @@ export default function Home() {
         <div className="gallery-grid">
           {GALLERY_PHOTOS.map((src, i) => (
             <div key={i} className="gallery-item">
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img src={src} alt="" />
+            </div>
+          ))}
+        </div>
+
+        <div className="gallery-wide-row">
+          {GALLERY_WIDE.map((src, i) => (
+            <div key={i} className="gallery-wide-item">
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img src={src} alt="" />
             </div>
