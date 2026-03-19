@@ -295,12 +295,12 @@ body {
 .poem-block--left  { transform: rotate(-0.5deg); }
 
 .poem-greeting {
-  font-family: var(--font-cormorant), serif;
-  font-size: 15px;
-  font-style: italic;
-  font-weight: 500;
-  color: #6b6560;
-  letter-spacing: 0.02em;
+  font-family: var(--font-pretendard), sans-serif;
+  font-size: 13px;
+  font-style: normal;
+  font-weight: 400;
+  color: #aaa;
+  letter-spacing: 0.04em;
   margin-bottom: 1rem;
 }
 .poem-source {
@@ -309,6 +309,17 @@ body {
   letter-spacing: 0.15em;
   margin-bottom: 1rem;
 }
+.poem-anecdote {
+  font-family: var(--font-cormorant), serif;
+  font-size: 16px;
+  font-style: italic;
+  font-weight: 500;
+  color: #999;
+  line-height: 1.7;
+  margin-bottom: 1.4rem;
+  letter-spacing: 0.01em;
+}
+
 .poem-cite {
   margin-top: 1.4rem;
   font-size: 13px;
@@ -514,6 +525,67 @@ body {
   height: 180px;
   background: #eee;
   flex-shrink: 0;
+}
+
+/* ── profile + poem 결합 레이아웃 ── */
+.pp-card {
+  display: flex;
+  align-items: flex-start;
+  gap: 1.4rem;
+  margin-bottom: 1.6rem;
+}
+.pp-card--reverse {
+  flex-direction: row-reverse;
+}
+.pp-photo {
+  width: 42%;
+  flex-shrink: 0;
+}
+.pp-photo .profile-img {
+  width: 100%;
+  aspect-ratio: 3 / 4;
+}
+.pp-info {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  padding-top: 0.3rem;
+}
+.pp-info--right {
+  align-items: flex-end;
+  text-align: right;
+}
+.pp-label {
+  font-family: var(--font-cinzel), serif;
+  font-size: 9px;
+  letter-spacing: 0.28em;
+  color: #bbb;
+  text-transform: uppercase;
+}
+.pp-name {
+  font-size: 22px;
+  font-weight: 500;
+  color: #2c2a24;
+  line-height: 1.2;
+  margin-top: 0.2rem;
+}
+.pp-name-en {
+  font-family: var(--font-cinzel), serif;
+  font-size: 9px;
+  letter-spacing: 0.15em;
+  color: #ccc;
+  text-transform: uppercase;
+}
+.pp-poem {
+  margin-bottom: 0 !important;
+  transform: none !important;
+}
+.profile-poem-sep {
+  width: 36px;
+  height: 1px;
+  background: #ddd;
+  margin: 2.8rem auto;
 }
 
 /* ══════════════════════════════════════════════════════════════════════════════

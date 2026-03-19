@@ -302,35 +302,6 @@ export default function Home() {
         </div>
       </section>
 
-      {/* ══ POEM ════════════════════════════════════════════════════════════ */}
-      <section className="w-section fade-in" ref={poemRef}>
-        <div className="summer-tag">Summer Love</div>
-
-        {/* 자민 → 영수 */}
-        <div className="poem-block poem-block--right">
-          <div className="poem-greeting">To Yeongsoo,</div>
-          <TypewriterPoem
-            canStart={poemInView}
-            delay={300}
-            onComplete={() => setPoem1Done(true)}
-            text={`좋아하는게 하나 생기면 세계는 그 하나보다 더 넓어진다. 그저 덜 휘청거리며 살면 다행이라고 위로하면서 지내다 불현듯 어떤 것에 마음이 가면 그때부터 일상에 밀도가 생긴다. 납작했던 하루가 포동포동 말랑말랑 입체감을 띈다. 초당옥수수 덕분에 여름을 향한 내 마음의 농도는 더 짙어졌다.`}
-          />
-          <div className={`poem-cite${poem1Done ? " poem-cite--visible" : ""}`}>아무튼 여름 — 김신회</div>
-        </div>
-
-        {/* 영수 → 자민 */}
-        <div className="poem-block poem-block--left">
-          <div className="poem-greeting">To Jamin,</div>
-          <TypewriterPoem
-            canStart={poem1Done}
-            delay={400}
-            onComplete={() => setPoem2Done(true)}
-            text={`나의 여름이 모든 색을 잃고\n흑백이 되어도 좋습니다.\n내가 세상의 꽃들과 들풀,\n숲의 색을 모두 훔쳐올 테니\n전부 그대의 것 하십시오.\n\n그러니 그대는 나의 여름이 되세요.`}
-          />
-          <div className={`poem-cite${poem2Done ? " poem-cite--visible" : ""}`}>도둑이 든 여름 — 서덕준</div>
-        </div>
-      </section>
-
       {/* ══ INVITATION ══════════════════════════════════════════════════════ */}
       <section className="w-section fade-in">
         <h2 className="sec-title">Invitation</h2>
@@ -383,29 +354,63 @@ export default function Home() {
       </section>
 
       {/* ══ PROFILE ═════════════════════════════════════════════════════════ */}
-      <section className="w-section profile-section fade-in">
+      <section className="w-section profile-section fade-in" ref={poemRef}>
         <h2 className="sec-title">Groom &amp; Bride</h2>
 
-        <div className="profile-wrap">
-          <div className="profile-card">
+        {/* 신랑 한영수 — 사진 좌, 텍스트 우 */}
+        <div className="pp-card">
+          <div className="pp-photo">
             <div className="profile-img">
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img src="/photo1.jpg" alt="신랑 한영수" />
             </div>
-            <div className="profile-name">한영수</div>
-            <div className="profile-name-en">Han Yeongsoo</div>
           </div>
+          <div className="pp-info">
+            <span className="pp-label">Groom</span>
+            <strong className="pp-name">한영수</strong>
+            <span className="pp-name-en">Han Yeongsoo</span>
+          </div>
+        </div>
 
-          <div className="profile-divider" />
+        <div className="poem-block poem-block--right pp-poem">
+          <div className="poem-greeting">영수가 자민에게</div>
+          <p className="poem-anecdote">자민이와 첫 데이트 하던 날 이 시를 써서 선물했어요.</p>
+          <TypewriterPoem
+            canStart={poemInView}
+            delay={300}
+            onComplete={() => setPoem1Done(true)}
+            text={`나의 여름이 모든 색을 잃고\n흑백이 되어도 좋습니다.\n내가 세상의 꽃들과 들풀,\n숲의 색을 모두 훔쳐올 테니\n전부 그대의 것 하십시오.\n\n그러니 그대는 나의 여름이 되세요.`}
+          />
+          <div className={`poem-cite${poem1Done ? " poem-cite--visible" : ""}`}>도둑이 든 여름 — 서덕준</div>
+        </div>
 
-          <div className="profile-card">
+        <div className="profile-poem-sep" />
+
+        {/* 신부 구자민 — 텍스트 좌(우정렬), 사진 우 */}
+        <div className="pp-card pp-card--reverse">
+          <div className="pp-photo">
             <div className="profile-img">
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img src="/photo2.jpg" alt="신부 구자민" />
             </div>
-            <div className="profile-name">구자민</div>
-            <div className="profile-name-en">Koo Jamin</div>
           </div>
+          <div className="pp-info pp-info--right">
+            <span className="pp-label">Bride</span>
+            <strong className="pp-name">구자민</strong>
+            <span className="pp-name-en">Koo Jamin</span>
+          </div>
+        </div>
+
+        <div className="poem-block poem-block--left pp-poem">
+          <div className="poem-greeting">자민이가 영수에게</div>
+          <p className="poem-anecdote">오빠는 저의 초당옥수수예요 🌽</p>
+          <TypewriterPoem
+            canStart={poem1Done}
+            delay={400}
+            onComplete={() => setPoem2Done(true)}
+            text={`좋아하는게 하나 생기면 세계는 그 하나보다 더 넓어진다. 그저 덜 휘청거리며 살면 다행이라고 위로하면서 지내다 불현듯 어떤 것에 마음이 가면 그때부터 일상에 밀도가 생긴다. 납작했던 하루가 포동포동 말랑말랑 입체감을 띈다. 초당옥수수 덕분에 여름을 향한 내 마음의 농도는 더 짙어졌다.`}
+          />
+          <div className={`poem-cite${poem2Done ? " poem-cite--visible" : ""}`}>아무튼 여름 — 김신회</div>
         </div>
       </section>
 
