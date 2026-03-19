@@ -281,7 +281,7 @@ export default function Home() {
           <div className="ic-char-top" />
           <div className="ic-char-mid">
             {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img src="/char.png" className="ic-char-img" alt="" />
+            <img src="/illust.png" className="ic-char-img" alt="" />
           </div>
           <div className="ic-char-bottom" style={{ display: "flex", flexDirection: "column", alignItems: "center" }}>
             <p className="ic-char-names">Han Yeongsoo <span className="ic-char-dot">·</span> Koo Jamin</p>
