@@ -54,6 +54,7 @@ interface GBEntry {
   msg: string;
   date: string;
   color: string;
+  attend?: "yes" | "no";
 }
 
 /* ── Constants ── */
@@ -63,9 +64,9 @@ const GB_COLORS = [
 ];
 
 const INITIAL_ENTRIES: GBEntry[] = [
-  { id: 1, name: "뺑부장",  msg: "넘 이쁜 선남선녀 늘 행복하고 꽃길만 걸어 !!", date: "07.05", color: "#fef9e7" },
-  { id: 2, name: "보라",    msg: "백년해로 하십시오~",                             date: "07.05", color: "#e8f5e9" },
-  { id: 3, name: "회사동료", msg: "결혼 너무 축하해~ 예쁜 두사람!",               date: "07.05", color: "#fce4ec" },
+  { id: 1, name: "뺑부장",  msg: "넘 이쁜 선남선녀 늘 행복하고 꽃길만 걸어 !!", date: "07.05", color: "#fef9e7", attend: "yes" },
+  { id: 2, name: "보라",    msg: "백년해로 하십시오~",                             date: "07.05", color: "#e8f5e9", attend: "yes" },
+  { id: 3, name: "회사동료", msg: "결혼 너무 축하해~ 예쁜 두사람!",               date: "07.05", color: "#fce4ec", attend: "yes" },
 ];
 
 const GROOM_ACCOUNTS = [
@@ -106,9 +107,9 @@ export default function Home() {
   const [poemInView, setPoemInView] = useState(false);
   const poemRef = useRef<HTMLElement>(null);
   const [entries, setEntries] = useState<GBEntry[]>(INITIAL_ENTRIES);
-  const [modalOpen, setModalOpen] = useState(false);
   const [gbName, setGbName] = useState("");
   const [gbMsg, setGbMsg] = useState("");
+  const [attend, setAttend] = useState<"yes" | "no" | null>(null);
 
   /* ── smooth scroll throttle (desktop only) ── */
   useEffect(() => {
@@ -251,14 +252,16 @@ export default function Home() {
     navigator.clipboard.writeText(location.href).then(() => alert("링크가 복사되었습니다."));
   }
   function submitGuestbook() {
-    if (!gbName.trim() || !gbMsg.trim()) { alert("이름과 메시지를 입력해주세요."); return; }
+    if (!gbName.trim()) { alert("이름을 입력해주세요."); return; }
+    if (!attend) { alert("참석 여부를 선택해주세요."); return; }
     const now = new Date();
     const date = `${String(now.getMonth() + 1).padStart(2, "0")}.${String(now.getDate()).padStart(2, "0")}`;
+    const msg = gbMsg.trim() || (attend === "yes" ? "참석하겠습니다." : "함께하지 못해 아쉬워요.");
     setEntries((prev) => [
       ...prev,
-      { id: Date.now(), name: gbName.trim(), msg: gbMsg.trim(), date, color: GB_COLORS[prev.length % GB_COLORS.length] },
+      { id: Date.now(), name: gbName.trim(), msg, date, color: GB_COLORS[prev.length % GB_COLORS.length], attend },
     ]);
-    setGbName(""); setGbMsg(""); setModalOpen(false);
+    setGbName(""); setGbMsg(""); setAttend(null);
   }
 
   /* ════════════════════════════════════════════════════════════════════════ */
@@ -501,16 +504,54 @@ export default function Home() {
         </div>
       </section>
 
-      {/* ══ GUESTBOOK ═══════════════════════════════════════════════════════ */}
+      {/* ══ RSVP + GUESTBOOK ════════════════════════════════════════════════ */}
       <section className="w-section fade-in">
-        <h2 className="sec-title">Guestbook</h2>
+        <h2 className="sec-title">참석 여부 &amp; 방명록</h2>
 
-        <div className="gb-grid">
-          <div className="gb-card add-card" onClick={() => setModalOpen(true)}>
-            <div className="gb-plus">+</div>
-            <div className="gb-add-label">Leave a message</div>
+        {/* 참석 여부 폼 */}
+        <div className="rsvp-form">
+          <input
+            type="text"
+            className="rsvp-name-input"
+            placeholder="이름"
+            maxLength={20}
+            value={gbName}
+            onChange={(e) => setGbName(e.target.value)}
+          />
+
+          <div className="rsvp-attend-btns">
+            <button
+              className={`rsvp-attend-btn${attend === "yes" ? " active-yes" : ""}`}
+              onClick={() => setAttend("yes")}
+            >
+              참석할게요 🤍
+            </button>
+            <button
+              className={`rsvp-attend-btn${attend === "no" ? " active-no" : ""}`}
+              onClick={() => setAttend("no")}
+            >
+              함께하지 못해요 😢
+            </button>
           </div>
 
+          <textarea
+            className="rsvp-textarea"
+            placeholder="축하 메시지를 남겨주세요 (선택)"
+            value={gbMsg}
+            onChange={(e) => setGbMsg(e.target.value)}
+          />
+
+          <p className="rsvp-hint">남겨주신 메시지는 아래 방명록에 공개됩니다</p>
+
+          <button className="rsvp-submit" onClick={submitGuestbook}>
+            전달하기
+          </button>
+        </div>
+
+        {/* 방명록 */}
+        <div className="gb-messages-sep" />
+        <div className="gb-messages-label">Messages</div>
+        <div className="gb-grid">
           {entries.map((e) => (
             <div key={e.id} className="gb-card">
               <div className="gb-card-msg">{e.msg}</div>
@@ -548,33 +589,6 @@ export default function Home() {
       </footer>
       </div>
 
-      {/* ══ GUESTBOOK MODAL ═════════════════════════════════════════════════ */}
-      {modalOpen && (
-        <div
-          className="gb-modal-bg"
-          onClick={(e) => { if (e.target === e.currentTarget) setModalOpen(false); }}
-        >
-          <div className="gb-modal">
-            <div className="gb-modal-title">Leave a Message</div>
-            <input
-              type="text"
-              placeholder="이름"
-              maxLength={20}
-              value={gbName}
-              onChange={(e) => setGbName(e.target.value)}
-            />
-            <textarea
-              placeholder="축하 메시지를 남겨주세요"
-              value={gbMsg}
-              onChange={(e) => setGbMsg(e.target.value)}
-            />
-            <div className="gb-modal-btns">
-              <button className="gb-modal-cancel" onClick={() => setModalOpen(false)}>취소</button>
-              <button className="gb-modal-submit" onClick={submitGuestbook}>남기기</button>
-            </div>
-          </div>
-        </div>
-      )}
     </>
   );
 }
