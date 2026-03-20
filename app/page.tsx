@@ -55,6 +55,9 @@ interface GBEntry {
   date: string;
   color: string;
   attend?: "yes" | "no";
+  side?: "groom" | "bride";
+  meal?: "yes" | "no";
+  headcount?: number;
 }
 
 /* ── Constants ── */
@@ -110,6 +113,9 @@ export default function Home() {
   const [gbName, setGbName] = useState("");
   const [gbMsg, setGbMsg] = useState("");
   const [attend, setAttend] = useState<"yes" | "no" | null>(null);
+  const [side, setSide] = useState<"groom" | "bride" | null>(null);
+  const [meal, setMeal] = useState<"yes" | "no" | null>(null);
+  const [headcount, setHeadcount] = useState(1);
 
   /* ── smooth scroll throttle (desktop only) ── */
   useEffect(() => {
@@ -254,14 +260,16 @@ export default function Home() {
   function submitGuestbook() {
     if (!gbName.trim()) { alert("이름을 입력해주세요."); return; }
     if (!attend) { alert("참석 여부를 선택해주세요."); return; }
+    if (attend === "yes" && !side) { alert("신랑측/신부측을 선택해주세요."); return; }
+    if (attend === "yes" && !meal) { alert("식사 여부를 선택해주세요."); return; }
     const now = new Date();
     const date = `${String(now.getMonth() + 1).padStart(2, "0")}.${String(now.getDate()).padStart(2, "0")}`;
     const msg = gbMsg.trim() || (attend === "yes" ? "참석하겠습니다." : "함께하지 못해 아쉬워요.");
     setEntries((prev) => [
       ...prev,
-      { id: Date.now(), name: gbName.trim(), msg, date, color: GB_COLORS[prev.length % GB_COLORS.length], attend },
+      { id: Date.now(), name: gbName.trim(), msg, date, color: GB_COLORS[prev.length % GB_COLORS.length], attend, side: side ?? undefined, meal: meal ?? undefined, headcount: attend === "yes" ? headcount : undefined },
     ]);
-    setGbName(""); setGbMsg(""); setAttend(null);
+    setGbName(""); setGbMsg(""); setAttend(null); setSide(null); setMeal(null); setHeadcount(1);
   }
 
   /* ════════════════════════════════════════════════════════════════════════ */
@@ -306,11 +314,11 @@ export default function Home() {
       </section>
 
       {/* ══ INVITATION ══════════════════════════════════════════════════════ */}
-      <section className="w-section fade-in">
+      <section className="w-section inv-section fade-in">
         <h2 className="sec-title">Invitation</h2>
 
         <p className="invite-text">
-          무더운 여름,<br />
+          무더운 여름,<br /><br />
           운명처럼 만나<br />
           사랑에 빠지는 데 많은 시간이 들지 않았습니다.<br />
           <br />
@@ -528,11 +536,64 @@ export default function Home() {
             </button>
             <button
               className={`rsvp-attend-btn${attend === "no" ? " active-no" : ""}`}
-              onClick={() => setAttend("no")}
+              onClick={() => { setAttend("no"); setSide(null); setMeal(null); setHeadcount(1); }}
             >
-              함께하지 못해요 😢
+              함께하지 못해요 🥲
             </button>
           </div>
+
+          {attend === "yes" && (
+            <>
+              <p className="rsvp-sub-label">어느 분 측으로 오시나요?</p>
+              <div className="rsvp-attend-btns">
+                <button
+                  className={`rsvp-attend-btn${side === "groom" ? " active-yes" : ""}`}
+                  onClick={() => setSide("groom")}
+                >
+                  신랑 측
+                </button>
+                <button
+                  className={`rsvp-attend-btn${side === "bride" ? " active-yes" : ""}`}
+                  onClick={() => setSide("bride")}
+                >
+                  신부 측
+                </button>
+              </div>
+
+              <p className="rsvp-sub-label">참석 인원</p>
+              <div className="rsvp-headcount">
+                <button
+                  className="rsvp-count-btn"
+                  onClick={() => setHeadcount((v) => Math.max(1, v - 1))}
+                >
+                  −
+                </button>
+                <span className="rsvp-count-num">{headcount}</span>
+                <button
+                  className="rsvp-count-btn"
+                  onClick={() => setHeadcount((v) => Math.min(10, v + 1))}
+                >
+                  +
+                </button>
+              </div>
+
+              <p className="rsvp-sub-label">식사 여부</p>
+              <div className="rsvp-attend-btns">
+                <button
+                  className={`rsvp-attend-btn${meal === "yes" ? " active-yes" : ""}`}
+                  onClick={() => setMeal("yes")}
+                >
+                  할게요 🍽️
+                </button>
+                <button
+                  className={`rsvp-attend-btn${meal === "no" ? " active-no" : ""}`}
+                  onClick={() => setMeal("no")}
+                >
+                  안 할게요
+                </button>
+              </div>
+            </>
+          )}
 
           <textarea
             className="rsvp-textarea"
@@ -541,7 +602,7 @@ export default function Home() {
             onChange={(e) => setGbMsg(e.target.value)}
           />
 
-          <p className="rsvp-hint">남겨주신 메시지는 아래 방명록에 공개됩니다</p>
+          <p className="rsvp-hint">남겨주신 메시지는 아래 방명록에 공개됩니다 🤍</p>
 
           <button className="rsvp-submit" onClick={submitGuestbook}>
             전달하기

@@ -114,7 +114,7 @@ body {
   justify-content: center;
 }
 .ic-char-img {
-  width: clamp(220px, 64vw, 340px);
+  width: clamp(260px, 76vw, 400px);
   height: auto;
   object-fit: contain;
   display: block;
@@ -243,9 +243,13 @@ body {
 }
 
 .w-section {
-  padding: 4rem 2rem;
+  padding: 4rem 2.4rem;
   max-width: 480px;
   margin: 0 auto;
+}
+
+.inv-section {
+  padding-top: 5.5rem;
 }
 
 .sec-title {
@@ -348,7 +352,8 @@ body {
 ══════════════════════════════════════════════════════════════════════════════ */
 .invite-text {
   text-align: center;
-  font-size: 15px;
+  font-size: 14px;
+  font-style: italic;
   line-height: 2.3;
   color: #555;
   word-break: keep-all;
@@ -396,11 +401,11 @@ body {
 .cal-month {
   text-align: center;
   font-family: var(--font-pretendard), 'Apple SD Gothic Neo', sans-serif;
-  font-size: 18px;
+  font-size: 15px;
   font-weight: 300;
   font-style: normal;
   color: #1a1a1a;
-  margin-bottom: 1.2rem;
+  margin-bottom: 1rem;
   letter-spacing: 0.22em;
   text-transform: uppercase;
 }
@@ -421,10 +426,10 @@ body {
 .cal-day {
   text-align: center;
   font-family: var(--font-cormorant), serif;
-  font-size: 17px;
+  font-size: 14px;
   font-weight: 400;
   color: #2c2a24;
-  height: 36px;
+  height: 30px;
   padding: 0;
   display: flex;
   align-items: center;
@@ -432,10 +437,10 @@ body {
 }
 .cal-hl-num {
   font-family: var(--font-cormorant), serif;
-  font-size: 15px;
+  font-size: 13px;
   font-weight: 600;
   color: #2c2a24;
-  width: 30px; height: 30px;
+  width: 26px; height: 26px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -448,8 +453,8 @@ body {
    PROFILE
 ══════════════════════════════════════════════════════════════════════════════ */
 .profile-section {
-  padding-left: 1rem;
-  padding-right: 1rem;
+  padding-left: 2.4rem;
+  padding-right: 2.4rem;
 }
 .profile-wrap {
   display: flex;
@@ -617,7 +622,7 @@ body {
 .gallery-wide-row {
   display: flex;
   gap: 3px;
-  margin: 3px -2rem 0;
+  margin: 1.6rem -2.4rem 0;
 }
 .gallery-wide-item {
   flex: 1;
@@ -769,125 +774,150 @@ body {
    RSVP FORM
 ══════════════════════════════════════════════════════════════════════════════ */
 .rsvp-form {
-  background: #faf8f4;
-  border-radius: 2px;
-  padding: 2rem 1.8rem 2.2rem;
+  background: #f5f4f2;
+  border-radius: 20px;
+  padding: 1.6rem 1.4rem 1.8rem;
   display: flex;
   flex-direction: column;
   gap: 0;
   margin-bottom: 2.4rem;
-  box-shadow:
-    0 1px 3px rgba(0,0,0,0.06),
-    0 4px 16px rgba(0,0,0,0.04),
-    inset 0 0 0 0.5px rgba(0,0,0,0.04);
 }
 
-/* 구분선 */
-.rsvp-row-sep {
-  width: 100%;
-  height: 0.5px;
-  background: rgba(0,0,0,0.06);
-  margin: 0;
-}
-
-/* 이름 인풋 — 라인 스타일 */
+/* 이름 인풋 */
 .rsvp-name-input {
   width: 100%;
-  background: transparent;
-  border: none;
-  border-bottom: 0.5px solid #ddd;
-  padding: 0.9rem 0.2rem;
-  font-size: 14px;
+  background: #fff;
+  border: 1px solid #e8e6e2;
+  border-radius: 12px;
+  padding: 0.9rem 1rem;
+  font-size: 15px;
   font-family: var(--font-pretendard), sans-serif;
   color: #2c2a24;
   outline: none;
   letter-spacing: 0.02em;
   transition: border-color 0.2s;
-  margin-bottom: 1.4rem;
+  margin-bottom: 0.8rem;
 }
-.rsvp-name-input::placeholder { color: #ccc; }
-.rsvp-name-input:focus { border-bottom-color: #999; }
+.rsvp-name-input::placeholder { color: #c0bdb8; }
+.rsvp-name-input:focus { border-color: #bbb; }
 
-/* 참석 여부 토글 — acc-tabs 패턴과 동일 */
+/* 참석 여부 / 식사 여부 버튼 */
 .rsvp-attend-btns {
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 8px;
-  background: #f0ede8;
-  border-radius: 4px;
-  padding: 4px;
-  margin-bottom: 1.4rem;
+  margin-bottom: 0.8rem;
 }
 .rsvp-attend-btn {
-  padding: 0.85rem 0.5rem;
-  border-radius: 2px;
-  background: transparent;
-  border: none;
-  font-size: 12px;
+  padding: 0.9rem 0.5rem;
+  border-radius: 12px;
+  background: #fff;
+  border: 1px solid #e8e6e2;
+  font-size: 13px;
   color: #aaa;
   cursor: pointer;
   font-family: var(--font-pretendard), sans-serif;
-  letter-spacing: 0.04em;
+  letter-spacing: 0.02em;
   text-align: center;
-  transition: background 0.2s, color 0.2s, box-shadow 0.2s;
+  transition: background 0.18s, color 0.18s, border-color 0.18s;
 }
 .rsvp-attend-btn.active-yes {
-  background: #2c2a24;
-  color: #f0ebe4;
-  box-shadow: 0 1px 4px rgba(0,0,0,0.12);
+  background: #1a1917;
+  color: #fff;
+  border-color: #1a1917;
 }
 .rsvp-attend-btn.active-no {
   background: #fff;
-  color: #777;
-  box-shadow: 0 1px 4px rgba(0,0,0,0.06);
+  color: #888;
+  border-color: #ccc;
 }
 
-/* 메시지 텍스트에어리어 — 라인 스타일 */
+/* 참석 후 추가 항목 레이블 */
+.rsvp-sub-label {
+  font-size: 12px;
+  color: #aaa;
+  font-family: var(--font-pretendard), sans-serif;
+  margin-bottom: 0.5rem;
+  margin-top: 0.2rem;
+}
+
+/* 참석 인원 카운터 */
+.rsvp-headcount {
+  display: flex;
+  align-items: center;
+  gap: 1.2rem;
+  margin-bottom: 0.8rem;
+}
+.rsvp-count-btn {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  border: 1px solid #ddd;
+  background: #fff;
+  font-size: 18px;
+  color: #888;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  line-height: 1;
+  transition: background 0.15s;
+  font-family: var(--font-pretendard), sans-serif;
+}
+.rsvp-count-btn:hover { background: #f0f0f0; }
+.rsvp-count-num {
+  font-size: 17px;
+  color: #2c2a24;
+  font-family: var(--font-pretendard), sans-serif;
+  min-width: 1.5rem;
+  text-align: center;
+}
+
+/* 메시지 텍스트에어리어 */
 .rsvp-textarea {
   width: 100%;
-  background: transparent;
-  border: none;
-  border-bottom: 0.5px solid #ddd;
-  padding: 0.9rem 0.2rem;
+  background: #fff;
+  border: 1px solid #e8e6e2;
+  border-radius: 12px;
+  padding: 0.9rem 1rem;
   font-size: 14px;
   font-family: var(--font-pretendard), sans-serif;
   color: #2c2a24;
   resize: none;
   outline: none;
-  height: 90px;
+  height: 110px;
   letter-spacing: 0.02em;
-  line-height: 1.9;
+  line-height: 1.8;
   transition: border-color 0.2s;
-  margin-bottom: 0.6rem;
+  margin-top: 0.4rem;
+  margin-bottom: 0.5rem;
 }
-.rsvp-textarea::placeholder { color: #ccc; }
-.rsvp-textarea:focus { border-bottom-color: #999; }
+.rsvp-textarea::placeholder { color: #c0bdb8; }
+.rsvp-textarea:focus { border-color: #bbb; }
 
 /* 힌트 텍스트 */
 .rsvp-hint {
   font-size: 11px;
-  color: #ccc;
-  letter-spacing: 0.03em;
+  color: #c0bdb8;
   font-family: var(--font-pretendard), sans-serif;
-  margin-bottom: 1.6rem;
+  margin-bottom: 1.2rem;
 }
 
 /* 전달하기 버튼 */
 .rsvp-submit {
   width: 100%;
-  padding: 1rem;
-  border-radius: 2px;
-  background: #2c2a24;
-  color: #f0ebe4;
-  font-size: 13px;
-  font-family: var(--font-cinzel), serif;
-  letter-spacing: 0.18em;
+  padding: 1.1rem;
+  border-radius: 14px;
+  background: #1a1917;
+  color: #fff;
+  font-size: 15px;
+  font-family: var(--font-pretendard), sans-serif;
+  letter-spacing: 0.04em;
   border: none;
   cursor: pointer;
   transition: background 0.2s;
-  text-transform: uppercase;
 }
-.rsvp-submit:hover { background: #1a1917; }
+.rsvp-submit:hover { background: #333; }
 
 /* Messages 구분 */
 .gb-messages-label {
