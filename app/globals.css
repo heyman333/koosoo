@@ -790,7 +790,7 @@ body {
   border: 1px solid #e8e6e2;
   border-radius: 12px;
   padding: 0.9rem 1rem;
-  font-size: 15px;
+  font-size: 16px;
   font-family: var(--font-pretendard), sans-serif;
   color: #2c2a24;
   outline: none;
@@ -880,7 +880,7 @@ body {
   border: 1px solid #e8e6e2;
   border-radius: 12px;
   padding: 0.9rem 1rem;
-  font-size: 14px;
+  font-size: 16px;
   font-family: var(--font-pretendard), sans-serif;
   color: #2c2a24;
   resize: none;

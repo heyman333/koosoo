@@ -350,7 +350,7 @@ export default function Home() {
         <h2 className="sec-title">Calendar</h2>
 
         <div className="calendar">
-          <div className="cal-month">July</div>
+          <div className="cal-month"><em>July</em></div>
           <div className="cal-grid">
             {["일", "월", "화", "수", "목", "금", "토"].map((d) => (
               <div key={d} className={`cal-day-label${d === "일" ? " cal-sun" : ""}`}>{d}</div>
