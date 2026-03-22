@@ -18,6 +18,7 @@ export default function NaverDynamicMap() {
     const map = new window.naver.maps.Map(mapRef.current, {
       center,
       zoom: 16,
+      minZoom: 14,
       scaleControl: false,
       logoControlOptions: { position: window.naver.maps.Position.BOTTOM_LEFT },
       mapDataControl: false,
