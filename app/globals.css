@@ -581,10 +581,10 @@ body {
   transform: none !important;
 }
 .profile-poem-sep {
-  width: 36px;
+  width: 40px;
   height: 1px;
   background: #ddd;
-  margin: 2.8rem auto;
+  margin: 2rem auto;
 }
 
 /* ══════════════════════════════════════════════════════════════════════════════
@@ -816,9 +816,9 @@ body {
   transition: background 0.18s, color 0.18s, border-color 0.18s;
 }
 .rsvp-attend-btn.active-yes {
-  background: #1a1917;
+  background: #2c2a24;
   color: #fff;
-  border-color: #1a1917;
+  border-color: #2c2a24;
 }
 .rsvp-attend-btn.active-no {
   background: #fff;
@@ -844,8 +844,8 @@ body {
   margin-bottom: 0.8rem;
 }
 .rsvp-count-btn {
-  width: 36px;
-  height: 36px;
+  width: 32px;
+  height: 32px;
   border-radius: 50%;
   border: 1px solid #ddd;
   background: #fff;

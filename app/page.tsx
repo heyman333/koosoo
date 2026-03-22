@@ -264,11 +264,16 @@ export default function Home() {
     if (attend === "yes" && !meal) { alert("식사 여부를 선택해주세요."); return; }
     const now = new Date();
     const date = `${String(now.getMonth() + 1).padStart(2, "0")}.${String(now.getDate()).padStart(2, "0")}`;
-    const msg = gbMsg.trim() || (attend === "yes" ? "참석하겠습니다." : "함께하지 못해 아쉬워요.");
-    setEntries((prev) => [
-      ...prev,
-      { id: Date.now(), name: gbName.trim(), msg, date, color: GB_COLORS[prev.length % GB_COLORS.length], attend, side: side ?? undefined, meal: meal ?? undefined, headcount: attend === "yes" ? headcount : undefined },
-    ]);
+    const msg = gbMsg.trim();
+    if (msg) {
+      setEntries((prev) => [
+        { id: Date.now(), name: gbName.trim(), msg, date, color: GB_COLORS[prev.length % GB_COLORS.length], attend, side: side ?? undefined, meal: meal ?? undefined, headcount: attend === "yes" ? headcount : undefined },
+        ...prev,
+      ]);
+    }
+    const sideText = side === "groom" ? "신랑 측" : "신부 측";
+    const detail = attend === "yes" ? `${sideText} · ${headcount}명 · 식사 ${meal === "yes" ? "예" : "아니오"}` : "불참";
+    alert(`${gbName.trim()}님 — ${detail}\n전달되었습니다. 감사합니다!`);
     setGbName(""); setGbMsg(""); setAttend(null); setSide(null); setMeal(null); setHeadcount(1);
   }
 
