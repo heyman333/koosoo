@@ -246,7 +246,7 @@ body {
 }
 
 .w-section {
-  padding: 4rem 2.4rem;
+  padding: 4rem 1.4rem;
   max-width: 480px;
   margin: 0 auto;
 }
@@ -451,8 +451,8 @@ body {
    PROFILE
 ══════════════════════════════════════════════════════════════════════════════ */
 .profile-section {
-  padding-left: 2.4rem;
-  padding-right: 2.4rem;
+  padding-left: 1.4rem;
+  padding-right: 1.4rem;
 }
 .profile-wrap {
   display: flex;
@@ -634,9 +634,13 @@ body {
 }
 
 /* 라이트박스 */
-@keyframes lb-zoom-in {
-  from { opacity: 0; transform: scale(0.88); }
-  to   { opacity: 1; transform: scale(1); }
+@keyframes lb-from-right {
+  from { opacity: 0; transform: translateX(64px) scale(0.93); }
+  to   { opacity: 1; transform: translateX(0)    scale(1); }
+}
+@keyframes lb-from-left {
+  from { opacity: 0; transform: translateX(-64px) scale(0.93); }
+  to   { opacity: 1; transform: translateX(0)     scale(1); }
 }
 
 .lightbox-overlay {
@@ -657,7 +661,14 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
-  animation: lb-zoom-in 0.28s cubic-bezier(0.22, 1, 0.36, 1);
+}
+.lightbox-img-wrap.lb-next {
+  animation: lb-from-right 0.40s cubic-bezier(0.22, 1, 0.36, 1) both;
+  will-change: transform, opacity;
+}
+.lightbox-img-wrap.lb-prev {
+  animation: lb-from-left 0.40s cubic-bezier(0.22, 1, 0.36, 1) both;
+  will-change: transform, opacity;
 }
 
 .lightbox-img-wrap img {
@@ -730,7 +741,9 @@ body {
 .gallery-wide-row {
   display: flex;
   gap: 6px;
-  margin: 1.6rem 0 0;
+  margin: 1.6rem -1.4rem 0;
+  padding-left: 1.4rem;
+  padding-right: 1.4rem;
   overflow-x: scroll;
   -webkit-overflow-scrolling: touch;
   scrollbar-width: none;
@@ -741,8 +754,8 @@ body {
 .gallery-wide-row::-webkit-scrollbar { display: none; }
 .gallery-wide-item {
   flex-shrink: 0;
-  width: 44vw;
-  max-width: 200px;
+  width: 68vw;
+  max-width: 280px;
   aspect-ratio: 1/1;
   background: #f0f0f0;
   overflow: hidden;
@@ -1265,7 +1278,7 @@ body {
 ══════════════════════════════════════════════════════════════════════════════ */
 .wedding-footer {
   text-align: center;
-  padding: 3rem 2rem;
+  padding: 3rem 1.4rem;
   font-size: 10px;
   color: #bbb;
   letter-spacing: 0.18em;

@@ -92,14 +92,14 @@ const CAL_DAYS: (number | null)[] = [
 ];
 
 const GALLERY_PHOTOS = [
-  "/w01.jpg", "/w02.jpg", "/w03.jpg",
-  "/w04.jpg", "/w05.jpg", "/w06.jpg",
-  "/w07.jpg", "/w08.jpg", "/w09.jpg",
-  "/w10.jpg", "/w01.jpg", "/w02.jpg",
-  "/w03.jpg", "/w04.jpg", "/w05.jpg",
+  "/p01.jpg", "/p02.jpg", "/p03.jpg",
+  "/p04.jpg", "/p05.jpg", "/p06.jpg",
+  "/p07.jpg", "/p08.jpg", "/p09.jpg",
+  "/p10.jpg", "/p11.jpg", "/p12.jpg",
+  "/p13.jpg", "/p14.jpg", "/p15.jpg",
 ];
 
-const GALLERY_WIDE = ["/w06.jpg", "/w07.jpg", "/w08.jpg"];
+const GALLERY_WIDE = ["/wide01.jpg", "/wide02.jpg", "/wide03.jpg", "/wide04.jpg", "/wide05.jpg", "/wide06.jpg"];
 
 const ALL_PHOTOS = [...GALLERY_PHOTOS, ...GALLERY_WIDE];
 
@@ -120,6 +120,8 @@ export default function Home() {
   const [meal, setMeal] = useState<"yes" | "no" | null>(null);
   const [headcount, setHeadcount] = useState(1);
   const [lightboxIndex, setLightboxIndex] = useState<number | null>(null);
+  const [lightboxDir, setLightboxDir] = useState<"next" | "prev">("next");
+  const touchStartX = useRef<number>(0);
 
   /* ── smooth scroll throttle (desktop only) ── */
   useEffect(() => {
@@ -239,13 +241,23 @@ export default function Home() {
   useEffect(() => {
     if (lightboxIndex === null) return;
     const onKey = (e: KeyboardEvent) => {
-      if (e.key === "ArrowLeft")  setLightboxIndex(i => i !== null ? (i - 1 + ALL_PHOTOS.length) % ALL_PHOTOS.length : null);
-      if (e.key === "ArrowRight") setLightboxIndex(i => i !== null ? (i + 1) % ALL_PHOTOS.length : null);
+      if (e.key === "ArrowLeft")  { setLightboxDir("prev"); setLightboxIndex(i => i !== null ? (i - 1 + ALL_PHOTOS.length) % ALL_PHOTOS.length : null); }
+      if (e.key === "ArrowRight") { setLightboxDir("next"); setLightboxIndex(i => i !== null ? (i + 1) % ALL_PHOTOS.length : null); }
       if (e.key === "Escape")     setLightboxIndex(null);
     };
     window.addEventListener("keydown", onKey);
     return () => window.removeEventListener("keydown", onKey);
   }, [lightboxIndex]);
+
+  /* ── gallery wide row scroll hint ── */
+  useEffect(() => {
+    const el = galleryRowRef.current;
+    if (!el) return;
+    const timer = setTimeout(() => {
+      el.scrollTo({ left: 80, behavior: "smooth" });
+    }, 900);
+    return () => clearTimeout(timer);
+  }, []);
 
   /* ── profile shimmer (re-triggers every time in view) ── */
   useEffect(() => {
@@ -297,7 +309,18 @@ export default function Home() {
   return (
     <>
       {lightboxIndex !== null && (
-        <div className="lightbox-overlay" onClick={() => setLightboxIndex(null)}>
+        <div
+          className="lightbox-overlay"
+          onClick={() => setLightboxIndex(null)}
+          onTouchStart={(e) => { touchStartX.current = e.touches[0].clientX; }}
+          onTouchEnd={(e) => {
+            const dx = e.changedTouches[0].clientX - touchStartX.current;
+            if (Math.abs(dx) > 50) {
+              if (dx < 0) { setLightboxDir("next"); setLightboxIndex(i => i !== null ? (i + 1) % ALL_PHOTOS.length : null); }
+              else        { setLightboxDir("prev"); setLightboxIndex(i => i !== null ? (i - 1 + ALL_PHOTOS.length) % ALL_PHOTOS.length : null); }
+            }
+          }}
+        >
           <button
             className="lightbox-close"
             onClick={(e) => { e.stopPropagation(); setLightboxIndex(null); }}
@@ -305,13 +328,12 @@ export default function Home() {
           >✕</button>
           <button
             className="lightbox-prev"
-            onClick={(e) => { e.stopPropagation(); setLightboxIndex(i => i !== null ? (i - 1 + ALL_PHOTOS.length) % ALL_PHOTOS.length : null); }}
+            onClick={(e) => { e.stopPropagation(); setLightboxDir("prev"); setLightboxIndex(i => i !== null ? (i - 1 + ALL_PHOTOS.length) % ALL_PHOTOS.length : null); }}
             aria-label="이전"
           >&#8249;</button>
-          <div className="lightbox-img-wrap" onClick={(e) => e.stopPropagation()}>
+          <div key={lightboxIndex} className={`lightbox-img-wrap lb-${lightboxDir}`} onClick={(e) => e.stopPropagation()}>
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img
-              key={lightboxIndex}
               src={ALL_PHOTOS[lightboxIndex]}
               alt=""
               draggable={false}
@@ -320,7 +342,7 @@ export default function Home() {
           </div>
           <button
             className="lightbox-next"
-            onClick={(e) => { e.stopPropagation(); setLightboxIndex(i => i !== null ? (i + 1) % ALL_PHOTOS.length : null); }}
+            onClick={(e) => { e.stopPropagation(); setLightboxDir("next"); setLightboxIndex(i => i !== null ? (i + 1) % ALL_PHOTOS.length : null); }}
             aria-label="다음"
           >&#8250;</button>
           <div className="lightbox-counter">{lightboxIndex + 1} / {ALL_PHOTOS.length}</div>
@@ -422,8 +444,10 @@ export default function Home() {
         {/* 신랑 한영수 — 사진 좌, 텍스트 우 */}
         <div className="pp-card">
           <div className="pp-photo">
-            {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img src="/photo1.jpg" alt="신랑 한영수" style={{ width: "100%", height: "100%", objectFit: "cover" }} draggable={false} onContextMenu={(e) => e.preventDefault()} />
+            <div className="profile-img">
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img src="/photo1.jpg" alt="신랑 한영수" draggable={false} onContextMenu={(e) => e.preventDefault()} />
+            </div>
           </div>
           <div className="pp-info">
             <strong className="pp-name">한영수</strong>
@@ -448,8 +472,10 @@ export default function Home() {
         {/* 신부 구자민 — 텍스트 좌(우정렬), 사진 우 */}
         <div className="pp-card pp-card--reverse">
           <div className="pp-photo">
-            {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img src="/photo2.jpg" alt="신부 구자민" style={{ width: "100%", height: "100%", objectFit: "cover" }} draggable={false} onContextMenu={(e) => e.preventDefault()} />
+            <div className="profile-img">
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img src="/photo2.jpg" alt="신부 구자민" draggable={false} onContextMenu={(e) => e.preventDefault()} />
+            </div>
           </div>
           <div className="pp-info pp-info--right">
             <strong className="pp-name">구자민</strong>
