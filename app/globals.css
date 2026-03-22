@@ -10,7 +10,7 @@
 
 /* ── Reset ── */
 * { box-sizing: border-box; margin: 0; padding: 0; }
-html { scroll-behavior: auto; overflow-x: hidden; }
+html { scroll-behavior: auto; }
 body {
   background: #e8e4de;
   color: #2c2a24;
@@ -646,10 +646,13 @@ body {
   display: flex;
   gap: 6px;
   margin: 1.6rem 0 0;
-  overflow-x: auto;
+  overflow-x: scroll;
   -webkit-overflow-scrolling: touch;
   scrollbar-width: none;
+  cursor: grab;
+  user-select: none;
 }
+.gallery-wide-row:active { cursor: grabbing; }
 .gallery-wide-row::-webkit-scrollbar { display: none; }
 .gallery-wide-item {
   flex-shrink: 0;

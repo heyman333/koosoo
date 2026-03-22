@@ -105,6 +105,7 @@ const GALLERY_WIDE = ["/w06.jpg", "/w07.jpg", "/w08.jpg"];
 export default function Home() {
   const cursorRef = useRef<HTMLDivElement>(null);
   const [activeTab, setActiveTab] = useState<"groom" | "bride">("groom");
+  const galleryRowRef = useRef<HTMLDivElement>(null);
   const [poem1Done, setPoem1Done] = useState(false);
   const [poem2Done, setPoem2Done] = useState(false);
   const [poemInView, setPoemInView] = useState(false);
@@ -444,7 +445,26 @@ export default function Home() {
           ))}
         </div>
 
-        <div className="gallery-wide-row">
+        <div
+          className="gallery-wide-row"
+          ref={galleryRowRef}
+          onMouseDown={(e) => {
+            const el = galleryRowRef.current;
+            if (!el) return;
+            e.preventDefault();
+            const startX = e.pageX - el.offsetLeft;
+            const scrollLeft = el.scrollLeft;
+            const onMove = (ev: MouseEvent) => {
+              el.scrollLeft = scrollLeft - (ev.pageX - el.offsetLeft - startX);
+            };
+            const onUp = () => {
+              window.removeEventListener("mousemove", onMove);
+              window.removeEventListener("mouseup", onUp);
+            };
+            window.addEventListener("mousemove", onMove);
+            window.addEventListener("mouseup", onUp);
+          }}
+        >
           {GALLERY_WIDE.map((src, i) => (
             <div key={i} className="gallery-wide-item" onClick={() => setLightboxSrc(src)}>
               {/* eslint-disable-next-line @next/next/no-img-element */}
