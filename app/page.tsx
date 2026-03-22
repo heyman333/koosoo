@@ -371,13 +371,10 @@ export default function Home() {
         {/* 신랑 한영수 — 사진 좌, 텍스트 우 */}
         <div className="pp-card">
           <div className="pp-photo">
-            <div className="profile-img">
-              {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img src="/photo1.jpg" alt="신랑 한영수" />
-            </div>
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img src="/photo1.jpg" alt="신랑 한영수" style={{ width: "100%", height: "100%", objectFit: "cover" }} />
           </div>
           <div className="pp-info">
-            <span className="pp-label">Groom</span>
             <strong className="pp-name">한영수</strong>
             <span className="pp-name-en">Han Yeongsoo</span>
           </div>
@@ -400,13 +397,10 @@ export default function Home() {
         {/* 신부 구자민 — 텍스트 좌(우정렬), 사진 우 */}
         <div className="pp-card pp-card--reverse">
           <div className="pp-photo">
-            <div className="profile-img">
-              {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img src="/photo2.jpg" alt="신부 구자민" />
-            </div>
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img src="/photo2.jpg" alt="신부 구자민" style={{ width: "100%", height: "100%", objectFit: "cover" }} />
           </div>
           <div className="pp-info pp-info--right">
-            <span className="pp-label">Bride</span>
             <strong className="pp-name">구자민</strong>
             <span className="pp-name-en">Koo Jamin</span>
           </div>
