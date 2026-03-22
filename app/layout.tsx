@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import localFont from "next/font/local";
 import { Cormorant_Garamond, Cinzel, Special_Elite, Nunito, Nanum_Myeongjo } from "next/font/google";
 import "./globals.css";
@@ -45,6 +45,13 @@ const nunito = Nunito({
   variable: "--font-nunito",
   display: "swap",
 });
+
+export const viewport: Viewport = {
+  width: "device-width",
+  initialScale: 1,
+  maximumScale: 1,
+  userScalable: false,
+};
 
 export const metadata: Metadata = {
   metadataBase: new URL(

@@ -101,6 +101,8 @@ const GALLERY_PHOTOS = [
 
 const GALLERY_WIDE = ["/w06.jpg", "/w07.jpg", "/w08.jpg"];
 
+const ALL_PHOTOS = [...GALLERY_PHOTOS, ...GALLERY_WIDE];
+
 /* ════════════════════════════════════════════════════════════════════════════ */
 export default function Home() {
   const cursorRef = useRef<HTMLDivElement>(null);
@@ -117,7 +119,7 @@ export default function Home() {
   const [side, setSide] = useState<"groom" | "bride" | null>(null);
   const [meal, setMeal] = useState<"yes" | "no" | null>(null);
   const [headcount, setHeadcount] = useState(1);
-  const [lightboxSrc, setLightboxSrc] = useState<string | null>(null);
+  const [lightboxIndex, setLightboxIndex] = useState<number | null>(null);
 
   /* ── smooth scroll throttle (desktop only) ── */
   useEffect(() => {
@@ -233,6 +235,18 @@ export default function Home() {
     return () => obs.disconnect();
   }, []);
 
+  /* ── lightbox keyboard navigation ── */
+  useEffect(() => {
+    if (lightboxIndex === null) return;
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === "ArrowLeft")  setLightboxIndex(i => i !== null ? (i - 1 + ALL_PHOTOS.length) % ALL_PHOTOS.length : null);
+      if (e.key === "ArrowRight") setLightboxIndex(i => i !== null ? (i + 1) % ALL_PHOTOS.length : null);
+      if (e.key === "Escape")     setLightboxIndex(null);
+    };
+    window.addEventListener("keydown", onKey);
+    return () => window.removeEventListener("keydown", onKey);
+  }, [lightboxIndex]);
+
   /* ── profile shimmer (re-triggers every time in view) ── */
   useEffect(() => {
     const obs = new IntersectionObserver(
@@ -282,10 +296,34 @@ export default function Home() {
   /* ════════════════════════════════════════════════════════════════════════ */
   return (
     <>
-      {lightboxSrc && (
-        <div className="lightbox-overlay" onClick={() => setLightboxSrc(null)}>
-          {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img src={lightboxSrc} alt="" draggable={false} onContextMenu={(e) => e.preventDefault()} />
+      {lightboxIndex !== null && (
+        <div className="lightbox-overlay" onClick={() => setLightboxIndex(null)}>
+          <button
+            className="lightbox-close"
+            onClick={(e) => { e.stopPropagation(); setLightboxIndex(null); }}
+            aria-label="닫기"
+          >✕</button>
+          <button
+            className="lightbox-prev"
+            onClick={(e) => { e.stopPropagation(); setLightboxIndex(i => i !== null ? (i - 1 + ALL_PHOTOS.length) % ALL_PHOTOS.length : null); }}
+            aria-label="이전"
+          >&#8249;</button>
+          <div className="lightbox-img-wrap" onClick={(e) => e.stopPropagation()}>
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img
+              key={lightboxIndex}
+              src={ALL_PHOTOS[lightboxIndex]}
+              alt=""
+              draggable={false}
+              onContextMenu={(e) => e.preventDefault()}
+            />
+          </div>
+          <button
+            className="lightbox-next"
+            onClick={(e) => { e.stopPropagation(); setLightboxIndex(i => i !== null ? (i + 1) % ALL_PHOTOS.length : null); }}
+            aria-label="다음"
+          >&#8250;</button>
+          <div className="lightbox-counter">{lightboxIndex + 1} / {ALL_PHOTOS.length}</div>
         </div>
       )}
       <div className="cursor-dot" ref={cursorRef} />
@@ -297,7 +335,7 @@ export default function Home() {
         {/* 실사 사진 (베이스) */}
         <div className="ic-real-layer">
           {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img src="/w08.jpg" className="ic-real-img" alt="" />
+          <img src="/w08.jpg" className="ic-real-img" alt="" draggable={false} onContextMenu={(e) => e.preventDefault()} />
         </div>
 
         {/* 캐릭터 일러스트 레이아웃 */}
@@ -305,7 +343,7 @@ export default function Home() {
           <div className="ic-char-top" />
           <div className="ic-char-mid">
             {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img src="/og.png" className="ic-char-img" alt="" />
+            <img src="/og.png" className="ic-char-img" alt="" draggable={false} onContextMenu={(e) => e.preventDefault()} />
           </div>
           <div className="ic-char-bottom" style={{ display: "flex", flexDirection: "column", alignItems: "center" }}>
             <p className="ic-char-names">Han Yeongsoo <span className="ic-char-dot">·</span> Koo Jamin</p>
@@ -385,7 +423,7 @@ export default function Home() {
         <div className="pp-card">
           <div className="pp-photo">
             {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img src="/photo1.jpg" alt="신랑 한영수" style={{ width: "100%", height: "100%", objectFit: "cover" }} />
+            <img src="/photo1.jpg" alt="신랑 한영수" style={{ width: "100%", height: "100%", objectFit: "cover" }} draggable={false} onContextMenu={(e) => e.preventDefault()} />
           </div>
           <div className="pp-info">
             <strong className="pp-name">한영수</strong>
@@ -411,7 +449,7 @@ export default function Home() {
         <div className="pp-card pp-card--reverse">
           <div className="pp-photo">
             {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img src="/photo2.jpg" alt="신부 구자민" style={{ width: "100%", height: "100%", objectFit: "cover" }} />
+            <img src="/photo2.jpg" alt="신부 구자민" style={{ width: "100%", height: "100%", objectFit: "cover" }} draggable={false} onContextMenu={(e) => e.preventDefault()} />
           </div>
           <div className="pp-info pp-info--right">
             <strong className="pp-name">구자민</strong>
@@ -435,10 +473,11 @@ export default function Home() {
       {/* ══ GALLERY ═════════════════════════════════════════════════════════ */}
       <section className="w-section fade-in">
         <h2 className="sec-title">Gallery</h2>
+        <p className="gallery-desc">사진을 눌러 크게 볼 수 있어요</p>
 
         <div className="gallery-grid">
           {GALLERY_PHOTOS.map((src, i) => (
-            <div key={i} className="gallery-item" onClick={() => setLightboxSrc(src)}>
+            <div key={i} className="gallery-item" onClick={() => setLightboxIndex(i)}>
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img src={src} alt="" draggable={false} onContextMenu={(e) => e.preventDefault()} />
             </div>
@@ -466,7 +505,7 @@ export default function Home() {
           }}
         >
           {GALLERY_WIDE.map((src, i) => (
-            <div key={i} className="gallery-wide-item" onClick={() => setLightboxSrc(src)}>
+            <div key={i} className="gallery-wide-item" onClick={() => setLightboxIndex(GALLERY_PHOTOS.length + i)}>
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img src={src} alt="" draggable={false} onContextMenu={(e) => e.preventDefault()} />
             </div>
