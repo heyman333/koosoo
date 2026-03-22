@@ -52,20 +52,32 @@ function TypewriterPoem({
 function FloatingHeart({ originX, originY }: { originX: number; originY: number }) {
   const ref = useRef<HTMLSpanElement>(null);
   const iconSize = useRef(26 + Math.floor(Math.random() * 16));
-  const color = useRef(["#e84040", "#c0392b", "#e74c3c", "#ff5252", "#d63031", "#ff6b6b"][Math.floor(Math.random() * 6)]);
+  const color = useRef(["#b85c52", "#c0564c", "#bf6058", "#a84d44", "#c45a50", "#b55550"][Math.floor(Math.random() * 6)]);
 
   useEffect(() => {
     if (!ref.current) return;
 
-    const totalDist = originY - 10;          // 이동 총 거리 (버튼 → top)
-    const xAmp  = 28 + Math.random() * 22;   // 풍선 흔들림 폭
-    const xDir  = Math.random() > 0.5 ? 1 : -1;
-    const segDur = 1.0 + Math.random() * 0.25; // 한 흔들림 = ~1.0~1.25s
-    const segs   = 4;                          // 흔들림 횟수
+    const totalDist = originY - 10;
+    const baseAmp   = 60 + Math.random() * 40; // 최대 흔들림 반경
+    const baseDur   = 2.1 + Math.random() * 0.5; // 구간당 기본 속도
 
-    // 감쇠 진동: 진폭이 점점 줄어드는 풍선 효과
-    const swayX   = [xDir * xAmp, -xDir * xAmp * 0.7, xDir * xAmp * 0.45, -xDir * xAmp * 0.22];
-    const swayRot = [xDir * 9,    -xDir * 6,           xDir * 3.5,          -xDir * 1.5];
+    // 6개 랜덤 waypoint — 진짜 자유로운 표류
+    const segs = 6;
+    let prevX = 0;
+    const waypoints = Array.from({ length: segs }, (_, i) => {
+      const progress = (i + 1) / segs;
+      const x = (Math.random() - 0.5) * baseAmp * 2;
+      const rot = (x - prevX) * 0.12; // x 이동 방향으로 자연스럽게 기울기
+      prevX = x;
+      return {
+        y: -(totalDist * progress),
+        x,
+        rotation: rot,
+        duration: baseDur * (0.7 + Math.random() * 0.6),
+        opacity: i === segs - 1 ? 0 : 1,
+        scale:   i === segs - 1 ? 0.5 : (0.97 + Math.random() * 0.06),
+      };
+    });
 
     const tl = gsap.timeline();
 
@@ -74,21 +86,12 @@ function FloatingHeart({ originX, originY }: { originX: number; originY: number 
       { scale: 0, opacity: 0, y: 0, x: 0, rotation: 0 },
       { scale: 1.15, opacity: 1, duration: 0.22, ease: "back.out(2.5)" }
     )
-    .to(ref.current, { scale: 1, duration: 0.1, ease: "power2.out" });
+    .to(ref.current, { scale: 1, duration: 0.12, ease: "power2.out" });
 
-    // 풍선 흔들림 구간
-    for (let i = 0; i < segs; i++) {
-      const isLast = i === segs - 1;
-      tl.to(ref.current, {
-        y: -(totalDist / segs) * (i + 1),
-        x: swayX[i],
-        rotation: swayRot[i],
-        opacity: isLast ? 0 : 1,
-        scale:   isLast ? 0.55 : 1,
-        duration: segDur,
-        ease: "sine.inOut",
-      });
-    }
+    // 자유 표류 구간
+    waypoints.forEach((wp) => {
+      tl.to(ref.current!, { ...wp, ease: "sine.inOut" });
+    });
 
     return () => { tl.kill(); };
   }, [originY]);
@@ -363,7 +366,7 @@ export default function Home() {
 
     const id = Date.now() + Math.random();
     setPlusItems((prev) => [...prev, { id, x: ox, y: oy }]);
-    setTimeout(() => setPlusItems((prev) => prev.filter((i) => i.id !== id)), 5500);
+    setTimeout(() => setPlusItems((prev) => prev.filter((i) => i.id !== id)), 12000);
   }
 
   /* ════════════════════════════════════════════════════════════════════════ */
@@ -745,7 +748,7 @@ export default function Home() {
 
         <div className="heart-stage">
           <button id="heart-btn" className="heart-btn" onClick={pressHeart} aria-label="하트 누르기">
-            <Heart size={72} fill="#c0392b" color="#c0392b" strokeWidth={0} />
+            <Heart size={72} fill="#b85c52" color="#b85c52" strokeWidth={0} />
           </button>
         </div>
 
