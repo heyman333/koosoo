@@ -25,7 +25,7 @@ body {
   margin: 0 auto;
   background: #fff;
   position: relative;
-  overflow: hidden;
+  overflow: clip;
   box-shadow: 0 0 60px rgba(0,0,0,0.12);
 }
 
@@ -985,17 +985,14 @@ body {
   gap: 12px;
 }
 .gb-card {
-  border-radius: 2px;
-  padding: 1rem;
+  border-radius: 12px;
+  padding: 1.2rem;
   min-height: 140px;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  background: #faf8f4;
-  box-shadow:
-    0 1px 3px rgba(0,0,0,0.06),
-    0 4px 16px rgba(0,0,0,0.04),
-    inset 0 0 0 0.5px rgba(0,0,0,0.04);
+  background: #fff;
+  border: 1px solid #f0f0f0;
   animation: cardIn 0.3s ease forwards;
 }
 .add-card {
