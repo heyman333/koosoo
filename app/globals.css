@@ -413,7 +413,7 @@ body {
 }
 .cal-day-label {
   text-align: center;
-  font-family: var(--font-cinzel), serif;
+  font-family: var(--font-pretendard), sans-serif;
   font-size: 10px;
   font-weight: 400;
   color: #999;
@@ -1051,8 +1051,8 @@ body {
   background: #2c2a24;
   color: #fff;
   font-size: 13px;
-  font-family: var(--font-cinzel), serif;
-  letter-spacing: 0.08em;
+  font-family: var(--font-pretendard), sans-serif;
+  letter-spacing: 0.04em;
   border: none;
   cursor: pointer;
   transition: background 0.2s;
@@ -1137,10 +1137,10 @@ body {
   padding-top: 0.5rem;
 }
 .gb-card-author {
-  font-family: var(--font-cinzel), serif;
+  font-family: var(--font-pretendard), sans-serif;
   font-size: 10px;
   color: #888;
-  letter-spacing: 0.06em;
+  letter-spacing: 0.03em;
 }
 .gb-card-date {
   font-size: 10px;
