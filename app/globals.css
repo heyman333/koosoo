@@ -917,6 +917,80 @@ body {
 .copy-btn:hover { background: #d8d8d8; }
 
 /* ══════════════════════════════════════════════════════════════════════════════
+   HEART
+══════════════════════════════════════════════════════════════════════════════ */
+.heart-section { text-align: center; }
+.heart-section .sec-title {
+  font-family: var(--font-pretendard), sans-serif;
+  letter-spacing: 0.04em;
+  font-weight: 500;
+}
+.heart-desc {
+  font-size: 12px;
+  color: #bbb;
+  margin-bottom: 2.2rem;
+  letter-spacing: 0.03em;
+  font-family: var(--font-pretendard), sans-serif;
+}
+.heart-stage {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 120px;
+}
+.heart-btn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  will-change: transform;
+  -webkit-tap-highlight-color: transparent;
+  display: block;
+  position: relative;
+  z-index: 1;
+}
+.hearts-portal {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 200;
+  overflow: hidden;
+}
+.float-heart {
+  position: absolute;
+  pointer-events: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transform-origin: center center;
+}
+.heart-counter {
+  display: flex;
+  align-items: baseline;
+  justify-content: center;
+  gap: 0.45em;
+  margin-top: 1.4rem;
+}
+#heart-count {
+  font-size: 34px;
+  font-weight: 600;
+  color: #2c2a24;
+  font-family: var(--font-cinzel), serif;
+  letter-spacing: 0.04em;
+  display: inline-block;
+  will-change: transform;
+}
+.heart-counter-label {
+  font-size: 10px;
+  color: #ccc;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  font-family: var(--font-cinzel), serif;
+}
+
+
+/* ══════════════════════════════════════════════════════════════════════════════
    RSVP FORM
 ══════════════════════════════════════════════════════════════════════════════ */
 .rsvp-form {
@@ -928,8 +1002,6 @@ body {
   gap: 0;
   margin-bottom: 2.4rem;
 }
-
-/* 이름 인풋 */
 .rsvp-name-input {
   width: 100%;
   background: #fff;
@@ -946,8 +1018,6 @@ body {
 }
 .rsvp-name-input::placeholder { color: #c0bdb8; }
 .rsvp-name-input:focus { border-color: #bbb; }
-
-/* 참석 여부 / 식사 여부 버튼 */
 .rsvp-attend-btns {
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -977,8 +1047,6 @@ body {
   color: #fff;
   border: 0.5px solid #2c2a24;
 }
-
-/* 참석 후 추가 항목 레이블 */
 .rsvp-sub-label {
   font-size: 12px;
   color: #aaa;
@@ -987,8 +1055,6 @@ body {
   margin-bottom: 0.5rem;
   margin-top: 0.2rem;
 }
-
-/* 참석 인원 카운터 */
 .rsvp-headcount {
   display: flex;
   align-items: center;
@@ -1019,38 +1085,6 @@ body {
   min-width: 1.5rem;
   text-align: center;
 }
-
-/* 메시지 텍스트에어리어 */
-.rsvp-textarea {
-  width: 100%;
-  background: #fff;
-  border: 0.5px solid #ddd;
-  border-radius: 8px;
-  padding: 0.9rem 1rem;
-  font-size: 16px;
-  font-family: var(--font-pretendard), sans-serif;
-  color: #2c2a24;
-  resize: none;
-  outline: none;
-  height: 80px;
-  letter-spacing: 0.02em;
-  line-height: 1.8;
-  transition: border-color 0.2s;
-  margin-top: 0.7rem;
-  margin-bottom: 0.3rem;
-}
-.rsvp-textarea::placeholder { color: #c0bdb8; }
-.rsvp-textarea:focus { border-color: #bbb; }
-
-/* 힌트 텍스트 */
-.rsvp-hint {
-  font-size: 11px;
-  color: #c0bdb8;
-  font-family: var(--font-pretendard), sans-serif;
-  margin-bottom: 1.2rem;
-}
-
-/* 전달하기 버튼 */
 .rsvp-submit {
   width: 100%;
   padding: 0.8rem;
@@ -1065,181 +1099,6 @@ body {
   transition: background 0.2s;
 }
 .rsvp-submit:hover { background: #444; }
-
-/* Messages 구분 */
-.gb-messages-label {
-  font-family: var(--font-cinzel), serif;
-  font-size: 10px;
-  letter-spacing: 0.28em;
-  color: #ccc;
-  text-align: center;
-  text-transform: uppercase;
-  margin-bottom: 1.4rem;
-}
-.gb-messages-sep {
-  width: 36px;
-  height: 1px;
-  background: #ddd;
-  margin: 0 auto 2rem;
-}
-
-/* ══════════════════════════════════════════════════════════════════════════════
-   GUESTBOOK
-══════════════════════════════════════════════════════════════════════════════ */
-.gb-grid {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 12px;
-}
-.gb-card {
-  border-radius: 12px;
-  padding: 1.2rem;
-  min-height: 140px;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  background: #fff;
-  border: 1px solid #f0f0f0;
-  animation: cardIn 0.3s ease forwards;
-}
-.add-card {
-  background: #faf8f4 !important;
-  align-items: center;
-  justify-content: center;
-  gap: 8px;
-  cursor: pointer;
-  border: 1px dashed #ccc;
-  box-shadow: none;
-  transition: background 0.2s;
-}
-.add-card:hover { background: #f3f0eb !important; }
-.gb-plus {
-  font-family: var(--font-pretendard), sans-serif;
-  font-size: 32px;
-  font-weight: 300;
-  color: #bbb;
-  line-height: 1;
-}
-.gb-add-label {
-  font-family: var(--font-cinzel), serif;
-  font-size: 9px;
-  color: #bbb;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
-}
-.gb-card-msg {
-  font-size: 12px;
-  color: #555;
-  word-break: keep-all;
-  flex: 1;
-  padding-bottom: 0.8rem;
-  line-height: 1.85;
-  font-family: var(--font-pretendard), sans-serif;
-}
-.gb-card-footer {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  border-top: 0.5px solid rgba(0,0,0,0.06);
-  padding-top: 0.5rem;
-}
-.gb-card-author {
-  font-family: var(--font-pretendard), sans-serif;
-  font-size: 10px;
-  color: #888;
-  letter-spacing: 0.03em;
-}
-.gb-card-date {
-  font-size: 10px;
-  color: #bbb;
-  letter-spacing: 0.05em;
-}
-@keyframes cardIn {
-  from { opacity: 0; transform: scale(0.92) translateY(8px); }
-  to   { opacity: 1; transform: scale(1) translateY(0); }
-}
-
-/* ── Guestbook Modal ── */
-.gb-modal-bg {
-  position: fixed;
-  inset: 0;
-  background: rgba(0,0,0,0.46);
-  z-index: 200;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 0 1.5rem;
-}
-.gb-modal {
-  background: #fff;
-  border-radius: 18px;
-  padding: 1.5rem;
-  width: min(340px, 100%);
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-  animation: modalIn 0.22s ease forwards;
-}
-@keyframes modalIn {
-  from { opacity: 0; transform: scale(0.92) translateY(12px); }
-  to   { opacity: 1; transform: scale(1) translateY(0); }
-}
-.gb-modal-title {
-  font-family: var(--font-cinzel), serif;
-  font-size: 13px;
-  letter-spacing: 0.14em;
-  color: #2c2a24;
-  text-align: center;
-  margin-bottom: 0.2rem;
-}
-.gb-modal input,
-.gb-modal textarea {
-  width: 100%;
-  border: 0.5px solid #ddd;
-  border-radius: 8px;
-  padding: 0.7rem 0.9rem;
-  font-size: 16px;
-  font-family: var(--font-pretendard), sans-serif;
-  background: #f7f7f7;
-  color: #2c2a24;
-  resize: none;
-  outline: none;
-  transition: border-color 0.15s;
-}
-.gb-modal input:focus,
-.gb-modal textarea:focus { border-color: #bbb; }
-.gb-modal textarea { height: 110px; }
-.gb-modal-btns {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 8px;
-  margin-top: 2px;
-}
-.gb-modal-cancel {
-  padding: 0.8rem;
-  border-radius: 8px;
-  border: 0.5px solid #ddd;
-  background: #fff;
-  font-size: 13px;
-  cursor: pointer;
-  font-family: var(--font-pretendard), sans-serif;
-  color: #777;
-  transition: background 0.15s;
-}
-.gb-modal-cancel:hover { background: #f7f7f7; }
-.gb-modal-submit {
-  padding: 0.8rem;
-  border-radius: 8px;
-  border: none;
-  background: #2c2a24;
-  color: #fff;
-  font-size: 13px;
-  cursor: pointer;
-  font-family: var(--font-cinzel), serif;
-  letter-spacing: 0.08em;
-  transition: background 0.15s;
-}
-.gb-modal-submit:hover { background: #1a1917; }
 
 /* ══════════════════════════════════════════════════════════════════════════════
    NOTICE

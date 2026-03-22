@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
+import { Heart } from "lucide-react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import KakaoMap from "./KakaoMap";
@@ -47,30 +48,62 @@ function TypewriterPoem({
   );
 }
 
-/* ── Types ── */
-interface GBEntry {
-  id: number;
-  name: string;
-  msg: string;
-  date: string;
-  color: string;
-  attend?: "yes" | "no";
-  side?: "groom" | "bride";
-  meal?: "yes" | "no";
-  headcount?: number;
+/* ── FloatingHeart 파티클 — 풍선처럼 흔들리며 천천히 상승 ── */
+function FloatingHeart({ originX, originY }: { originX: number; originY: number }) {
+  const ref = useRef<HTMLSpanElement>(null);
+  const iconSize = useRef(26 + Math.floor(Math.random() * 16));
+  const color = useRef(["#e84040", "#c0392b", "#e74c3c", "#ff5252", "#d63031", "#ff6b6b"][Math.floor(Math.random() * 6)]);
+
+  useEffect(() => {
+    if (!ref.current) return;
+
+    const totalDist = originY - 10;          // 이동 총 거리 (버튼 → top)
+    const xAmp  = 28 + Math.random() * 22;   // 풍선 흔들림 폭
+    const xDir  = Math.random() > 0.5 ? 1 : -1;
+    const segDur = 1.0 + Math.random() * 0.25; // 한 흔들림 = ~1.0~1.25s
+    const segs   = 4;                          // 흔들림 횟수
+
+    // 감쇠 진동: 진폭이 점점 줄어드는 풍선 효과
+    const swayX   = [xDir * xAmp, -xDir * xAmp * 0.7, xDir * xAmp * 0.45, -xDir * xAmp * 0.22];
+    const swayRot = [xDir * 9,    -xDir * 6,           xDir * 3.5,          -xDir * 1.5];
+
+    const tl = gsap.timeline();
+
+    // 팝인
+    tl.fromTo(ref.current,
+      { scale: 0, opacity: 0, y: 0, x: 0, rotation: 0 },
+      { scale: 1.15, opacity: 1, duration: 0.22, ease: "back.out(2.5)" }
+    )
+    .to(ref.current, { scale: 1, duration: 0.1, ease: "power2.out" });
+
+    // 풍선 흔들림 구간
+    for (let i = 0; i < segs; i++) {
+      const isLast = i === segs - 1;
+      tl.to(ref.current, {
+        y: -(totalDist / segs) * (i + 1),
+        x: swayX[i],
+        rotation: swayRot[i],
+        opacity: isLast ? 0 : 1,
+        scale:   isLast ? 0.55 : 1,
+        duration: segDur,
+        ease: "sine.inOut",
+      });
+    }
+
+    return () => { tl.kill(); };
+  }, [originY]);
+
+  return (
+    <span
+      ref={ref}
+      className="float-heart"
+      aria-hidden="true"
+      style={{ left: originX, top: originY }}
+    >
+      <Heart size={iconSize.current} fill={color.current} color={color.current} strokeWidth={0} />
+    </span>
+  );
 }
-
-/* ── Constants ── */
-const GB_COLORS = [
-  "#fef9e7", "#e8f5e9", "#fce4ec", "#e3f2fd",
-  "#f3e5f5", "#e0f7fa", "#fff8e1", "#fbe9e7",
-];
-
-const INITIAL_ENTRIES: GBEntry[] = [
-  { id: 1, name: "뺑부장",  msg: "넘 이쁜 선남선녀 늘 행복하고 꽃길만 걸어 !!", date: "07.05", color: "#fef9e7", attend: "yes" },
-  { id: 2, name: "보라",    msg: "백년해로 하십시오~",                             date: "07.05", color: "#e8f5e9", attend: "yes" },
-  { id: 3, name: "회사동료", msg: "결혼 너무 축하해~ 예쁜 두사람!",               date: "07.05", color: "#fce4ec", attend: "yes" },
-];
 
 const GROOM_ACCOUNTS = [
   { role: "신랑", name: "한영수", bank: "국민은행", num: "012345-67890-111" },
@@ -112,9 +145,12 @@ export default function Home() {
   const [poem2Done, setPoem2Done] = useState(false);
   const [poemInView, setPoemInView] = useState(false);
   const poemRef = useRef<HTMLElement>(null);
-  const [entries, setEntries] = useState<GBEntry[]>(INITIAL_ENTRIES);
+  const [heartCount, setHeartCount] = useState<number>(() => {
+    if (typeof window === "undefined") return 0;
+    return parseInt(localStorage.getItem("koosoo-hearts") ?? "0", 10);
+  });
+  const [plusItems, setPlusItems] = useState<{ id: number; x: number; y: number }[]>([]);
   const [gbName, setGbName] = useState("");
-  const [gbMsg, setGbMsg] = useState("");
   const [attend, setAttend] = useState<"yes" | "no" | null>(null);
   const [side, setSide] = useState<"groom" | "bride" | null>(null);
   const [meal, setMeal] = useState<"yes" | "no" | null>(null);
@@ -290,19 +326,44 @@ export default function Home() {
     if (!attend) { alert("참석 여부를 선택해주세요."); return; }
     if (attend === "yes" && !side) { alert("신랑측/신부측을 선택해주세요."); return; }
     if (attend === "yes" && !meal) { alert("식사 여부를 선택해주세요."); return; }
-    const now = new Date();
-    const date = `${String(now.getMonth() + 1).padStart(2, "0")}.${String(now.getDate()).padStart(2, "0")}`;
-    const msg = gbMsg.trim();
-    if (msg) {
-      setEntries((prev) => [
-        { id: Date.now(), name: gbName.trim(), msg, date, color: GB_COLORS[prev.length % GB_COLORS.length], attend, side: side ?? undefined, meal: meal ?? undefined, headcount: attend === "yes" ? headcount : undefined },
-        ...prev,
-      ]);
-    }
     const sideText = side === "groom" ? "신랑 측" : "신부 측";
     const detail = attend === "yes" ? `${sideText} · ${headcount}명 · 식사 ${meal === "yes" ? "예" : "아니오"}` : "불참";
     alert(`${gbName.trim()}님 — ${detail}\n전달되었습니다. 감사합니다!`);
-    setGbName(""); setGbMsg(""); setAttend(null); setSide(null); setMeal(null); setHeadcount(1);
+    setGbName(""); setAttend(null); setSide(null); setMeal(null); setHeadcount(1);
+  }
+
+  function pressHeart() {
+    const next = heartCount + 1;
+    setHeartCount(next);
+    localStorage.setItem("koosoo-hearts", String(next));
+
+    // 버튼 bounce
+    gsap.killTweensOf("#heart-btn");
+    gsap.fromTo("#heart-btn",
+      { scale: 1 },
+      { scale: 1.22, duration: 0.12, ease: "power2.out",
+        onComplete: () => { gsap.to("#heart-btn", { scale: 1, duration: 0.35, ease: "back.out(2)" }); } }
+    );
+
+    // 카운터 펄스
+    gsap.killTweensOf("#heart-count");
+    gsap.fromTo("#heart-count",
+      { scale: 1 },
+      { scale: 1.18, duration: 0.1, ease: "power2.out",
+        onComplete: () => { gsap.to("#heart-count", { scale: 1, duration: 0.28, ease: "back.out(1.8)" }); } }
+    );
+
+    // 풍선 하트 spawn
+    const btn = document.getElementById("heart-btn");
+    const container = document.querySelector(".page-container");
+    const btnRect = btn?.getBoundingClientRect();
+    const containerRect = container?.getBoundingClientRect();
+    const ox = btnRect ? btnRect.left + btnRect.width / 2 - (containerRect?.left ?? 0) : 240;
+    const oy = btnRect ? btnRect.top + btnRect.height / 2 - (containerRect?.top ?? 0) : 400;
+
+    const id = Date.now() + Math.random();
+    setPlusItems((prev) => [...prev, { id, x: ox, y: oy }]);
+    setTimeout(() => setPlusItems((prev) => prev.filter((i) => i.id !== id)), 5500);
   }
 
   /* ════════════════════════════════════════════════════════════════════════ */
@@ -352,6 +413,9 @@ export default function Home() {
       <div id="progress-bar" />
 
       <div className="page-container">
+      <div className="hearts-portal" aria-hidden="true">
+        {plusItems.map(({ id, x, y }) => <FloatingHeart key={id} originX={x} originY={y} />)}
+      </div>
       {/* ══ HERO — illust → photo crossfade ══════════════════════════════════ */}
       <section className="illust-crossfade-section">
         {/* 실사 사진 (베이스) */}
@@ -604,11 +668,9 @@ export default function Home() {
         </div>
       </section>
 
-      {/* ══ RSVP + GUESTBOOK ════════════════════════════════════════════════ */}
+      {/* ══ RSVP ═════════════════════════════════════════════════════════════ */}
       <section className="w-section fade-in">
-        <h2 className="sec-title">참석 여부 &amp; 방명록</h2>
-
-        {/* 참석 여부 폼 */}
+        <h2 className="sec-title">참석 여부</h2>
         <div className="rsvp-form">
           <input
             type="text"
@@ -618,7 +680,6 @@ export default function Home() {
             value={gbName}
             onChange={(e) => setGbName(e.target.value)}
           />
-
           <div className="rsvp-attend-btns">
             <button
               className={`rsvp-attend-btn${attend === "yes" ? " active-yes" : ""}`}
@@ -633,7 +694,6 @@ export default function Home() {
               함께하지 못해요 🥲
             </button>
           </div>
-
           {attend === "yes" && (
             <>
               <p className="rsvp-sub-label">신랑 측 / 신부 측</p>
@@ -651,24 +711,12 @@ export default function Home() {
                   신부 측
                 </button>
               </div>
-
               <p className="rsvp-sub-label">참석 인원</p>
               <div className="rsvp-headcount">
-                <button
-                  className="rsvp-count-btn"
-                  onClick={() => setHeadcount((v) => Math.max(1, v - 1))}
-                >
-                  −
-                </button>
+                <button className="rsvp-count-btn" onClick={() => setHeadcount((v) => Math.max(1, v - 1))}>−</button>
                 <span className="rsvp-count-num">{headcount}</span>
-                <button
-                  className="rsvp-count-btn"
-                  onClick={() => setHeadcount((v) => Math.min(10, v + 1))}
-                >
-                  +
-                </button>
+                <button className="rsvp-count-btn" onClick={() => setHeadcount((v) => Math.min(10, v + 1))}>+</button>
               </div>
-
               <p className="rsvp-sub-label">식사 여부</p>
               <div className="rsvp-attend-btns">
                 <button
@@ -686,33 +734,24 @@ export default function Home() {
               </div>
             </>
           )}
+          <button className="rsvp-submit" onClick={submitGuestbook}>전달하기</button>
+        </div>
+      </section>
 
-          <textarea
-            className="rsvp-textarea"
-            placeholder="축하 메시지를 남겨주세요 (선택)"
-            value={gbMsg}
-            onChange={(e) => setGbMsg(e.target.value)}
-          />
+      {/* ══ HEART ════════════════════════════════════════════════════════════ */}
+      <section className="w-section heart-section fade-in">
+        <h2 className="sec-title">마음을 전해요</h2>
+        <p className="heart-desc">탭해서 마음을 전할 수 있어요</p>
 
-          <p className="rsvp-hint">남겨주신 메시지는 아래 방명록에 공개됩니다 🤍</p>
-
-          <button className="rsvp-submit" onClick={submitGuestbook}>
-            전달하기
+        <div className="heart-stage">
+          <button id="heart-btn" className="heart-btn" onClick={pressHeart} aria-label="하트 누르기">
+            <Heart size={72} fill="#c0392b" color="#c0392b" strokeWidth={0} />
           </button>
         </div>
 
-        {/* 방명록 */}
-        <div className="gb-messages-sep" />
-        <div className="gb-messages-label">Messages</div>
-        <div className="gb-grid">
-          {entries.map((e) => (
-            <div key={e.id} className="gb-card">
-              <div className="gb-card-msg">{e.msg}</div>
-              <div className="gb-card-footer">
-                <span className="gb-card-date">{e.date}</span>
-              </div>
-            </div>
-          ))}
+        <div className="heart-counter">
+          <span id="heart-count">{heartCount.toLocaleString()}</span>
+          <span className="heart-counter-label">hearts</span>
         </div>
       </section>
 
