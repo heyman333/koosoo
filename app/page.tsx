@@ -384,6 +384,7 @@ export default function Home() {
           <div className="ic-scroll-bar" />
           <span className="ic-scroll-label">Scroll</span>
         </div>
+
       </section>
 
       {/* ══ INVITATION ══════════════════════════════════════════════════════ */}
@@ -446,7 +447,7 @@ export default function Home() {
           <div className="pp-photo">
             <div className="profile-img">
               {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img src="/photo1.jpg" alt="신랑 한영수" draggable={false} onContextMenu={(e) => e.preventDefault()} />
+              <img src="/photo1.jpg" alt="신랑 한영수" style={{ objectPosition: "center 75%" }} draggable={false} onContextMenu={(e) => e.preventDefault()} />
             </div>
           </div>
           <div className="pp-info">
@@ -462,7 +463,7 @@ export default function Home() {
             canStart={poemInView}
             delay={300}
             onComplete={() => setPoem1Done(true)}
-            text={`나의 여름이 모든 색을 잃고\n흑백이 되어도 좋습니다.\n내가 세상의 꽃들과 들풀,\n숲의 색을 모두 훔쳐올 테니\n전부 그대의 것 하십시오.\n\n그러니 그대는 나의 여름이 되세요.`}
+            text={`나의 여름이 모든 색을 잃고 흑백이 되어도 좋습니다.\n내가 세상의 꽃들과 들풀, 숲의 색을 모두 훔쳐올 테니\n전부 그대의 것 하십시오.\n\n그러니 그대는 나의 여름이 되세요.`}
           />
           <div className={`poem-cite${poem1Done ? " poem-cite--visible" : ""}`}>도둑이 든 여름 — 서덕준</div>
         </div>
@@ -485,7 +486,7 @@ export default function Home() {
 
         <div className="poem-block poem-block--left pp-poem">
           <div className="poem-greeting">자민이가 영수에게</div>
-          <p className="poem-anecdote">오빠는 저의 초당옥수수예요 🌽</p>
+          <p className="poem-anecdote">오빠는 저의 초당옥수수에요 🌽</p>
           <TypewriterPoem
             canStart={poem1Done}
             delay={400}
@@ -590,7 +591,7 @@ export default function Home() {
           </button>
         </div>
 
-        <div className="acc-panel">
+        <div key={activeTab} className="acc-panel">
           {(activeTab === "groom" ? GROOM_ACCOUNTS : BRIDE_ACCOUNTS).map(({ role, name, bank, num }) => (
             <div key={name} className="acc-card">
               <div className="acc-name">{role} <strong>{name}</strong></div>
@@ -708,7 +709,6 @@ export default function Home() {
             <div key={e.id} className="gb-card">
               <div className="gb-card-msg">{e.msg}</div>
               <div className="gb-card-footer">
-                <span className="gb-card-author">{e.name}</span>
                 <span className="gb-card-date">{e.date}</span>
               </div>
             </div>
@@ -721,10 +721,11 @@ export default function Home() {
         <h2 className="sec-title">Notice</h2>
 
         <div className="notice-box">
-          <p>· 주차는 건국대학교 내 주차장을 이용해 주세요.</p>
-          <p>· 혼잡이 예상되니 대중교통 이용을 권장합니다.</p>
-          <p>· 식장 내 사진 촬영은 자유롭게 가능합니다.</p>
-          <p>· 생화 반입은 삼가주시기 바랍니다.</p>
+          <ul>
+            <li>웨딩홀 주차장은 공간이 넉넉치 않아 건너편 건국대로 안내받으실 수 있습니다. 주차 후 도보로 다시 웨딩홀로 이동하실 때 5-10분 정도 소요됩니다. (웨딩홀 주차장은 1시간 무료, 건국대 주차장은 2시간 무료)</li>
+            <li>연회장은 지하 1층, 예식장은 2층에 위치해있습니다.</li>
+            <li>식사는 12시 30분부터 14시 30분까지 가능합니다.</li>
+          </ul>
         </div>
 
         <div className="share-btns">

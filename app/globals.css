@@ -870,6 +870,13 @@ body {
   color: #2c2a24;
   box-shadow: 0 1px 4px rgba(0,0,0,0.06);
 }
+.acc-panel {
+  animation: acc-fade-in 0.28s ease;
+}
+@keyframes acc-fade-in {
+  from { opacity: 0; transform: translateY(6px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
 .acc-card {
   background: #f7f7f7;
   border-radius: 12px;
@@ -1242,11 +1249,19 @@ body {
   border-radius: 16px;
   padding: 1.8rem;
   font-size: 13px;
-  line-height: 2.5;
+  line-height: 1.9;
   color: #666;
   display: flex;
   flex-direction: column;
-  gap: 0;
+  gap: 0.9rem;
+}
+.notice-box ul {
+  list-style-type: '· ';
+  list-style-position: outside;
+  padding-left: 1.2em;
+}
+.notice-box li + li {
+  margin-top: 0.9rem;
 }
 .share-btns {
   display: grid;
