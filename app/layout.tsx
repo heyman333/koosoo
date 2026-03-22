@@ -52,7 +52,7 @@ export const metadata: Metadata = {
     description: "저희 두 사람의 특별한 날에 초대합니다.",
     images: [
       {
-        url: "/og.png",
+        url: "/illust.png",
         width: 1080,
         height: 1080,
         alt: "한영수 ❤️ 구자민 웨딩",
@@ -62,7 +62,7 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    images: ["/og.png"],
+    images: ["/illust.png"],
   },
 };
 

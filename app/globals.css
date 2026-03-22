@@ -353,7 +353,8 @@ body {
 .invite-text {
   text-align: center;
   font-size: 14px;
-  font-style: italic;
+  font-style: normal;
+  font-family: var(--font-pretendard), sans-serif;
   line-height: 2.3;
   color: #555;
   word-break: keep-all;
@@ -774,9 +775,9 @@ body {
    RSVP FORM
 ══════════════════════════════════════════════════════════════════════════════ */
 .rsvp-form {
-  background: #f5f4f2;
-  border-radius: 20px;
-  padding: 1.6rem 1.4rem 1.8rem;
+  background: #f7f7f7;
+  border-radius: 12px;
+  padding: 1.2rem;
   display: flex;
   flex-direction: column;
   gap: 0;
@@ -787,8 +788,8 @@ body {
 .rsvp-name-input {
   width: 100%;
   background: #fff;
-  border: 1px solid #e8e6e2;
-  border-radius: 12px;
+  border: 0.5px solid #ddd;
+  border-radius: 8px;
   padding: 0.9rem 1rem;
   font-size: 16px;
   font-family: var(--font-pretendard), sans-serif;
@@ -796,7 +797,7 @@ body {
   outline: none;
   letter-spacing: 0.02em;
   transition: border-color 0.2s;
-  margin-bottom: 0.8rem;
+  margin-bottom: 0.7rem;
 }
 .rsvp-name-input::placeholder { color: #c0bdb8; }
 .rsvp-name-input:focus { border-color: #bbb; }
@@ -806,15 +807,15 @@ body {
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 8px;
-  margin-bottom: 0.8rem;
+  margin-bottom: 0.7rem;
 }
 .rsvp-attend-btn {
   padding: 0.9rem 0.5rem;
-  border-radius: 12px;
+  border-radius: 8px;
   background: #fff;
-  border: 1px solid #e8e6e2;
+  border: 0.5px solid #ddd;
   font-size: 13px;
-  color: #aaa;
+  color: #888;
   cursor: pointer;
   font-family: var(--font-pretendard), sans-serif;
   letter-spacing: 0.02em;
@@ -837,6 +838,7 @@ body {
   font-size: 12px;
   color: #aaa;
   font-family: var(--font-pretendard), sans-serif;
+  letter-spacing: 0.05em;
   margin-bottom: 0.5rem;
   margin-top: 0.2rem;
 }
@@ -877,20 +879,20 @@ body {
 .rsvp-textarea {
   width: 100%;
   background: #fff;
-  border: 1px solid #e8e6e2;
-  border-radius: 12px;
+  border: 0.5px solid #ddd;
+  border-radius: 8px;
   padding: 0.9rem 1rem;
   font-size: 16px;
   font-family: var(--font-pretendard), sans-serif;
   color: #2c2a24;
   resize: none;
   outline: none;
-  height: 110px;
+  height: 80px;
   letter-spacing: 0.02em;
   line-height: 1.8;
   transition: border-color 0.2s;
-  margin-top: 0.4rem;
-  margin-bottom: 0.5rem;
+  margin-top: 0.7rem;
+  margin-bottom: 0.3rem;
 }
 .rsvp-textarea::placeholder { color: #c0bdb8; }
 .rsvp-textarea:focus { border-color: #bbb; }
@@ -906,18 +908,18 @@ body {
 /* 전달하기 버튼 */
 .rsvp-submit {
   width: 100%;
-  padding: 1.1rem;
-  border-radius: 14px;
-  background: #1a1917;
+  padding: 0.8rem;
+  border-radius: 8px;
+  background: #2c2a24;
   color: #fff;
-  font-size: 15px;
-  font-family: var(--font-pretendard), sans-serif;
-  letter-spacing: 0.04em;
+  font-size: 13px;
+  font-family: var(--font-cinzel), serif;
+  letter-spacing: 0.08em;
   border: none;
   cursor: pointer;
   transition: background 0.2s;
 }
-.rsvp-submit:hover { background: #333; }
+.rsvp-submit:hover { background: #444; }
 
 /* Messages 구분 */
 .gb-messages-label {
@@ -1149,9 +1151,9 @@ body {
   line-height: 2;
 }
 .footer-amp {
-  font-family: var(--font-cormorant), serif;
-  font-size: 14px;
-  font-style: italic;
+  font-family: var(--font-pretendard), sans-serif;
+  font-size: 12px;
+  font-style: normal;
 }
 
 /* ── Typewriter cursor ── */
