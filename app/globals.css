@@ -821,9 +821,9 @@ body {
   border-color: #2c2a24;
 }
 .rsvp-attend-btn.active-no {
-  background: #fff;
-  color: #888;
-  border-color: #ccc;
+  background: #2c2a24;
+  color: #fff;
+  border-color: #2c2a24;
 }
 
 /* 참석 후 추가 항목 레이블 */
