@@ -116,6 +116,7 @@ export default function Home() {
   const [side, setSide] = useState<"groom" | "bride" | null>(null);
   const [meal, setMeal] = useState<"yes" | "no" | null>(null);
   const [headcount, setHeadcount] = useState(1);
+  const [lightboxSrc, setLightboxSrc] = useState<string | null>(null);
 
   /* ── smooth scroll throttle (desktop only) ── */
   useEffect(() => {
@@ -280,6 +281,12 @@ export default function Home() {
   /* ════════════════════════════════════════════════════════════════════════ */
   return (
     <>
+      {lightboxSrc && (
+        <div className="lightbox-overlay" onClick={() => setLightboxSrc(null)}>
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img src={lightboxSrc} alt="" draggable={false} onContextMenu={(e) => e.preventDefault()} />
+        </div>
+      )}
       <div className="cursor-dot" ref={cursorRef} />
       <div id="progress-bar" />
 
@@ -430,18 +437,18 @@ export default function Home() {
 
         <div className="gallery-grid">
           {GALLERY_PHOTOS.map((src, i) => (
-            <div key={i} className="gallery-item">
+            <div key={i} className="gallery-item" onClick={() => setLightboxSrc(src)}>
               {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img src={src} alt="" />
+              <img src={src} alt="" draggable={false} onContextMenu={(e) => e.preventDefault()} />
             </div>
           ))}
         </div>
 
         <div className="gallery-wide-row">
           {GALLERY_WIDE.map((src, i) => (
-            <div key={i} className="gallery-wide-item">
+            <div key={i} className="gallery-wide-item" onClick={() => setLightboxSrc(src)}>
               {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img src={src} alt="" />
+              <img src={src} alt="" draggable={false} onContextMenu={(e) => e.preventDefault()} />
             </div>
           ))}
         </div>
