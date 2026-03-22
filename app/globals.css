@@ -10,11 +10,10 @@
 
 /* ── Reset ── */
 * { box-sizing: border-box; margin: 0; padding: 0; }
-html { scroll-behavior: auto; }
+html { scroll-behavior: auto; overflow-x: hidden; }
 body {
   background: #e8e4de;
   color: #2c2a24;
-  overflow-x: hidden;
   font-family: var(--font-pretendard), 'Apple SD Gothic Neo', sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
@@ -654,8 +653,8 @@ body {
 .gallery-wide-row::-webkit-scrollbar { display: none; }
 .gallery-wide-item {
   flex-shrink: 0;
-  width: 70vw;
-  max-width: 300px;
+  width: 44vw;
+  max-width: 200px;
   aspect-ratio: 1/1;
   background: #f0f0f0;
   overflow: hidden;
