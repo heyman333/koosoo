@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import localFont from "next/font/local";
-import { Cormorant_Garamond, Cinzel, Special_Elite, Nunito } from "next/font/google";
+import { Cormorant_Garamond, Cinzel, Special_Elite, Nunito, Nanum_Myeongjo } from "next/font/google";
 import "./globals.css";
 
 const pretendard = localFont({
@@ -29,6 +29,13 @@ const specialElite = Special_Elite({
   subsets: ["latin"],
   weight: "400",
   variable: "--font-special-elite",
+  display: "swap",
+});
+
+const nanumMyeongjo = Nanum_Myeongjo({
+  subsets: ["latin"],
+  weight: ["400", "700"],
+  variable: "--font-nanum-myeongjo",
   display: "swap",
 });
 
@@ -72,7 +79,7 @@ export default function RootLayout({
   return (
     <html lang="ko">
       <body
-        className={`${pretendard.variable} ${cormorant.variable} ${cinzel.variable} ${specialElite.variable} ${nunito.variable} antialiased`}
+        className={`${pretendard.variable} ${cormorant.variable} ${cinzel.variable} ${specialElite.variable} ${nunito.variable} ${nanumMyeongjo.variable} antialiased`}
       >
         {children}
       </body>
