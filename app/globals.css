@@ -547,6 +547,13 @@ body {
   border-radius: 8px;
   overflow: hidden;
 }
+.pp-photo-btn {
+  padding: 0;
+  border: none;
+  background: none;
+  cursor: pointer;
+  display: block;
+}
 .pp-photo .profile-img {
   width: 100%;
   height: 100%;
@@ -737,6 +744,43 @@ body {
   pointer-events: none;
 }
 
+/* ── 프로필 사진 줌 오버레이 ── */
+.profile-zoom-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.88);
+  z-index: 9999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  animation: pz-bg-in 0.45s ease both;
+  touch-action: none;
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  user-select: none;
+}
+@keyframes pz-bg-in {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+.profile-zoom-img-wrap {
+  animation: pz-img-in 0.55s cubic-bezier(0.16, 1, 0.3, 1) both;
+  will-change: transform, opacity;
+}
+@keyframes pz-img-in {
+  from { transform: scale(0.72); opacity: 0; }
+  to   { transform: scale(1);    opacity: 1; }
+}
+.profile-zoom-img-wrap img {
+  max-width: 88vw;
+  max-height: 82dvh;
+  object-fit: contain;
+  display: block;
+  border-radius: 6px;
+  pointer-events: none;
+  -webkit-touch-callout: none;
+}
+
 /* 하단 가로 사진 배열 */
 .gallery-wide-row {
   display: flex;
@@ -920,7 +964,8 @@ body {
    HEART
 ══════════════════════════════════════════════════════════════════════════════ */
 .heart-section { text-align: center; }
-.heart-section .sec-title {
+.heart-section .sec-title,
+.sec-title.kr {
   font-family: var(--font-pretendard), sans-serif;
   letter-spacing: 0.04em;
   font-weight: 500;

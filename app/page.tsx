@@ -34,15 +34,11 @@ function TypewriterPoem({
   }, [canStart, text, delay, onComplete]);
 
   return (
-    <div ref={ref} style={{ position: "relative" }}>
-      {/* 높이 고정용 ghost text */}
-      <div className="poem-text" style={{ whiteSpace: "pre-line", visibility: "hidden", pointerEvents: "none" }}>
-        {text}
-      </div>
-      {/* 타이핑 텍스트 */}
-      <div className="poem-text" style={{ whiteSpace: "pre-line", position: "absolute", inset: 0 }}>
+    <div ref={ref}>
+      <div className="poem-text" style={{ whiteSpace: "pre-line" }}>
         {displayed}
         {displayed.length < text.length && displayed.length > 0 && <span className="tw-cursor" />}
+        <span style={{ opacity: 0, userSelect: "none" }}>{text.slice(displayed.length)}</span>
       </div>
     </div>
   );
@@ -52,7 +48,7 @@ function TypewriterPoem({
 function FloatingHeart({ originX, originY }: { originX: number; originY: number }) {
   const ref = useRef<HTMLSpanElement>(null);
   const iconSize = useRef(26 + Math.floor(Math.random() * 16));
-  const color = useRef(["#b85c52", "#c0564c", "#bf6058", "#a84d44", "#c45a50", "#b55550"][Math.floor(Math.random() * 6)]);
+  const color = useRef(["#ED4956", "#E8404E", "#F0525E", "#E03D4A", "#EC4758", "#E94B54"][Math.floor(Math.random() * 6)]);
 
   useEffect(() => {
     if (!ref.current) return;
@@ -160,6 +156,7 @@ export default function Home() {
   const [headcount, setHeadcount] = useState(1);
   const [lightboxIndex, setLightboxIndex] = useState<number | null>(null);
   const [lightboxDir, setLightboxDir] = useState<"next" | "prev">("next");
+  const [profileZoom, setProfileZoom] = useState<string | null>(null);
   const touchStartX = useRef<number>(0);
 
   /* ── smooth scroll throttle (desktop only) ── */
@@ -372,6 +369,24 @@ export default function Home() {
   /* ════════════════════════════════════════════════════════════════════════ */
   return (
     <>
+      {profileZoom !== null && (
+        <div className="profile-zoom-overlay" onClick={() => setProfileZoom(null)}>
+          <button
+            className="lightbox-close"
+            onClick={(e) => { e.stopPropagation(); setProfileZoom(null); }}
+            aria-label="닫기"
+          >✕</button>
+          <div className="profile-zoom-img-wrap" onClick={(e) => e.stopPropagation()}>
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img
+              src={profileZoom}
+              alt=""
+              draggable={false}
+              onContextMenu={(e) => e.preventDefault()}
+            />
+          </div>
+        </div>
+      )}
       {lightboxIndex !== null && (
         <div
           className="lightbox-overlay"
@@ -511,12 +526,12 @@ export default function Home() {
 
         {/* 신랑 한영수 — 사진 좌, 텍스트 우 */}
         <div className="pp-card">
-          <div className="pp-photo">
+          <button type="button" className="pp-photo pp-photo-btn" onClick={() => setProfileZoom("/photo1.jpg")} aria-label="신랑 사진 확대">
             <div className="profile-img">
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img src="/photo1.jpg" alt="신랑 한영수" style={{ objectPosition: "center 75%" }} draggable={false} onContextMenu={(e) => e.preventDefault()} />
             </div>
-          </div>
+          </button>
           <div className="pp-info">
             <strong className="pp-name">한영수</strong>
             <span className="pp-name-en">Han Yeongsoo</span>
@@ -539,12 +554,12 @@ export default function Home() {
 
         {/* 신부 구자민 — 텍스트 좌(우정렬), 사진 우 */}
         <div className="pp-card pp-card--reverse">
-          <div className="pp-photo">
+          <button type="button" className="pp-photo pp-photo-btn" onClick={() => setProfileZoom("/photo2.jpg")} aria-label="신부 사진 확대">
             <div className="profile-img">
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img src="/photo2.jpg" alt="신부 구자민" draggable={false} onContextMenu={(e) => e.preventDefault()} />
             </div>
-          </div>
+          </button>
           <div className="pp-info pp-info--right">
             <strong className="pp-name">구자민</strong>
             <span className="pp-name-en">Koo Jamin</span>
@@ -641,7 +656,7 @@ export default function Home() {
 
       {/* ══ ACCOUNT ═════════════════════════════════════════════════════════ */}
       <section className="w-section fade-in">
-        <h2 className="sec-title">마음 전하실 곳</h2>
+        <h2 className="sec-title kr">마음 전하실 곳</h2>
 
         <div className="acc-tabs">
           <button
@@ -673,7 +688,7 @@ export default function Home() {
 
       {/* ══ RSVP ═════════════════════════════════════════════════════════════ */}
       <section className="w-section fade-in">
-        <h2 className="sec-title">참석 여부</h2>
+        <h2 className="sec-title kr">참석 여부</h2>
         <div className="rsvp-form">
           <input
             type="text"
@@ -748,7 +763,7 @@ export default function Home() {
 
         <div className="heart-stage">
           <button id="heart-btn" className="heart-btn" onClick={pressHeart} aria-label="하트 누르기">
-            <Heart size={72} fill="#b85c52" color="#b85c52" strokeWidth={0} />
+            <Heart size={72} fill="#ED4956" color="#ED4956" strokeWidth={0} />
           </button>
         </div>
 
