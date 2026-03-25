@@ -814,77 +814,6 @@ export default function Home() {
         </div>
       </section>
 
-      {/* ══ RSVP ═════════════════════════════════════════════════════════════ */}
-      <section className="w-section fade-in">
-        <h2 className="sec-title kr">참석 여부</h2>
-        <p className="rsvp-date-desc">2026년 7월 5일 13:00</p>
-        <div className="rsvp-form">
-          <input
-            type="text"
-            className="rsvp-name-input"
-            placeholder="이름"
-            maxLength={20}
-            value={gbName}
-            onChange={(e) => setGbName(e.target.value)}
-          />
-          <div className="rsvp-attend-btns">
-            <button
-              className={`rsvp-attend-btn${attend === "yes" ? " active-yes" : ""}`}
-              onClick={() => setAttend("yes")}
-            >
-              참석할게요 🤍
-            </button>
-            <button
-              className={`rsvp-attend-btn${attend === "no" ? " active-no" : ""}`}
-              onClick={() => { setAttend("no"); setSide(null); setMeal(null); setHeadcount(1); }}
-            >
-              함께하지 못해요 🥲
-            </button>
-          </div>
-          {attend === "yes" && (
-            <>
-              <p className="rsvp-sub-label">신랑 측 / 신부 측</p>
-              <div className="rsvp-attend-btns">
-                <button
-                  className={`rsvp-attend-btn${side === "groom" ? " active-yes" : ""}`}
-                  onClick={() => setSide("groom")}
-                >
-                  신랑 측
-                </button>
-                <button
-                  className={`rsvp-attend-btn${side === "bride" ? " active-yes" : ""}`}
-                  onClick={() => setSide("bride")}
-                >
-                  신부 측
-                </button>
-              </div>
-              <p className="rsvp-sub-label">참석 인원</p>
-              <div className="rsvp-headcount">
-                <button className="rsvp-count-btn" onClick={() => setHeadcount((v) => Math.max(1, v - 1))}>−</button>
-                <span className="rsvp-count-num">{headcount}</span>
-                <button className="rsvp-count-btn" onClick={() => setHeadcount((v) => Math.min(10, v + 1))}>+</button>
-              </div>
-              <p className="rsvp-sub-label">식사 여부</p>
-              <div className="rsvp-attend-btns">
-                <button
-                  className={`rsvp-attend-btn${meal === "yes" ? " active-yes" : ""}`}
-                  onClick={() => setMeal("yes")}
-                >
-                  할게요 🍽️
-                </button>
-                <button
-                  className={`rsvp-attend-btn${meal === "no" ? " active-no" : ""}`}
-                  onClick={() => setMeal("no")}
-                >
-                  안 할게요
-                </button>
-              </div>
-            </>
-          )}
-          <button className="rsvp-submit" onClick={submitGuestbook}>전달하기</button>
-        </div>
-      </section>
-
       {/* ══ HEART + MESSAGE ═════════════════════════════════════════════════ */}
       <section className="w-section heart-section fade-in">
         <h2 className="sec-title">Guest Book</h2>
@@ -961,6 +890,77 @@ export default function Home() {
             )}
           </div>
         )}
+      </section>
+
+      {/* ══ RSVP ═════════════════════════════════════════════════════════════ */}
+      <section className="w-section fade-in">
+        <h2 className="sec-title kr">참석 여부</h2>
+        <p className="rsvp-date-desc">2026년 7월 5일 13:00</p>
+        <div className="rsvp-form">
+          <input
+            type="text"
+            className="rsvp-name-input"
+            placeholder="이름"
+            maxLength={20}
+            value={gbName}
+            onChange={(e) => setGbName(e.target.value)}
+          />
+          <div className="rsvp-attend-btns">
+            <button
+              className={`rsvp-attend-btn${attend === "yes" ? " active-yes" : ""}`}
+              onClick={() => setAttend("yes")}
+            >
+              참석할게요 🤍
+            </button>
+            <button
+              className={`rsvp-attend-btn${attend === "no" ? " active-no" : ""}`}
+              onClick={() => { setAttend("no"); setSide(null); setMeal(null); setHeadcount(1); }}
+            >
+              함께하지 못해요 🥲
+            </button>
+          </div>
+          {attend === "yes" && (
+            <>
+              <p className="rsvp-sub-label">신랑 측 / 신부 측</p>
+              <div className="rsvp-attend-btns">
+                <button
+                  className={`rsvp-attend-btn${side === "groom" ? " active-yes" : ""}`}
+                  onClick={() => setSide("groom")}
+                >
+                  신랑 측
+                </button>
+                <button
+                  className={`rsvp-attend-btn${side === "bride" ? " active-yes" : ""}`}
+                  onClick={() => setSide("bride")}
+                >
+                  신부 측
+                </button>
+              </div>
+              <p className="rsvp-sub-label">참석 인원</p>
+              <div className="rsvp-headcount">
+                <button className="rsvp-count-btn" onClick={() => setHeadcount((v) => Math.max(1, v - 1))}>−</button>
+                <span className="rsvp-count-num">{headcount}</span>
+                <button className="rsvp-count-btn" onClick={() => setHeadcount((v) => Math.min(10, v + 1))}>+</button>
+              </div>
+              <p className="rsvp-sub-label">식사 여부</p>
+              <div className="rsvp-attend-btns">
+                <button
+                  className={`rsvp-attend-btn${meal === "yes" ? " active-yes" : ""}`}
+                  onClick={() => setMeal("yes")}
+                >
+                  할게요 🍽️
+                </button>
+                <button
+                  className={`rsvp-attend-btn${meal === "no" ? " active-no" : ""}`}
+                  onClick={() => setMeal("no")}
+                >
+                  안 할게요
+                </button>
+              </div>
+            </>
+          )}
+          <button className="rsvp-submit" onClick={submitGuestbook}>전달하기</button>
+        </div>
       </section>
 
       {/* ══ NOTICE ══════════════════════════════════════════════════════════ */}
