@@ -968,7 +968,7 @@ body {
 /* ── Heart + Message row ── */
 .heart-msg-row {
   display: flex;
-  align-items: flex-start;
+  align-items: stretch;
   justify-content: center;
 }
 .heart-col {
@@ -976,12 +976,13 @@ body {
   display: flex;
   flex-direction: column;
   align-items: center;
+  justify-content: flex-start;
+  padding: 1.8rem 0;
 }
 .heart-msg-divider {
   width: 1px;
-  height: 140px;
   background: #e0dbd5;
-  align-self: center;
+  align-self: stretch;
 }
 
 /* ── Message icon button ── */
@@ -996,7 +997,7 @@ body {
   justify-content: center;
 }
 .msg-bubble-emoji {
-  font-size: 52px;
+  font-size: 38px;
   line-height: 1;
   filter: grayscale(0.3);
 }
@@ -1093,7 +1094,8 @@ body {
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 120px;
+  height: 80px;
+  width: 100%;
 }
 .heart-btn {
   background: none;
@@ -1122,20 +1124,25 @@ body {
   transform-origin: center center;
 }
 .heart-counter {
+  height: 56px;
   display: flex;
-  align-items: baseline;
+  align-items: flex-end;
   justify-content: center;
   gap: 0.45em;
-  margin-top: 1.4rem;
+  margin-top: 1rem;
 }
 #heart-count {
-  font-size: 34px;
-  font-weight: 600;
+  font-size: 36px;
+  font-weight: 300;
   color: #2c2a24;
-  font-family: var(--font-cinzel), serif;
-  letter-spacing: 0.04em;
+  font-family: var(--font-cormorant), serif;
+  font-style: italic;
+  letter-spacing: 0.02em;
   display: inline-block;
   will-change: transform;
+  font-variant-numeric: tabular-nums;
+  position: relative;
+  top: 12px;
 }
 .heart-counter-label {
   font-size: 10px;

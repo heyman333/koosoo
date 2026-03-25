@@ -54,8 +54,8 @@ function FloatingHeart({ originX, originY }: { originX: number; originY: number 
     if (!ref.current) return;
 
     const totalDist = originY - 10;
-    const baseAmp   = 60 + Math.random() * 40; // 최대 흔들림 반경
-    const baseDur   = 2.1 + Math.random() * 0.5; // 구간당 기본 속도
+    const baseAmp   = 110 + Math.random() * 70; // 좌우 흔들림 반경 확대
+    const baseDur   = 3.2 + Math.random() * 1.0; // 구간당 속도 느리게
 
     // 6개 랜덤 waypoint — 진짜 자유로운 표류
     const segs = 6;
@@ -116,12 +116,6 @@ const BRIDE_ACCOUNTS = [
   { role: "혼주", name: "김희진", bank: "국민은행", num: "012345-67890-666" },
 ];
 
-/* July 2026 starts on Wednesday (index 3), 31 days → 3 leading empties + 1 trailing */
-const CAL_DAYS: (number | null)[] = [
-  null, null, null,
-  ...Array.from({ length: 31 }, (_, i) => i + 1),
-  null,
-];
 
 const GALLERY_PHOTOS = [
   "/p01.jpg", "/p02.jpg", "/p03.jpg",
@@ -382,6 +376,72 @@ export default function Home() {
     setGbName(""); setAttend(null); setSide(null); setMeal(null); setHeadcount(1);
   }
 
+  function triggerConfetti() {
+    const colors = ["#ED4956", "#F0C5C8", "#D4A8A0", "#F7E6D0", "#C8A882", "#ffffff", "#f5c6cb"];
+    const count = 130;
+    const cx = window.innerWidth / 2;
+    const cy = window.innerHeight;
+
+    for (let i = 0; i < count; i++) {
+      const isHeart = Math.random() < 0.25;
+      const el = document.createElement(isHeart ? "span" : "div");
+      const color = colors[Math.floor(Math.random() * colors.length)];
+
+      // 발사 위치: 화면 하단 중앙 ±100px
+      const launchX = cx + (Math.random() - 0.5) * 200;
+
+      if (isHeart) {
+        el.textContent = "♥";
+        el.style.cssText = `
+          position: fixed;
+          font-size: ${11 + Math.random() * 10}px;
+          color: ${["#ED4956", "#E8404E", "#F0525E"][Math.floor(Math.random() * 3)]};
+          pointer-events: none;
+          z-index: 9999;
+          left: ${launchX}px;
+          top: ${cy}px;
+          line-height: 1;
+        `;
+      } else {
+        const size = 5 + Math.random() * 8;
+        el.style.cssText = `
+          position: fixed;
+          width: ${size}px;
+          height: ${size}px;
+          background: ${color};
+          border-radius: ${Math.random() > 0.4 ? "50%" : "2px"};
+          pointer-events: none;
+          z-index: 9999;
+          left: ${launchX}px;
+          top: ${cy}px;
+        `;
+      }
+
+      document.body.appendChild(el);
+
+      const spreadX = (Math.random() - 0.5) * window.innerWidth * 0.9;
+      const riseH   = cy * (0.45 + Math.random() * 0.45);
+      const dur1    = 0.6  + Math.random() * 0.35;
+      const dur2    = 1.6  + Math.random() * 1.2;
+
+      gsap.timeline({ delay: Math.random() * 0.35 })
+        .fromTo(el,
+          { x: 0, y: 0, scale: 0, rotation: 0, opacity: 1 },
+          { x: spreadX, y: -riseH, scale: 1, rotation: (Math.random() - 0.5) * 360, duration: dur1, ease: "power2.out" }
+        )
+        .to(el, {
+          x: spreadX + (Math.random() - 0.5) * 80,
+          y: 80,
+          rotation: `+=${(Math.random() - 0.5) * 600}`,
+          opacity: 0,
+          scale: 0.2,
+          duration: dur2,
+          ease: "power2.in",
+          onComplete: () => el.remove(),
+        });
+    }
+  }
+
   async function submitMessage() {
     if (!msgName.trim() || !msgText.trim()) return;
     setMsgSubmitting(true);
@@ -413,6 +473,8 @@ export default function Home() {
     const next = heartCount + 1;
     setHeartCount(next);
     localStorage.setItem("koosoo-hearts", String(next));
+
+    if (next % 100 === 0) triggerConfetti();
 
     // 버튼 bounce
     gsap.killTweensOf("#heart-btn");
@@ -578,24 +640,6 @@ export default function Home() {
         </div>
       </section>
 
-      {/* ══ CALENDAR ════════════════════════════════════════════════════════ */}
-      <section className="w-section fade-in">
-        <h2 className="sec-title">Calendar</h2>
-
-        <div className="calendar">
-          <div className="cal-month"><em>July</em></div>
-          <div className="cal-grid">
-            {["일", "월", "화", "수", "목", "금", "토"].map((d) => (
-              <div key={d} className={`cal-day-label${d === "일" ? " cal-sun" : ""}`}>{d}</div>
-            ))}
-            {CAL_DAYS.map((day, i) => (
-              <div key={i} className="cal-day">
-                {day === 5 ? <span className="cal-hl-num">5</span> : day ?? ""}
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
 
       {/* ══ PROFILE ═════════════════════════════════════════════════════════ */}
       <section className="w-section profile-section fade-in" ref={poemRef}>
@@ -833,17 +877,33 @@ export default function Home() {
         </div>
       </section>
 
+      {/* ══ NOTICE ══════════════════════════════════════════════════════════ */}
+      <section className="w-section fade-in">
+        <h2 className="sec-title">Notice</h2>
+
+        <div className="notice-box">
+          <ul>
+            <li>웨딩홀 주차장은 공간이 넉넉치 않아 건너편 건국대로 안내받으실 수 있습니다. 주차 후 도보로 다시 웨딩홀로 이동하실 때 5-10분 정도 소요됩니다. (웨딩홀 주차장은 1시간 무료, 건국대 주차장은 2시간 무료)</li>
+            <li>연회장은 지하 1층, 예식장은 2층에 위치해있습니다.</li>
+            <li>식사는 12시 30분부터 14시 30분까지 가능합니다.</li>
+          </ul>
+        </div>
+
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+        <img src="/letter.png" alt="신랑신부 편지" className="letter-img fade-in" draggable={false} onContextMenu={(e) => e.preventDefault()} />
+      </section>
+
       {/* ══ HEART + MESSAGE ═════════════════════════════════════════════════ */}
       <section className="w-section heart-section fade-in">
-        <h2 className="sec-title">마음을 전해요</h2>
-        <p className="heart-desc">축하의 마음을 담아 하트를 눌러보세요</p>
+        <h2 className="sec-title">축하의 마음을 남겨주세요</h2>
+        <p className="heart-desc">축하의 마음을 담아 하트를 눌러보세요!<br />백번째마다 재미있는 일이 생겨요.</p>
 
         <div className="heart-msg-row">
           {/* 하트 */}
           <div className="heart-col">
             <div className="heart-stage">
               <button id="heart-btn" className="heart-btn" onClick={pressHeart} aria-label="하트 누르기">
-                <Heart size={72} fill="#ED4956" color="#ED4956" strokeWidth={0} />
+                <Heart size={46} fill="#ED4956" color="#ED4956" strokeWidth={0} />
               </button>
             </div>
             <div className="heart-counter">
@@ -908,26 +968,10 @@ export default function Home() {
         )}
       </section>
 
-      {/* ══ NOTICE ══════════════════════════════════════════════════════════ */}
-      <section className="w-section fade-in">
-        <h2 className="sec-title">Notice</h2>
-
-        <div className="notice-box">
-          <ul>
-            <li>웨딩홀 주차장은 공간이 넉넉치 않아 건너편 건국대로 안내받으실 수 있습니다. 주차 후 도보로 다시 웨딩홀로 이동하실 때 5-10분 정도 소요됩니다. (웨딩홀 주차장은 1시간 무료, 건국대 주차장은 2시간 무료)</li>
-            <li>연회장은 지하 1층, 예식장은 2층에 위치해있습니다.</li>
-            <li>식사는 12시 30분부터 14시 30분까지 가능합니다.</li>
-          </ul>
-        </div>
-
-        {/* eslint-disable-next-line @next/next/no-img-element */}
-        <img src="/letter.png" alt="신랑신부 편지" className="letter-img fade-in" draggable={false} onContextMenu={(e) => e.preventDefault()} />
-
-        <div className="share-btns">
-          <button className="share-btn" onClick={copyLink}>🔗 링크 복사</button>
-          <button className="share-btn" onClick={shareKakao}>💬 카카오톡 공유</button>
-        </div>
-      </section>
+      <div className="share-btns fade-in" style={{ padding: "0 2rem 2rem" }}>
+        <button className="share-btn" onClick={copyLink}>🔗 링크 복사</button>
+        <button className="share-btn" onClick={shareKakao}>💬 카카오톡 공유</button>
+      </div>
 
       {/* ══ FOOTER ══════════════════════════════════════════════════════════ */}
       <footer className="wedding-footer">
