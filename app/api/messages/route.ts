@@ -1,22 +1,12 @@
-import { Redis } from "@upstash/redis";
 import { NextResponse } from "next/server";
 
-const redis = new Redis({
-  url: process.env.UPSTASH_REDIS_REST_URL!,
-  token: process.env.UPSTASH_REDIS_REST_TOKEN!,
-});
+// TODO: Supabase 연결 후 아래 구현 교체
+// import { createClient } from '@supabase/supabase-js'
+// const supabase = createClient(process.env.SUPABASE_URL!, process.env.SUPABASE_ANON_KEY!)
 
-const KEY = "koosoo:messages";
-const PAGE_SIZE = 5;
-
-export async function GET(req: Request) {
-  const { searchParams } = new URL(req.url);
-  const offset = parseInt(searchParams.get("offset") ?? "0");
-  const [messages, total] = await Promise.all([
-    redis.lrange(KEY, offset, offset + PAGE_SIZE - 1),
-    redis.llen(KEY),
-  ]);
-  return NextResponse.json({ messages, total });
+export async function GET() {
+  // TODO: supabase.from('messages').select('*').order('at', { ascending: false })
+  return NextResponse.json({ messages: [], total: 0 });
 }
 
 export async function POST(req: Request) {
@@ -24,7 +14,7 @@ export async function POST(req: Request) {
   if (!name?.trim() || !message?.trim()) {
     return NextResponse.json({ error: "invalid" }, { status: 400 });
   }
+  // TODO: supabase.from('messages').insert({ name, message, at: Date.now() })
   const item = { name: name.trim(), message: message.trim(), at: Date.now() };
-  await redis.lpush(KEY, item);
   return NextResponse.json(item);
 }
