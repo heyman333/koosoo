@@ -45,7 +45,7 @@ function TypewriterPoem({
 }
 
 /* ── FloatingHeart 파티클 — 풍선처럼 흔들리며 천천히 상승 ── */
-function FloatingHeart({ originX, originY }: { originX: number; originY: number }) {
+function FloatingHeart({ originX, originY, maxRise }: { originX: number; originY: number; maxRise?: number }) {
   const ref = useRef<HTMLSpanElement>(null);
   const iconSize = useRef(26 + Math.floor(Math.random() * 16));
   const color = useRef(["#ED4956", "#E8404E", "#F0525E", "#E03D4A", "#EC4758", "#E94B54"][Math.floor(Math.random() * 6)]);
@@ -53,12 +53,13 @@ function FloatingHeart({ originX, originY }: { originX: number; originY: number 
   useEffect(() => {
     if (!ref.current) return;
 
-    const totalDist = originY - 10;
-    const baseAmp   = 110 + Math.random() * 70; // 좌우 흔들림 반경 확대
-    const baseDur   = 3.2 + Math.random() * 1.0; // 구간당 속도 느리게
+    const totalDist = maxRise ?? originY - 10;
+    const baseAmp   = 50 + Math.random() * 30;
+    const segs      = 6;
+    const speed     = 120 + Math.random() * 40; // px/s — 거리 무관하게 속도 일정
+    const baseDur   = (totalDist / segs) / speed;
 
     // 6개 랜덤 waypoint — 진짜 자유로운 표류
-    const segs = 6;
     let prevX = 0;
     const waypoints = Array.from({ length: segs }, (_, i) => {
       const progress = (i + 1) / segs;
@@ -86,7 +87,7 @@ function FloatingHeart({ originX, originY }: { originX: number; originY: number 
 
     // 자유 표류 구간
     waypoints.forEach((wp) => {
-      tl.to(ref.current!, { ...wp, ease: "sine.inOut" });
+      tl.to(ref.current!, { ...wp, ease: "none" });
     });
 
     return () => { tl.kill(); };
@@ -142,7 +143,7 @@ export default function Home() {
     if (typeof window === "undefined") return 0;
     return parseInt(localStorage.getItem("koosoo-hearts") ?? "0", 10);
   });
-  const [plusItems, setPlusItems] = useState<{ id: number; x: number; y: number }[]>([]);
+  const [plusItems, setPlusItems] = useState<{ id: number; x: number; y: number; maxRise?: number }[]>([]);
   const [gbName, setGbName] = useState("");
   const [attend, setAttend] = useState<"yes" | "no" | null>(null);
   const [side, setSide] = useState<"groom" | "bride" | null>(null);
@@ -500,8 +501,14 @@ export default function Home() {
     const ox = btnRect ? btnRect.left + btnRect.width / 2 - (containerRect?.left ?? 0) : 240;
     const oy = btnRect ? btnRect.top + btnRect.height / 2 - (containerRect?.top ?? 0) : 400;
 
+    const letterImg = document.querySelector(".letter-img");
+    const letterRect = letterImg?.getBoundingClientRect();
+    const maxRise = letterRect && btnRect
+      ? btnRect.top - letterRect.top
+      : undefined;
+
     const id = Date.now() + Math.random();
-    setPlusItems((prev) => [...prev, { id, x: ox, y: oy }]);
+    setPlusItems((prev) => [...prev, { id, x: ox, y: oy, maxRise }]);
     setTimeout(() => setPlusItems((prev) => prev.filter((i) => i.id !== id)), 12000);
   }
 
@@ -571,7 +578,7 @@ export default function Home() {
 
       <div className="page-container">
       <div className="hearts-portal" aria-hidden="true">
-        {plusItems.map(({ id, x, y }) => <FloatingHeart key={id} originX={x} originY={y} />)}
+        {plusItems.map(({ id, x, y, maxRise }) => <FloatingHeart key={id} originX={x} originY={y} maxRise={maxRise} />)}
       </div>
       {/* ══ HERO — illust → photo crossfade ══════════════════════════════════ */}
       <section className="illust-crossfade-section">
@@ -810,6 +817,7 @@ export default function Home() {
       {/* ══ RSVP ═════════════════════════════════════════════════════════════ */}
       <section className="w-section fade-in">
         <h2 className="sec-title kr">참석 여부</h2>
+        <p className="heart-desc" style={{ textAlign: "center" }}>2026년 7월 5일 13:00</p>
         <div className="rsvp-form">
           <input
             type="text"
@@ -878,7 +886,7 @@ export default function Home() {
       </section>
 
       {/* ══ NOTICE ══════════════════════════════════════════════════════════ */}
-      <section className="w-section fade-in">
+      <section className="w-section w-section--narrow fade-in">
         <h2 className="sec-title">Notice</h2>
 
         <div className="notice-box">
@@ -890,12 +898,11 @@ export default function Home() {
         </div>
 
         {/* eslint-disable-next-line @next/next/no-img-element */}
-        <img src="/letter.png" alt="신랑신부 편지" className="letter-img fade-in" draggable={false} onContextMenu={(e) => e.preventDefault()} />
+        <img src="/letter.png" alt="신랑신부 편지" className="letter-img" draggable={false} onContextMenu={(e) => e.preventDefault()} />
       </section>
 
       {/* ══ HEART + MESSAGE ═════════════════════════════════════════════════ */}
       <section className="w-section heart-section fade-in">
-        <h2 className="sec-title">축하의 마음을 남겨주세요</h2>
         <p className="heart-desc">축하의 마음을 담아 하트를 눌러보세요!<br />백번째마다 재미있는 일이 생겨요.</p>
 
         <div className="heart-msg-row">
