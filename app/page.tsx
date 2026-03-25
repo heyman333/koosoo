@@ -817,7 +817,7 @@ export default function Home() {
       {/* ══ RSVP ═════════════════════════════════════════════════════════════ */}
       <section className="w-section fade-in">
         <h2 className="sec-title kr">참석 여부</h2>
-        <p className="heart-desc" style={{ textAlign: "center" }}>2026년 7월 5일 13:00</p>
+        <p className="rsvp-date-desc">2026년 7월 5일 13:00</p>
         <div className="rsvp-form">
           <input
             type="text"
@@ -887,6 +887,10 @@ export default function Home() {
 
       {/* ══ HEART + MESSAGE ═════════════════════════════════════════════════ */}
       <section className="w-section heart-section fade-in">
+        <h2 className="sec-title">Guest Book</h2>
+
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+        <img src="/letter.png" alt="신랑신부 편지" className="letter-img" draggable={false} onContextMenu={(e) => e.preventDefault()} style={{ margin: "60px auto 4rem" }} />
         <p className="heart-desc">축하의 마음을 담아 하트를 눌러보세요!<br />백번째마다 재미있는 일이 생겨요.</p>
 
         <div className="heart-msg-row">
@@ -970,9 +974,6 @@ export default function Home() {
             <li>식사는 12시 30분부터 14시 30분까지 가능합니다.</li>
           </ul>
         </div>
-
-        {/* eslint-disable-next-line @next/next/no-img-element */}
-        <img src="/letter.png" alt="신랑신부 편지" className="letter-img" draggable={false} onContextMenu={(e) => e.preventDefault()} />
       </section>
 
       <div className="share-btns fade-in" style={{ padding: "0 2rem 2rem" }}>
