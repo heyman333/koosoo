@@ -159,6 +159,28 @@ export default function Home() {
   const [profileZoom, setProfileZoom] = useState<string | null>(null);
   const touchStartX = useRef<number>(0);
 
+  /* ── message state ── */
+  type MsgItem = { name: string; message: string; at: number };
+  const [msgMode, setMsgMode] = useState<"list" | "input">("list");
+  const [messages, setMessages] = useState<MsgItem[]>([]);
+  const [msgTotal, setMsgTotal] = useState(0);
+  const [msgOffset, setMsgOffset] = useState(5);
+  const [msgName, setMsgName] = useState("");
+  const [msgText, setMsgText] = useState("");
+  const [msgSubmitting, setMsgSubmitting] = useState(false);
+
+  /* ── fetch initial messages ── */
+  useEffect(() => {
+    fetch("/api/messages?offset=0")
+      .then((r) => r.json())
+      .then((data) => {
+        setMessages(data.messages ?? []);
+        setMsgTotal(data.total ?? 0);
+        setMsgOffset(5);
+      })
+      .catch(() => {});
+  }, []);
+
   /* ── smooth scroll throttle (desktop only) ── */
   useEffect(() => {
     const isTouch = window.matchMedia("(hover: none)").matches;
@@ -358,6 +380,33 @@ export default function Home() {
     const detail = attend === "yes" ? `${sideText} · ${headcount}명 · 식사 ${meal === "yes" ? "예" : "아니오"}` : "불참";
     alert(`${gbName.trim()}님 — ${detail}\n전달되었습니다. 감사합니다!`);
     setGbName(""); setAttend(null); setSide(null); setMeal(null); setHeadcount(1);
+  }
+
+  async function submitMessage() {
+    if (!msgName.trim() || !msgText.trim()) return;
+    setMsgSubmitting(true);
+    try {
+      const res = await fetch("/api/messages", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ name: msgName, message: msgText }),
+      });
+      const item = await res.json();
+      setMessages((prev) => [item, ...prev]);
+      setMsgTotal((t) => t + 1);
+      setMsgName("");
+      setMsgText("");
+      setMsgMode("list");
+    } finally {
+      setMsgSubmitting(false);
+    }
+  }
+
+  async function loadMoreMessages() {
+    const res = await fetch(`/api/messages?offset=${msgOffset}`);
+    const data = await res.json();
+    setMessages((prev) => [...prev, ...(data.messages ?? [])]);
+    setMsgOffset((o) => o + 5);
   }
 
   function pressHeart() {
@@ -784,21 +833,79 @@ export default function Home() {
         </div>
       </section>
 
-      {/* ══ HEART ════════════════════════════════════════════════════════════ */}
+      {/* ══ HEART + MESSAGE ═════════════════════════════════════════════════ */}
       <section className="w-section heart-section fade-in">
         <h2 className="sec-title">마음을 전해요</h2>
-        <p className="heart-desc">탭해서 마음을 전할 수 있어요</p>
+        <p className="heart-desc">축하의 마음을 담아 하트를 눌러보세요</p>
 
-        <div className="heart-stage">
-          <button id="heart-btn" className="heart-btn" onClick={pressHeart} aria-label="하트 누르기">
-            <Heart size={72} fill="#ED4956" color="#ED4956" strokeWidth={0} />
-          </button>
+        <div className="heart-msg-row">
+          {/* 하트 */}
+          <div className="heart-col">
+            <div className="heart-stage">
+              <button id="heart-btn" className="heart-btn" onClick={pressHeart} aria-label="하트 누르기">
+                <Heart size={72} fill="#ED4956" color="#ED4956" strokeWidth={0} />
+              </button>
+            </div>
+            <div className="heart-counter">
+              <span id="heart-count">{heartCount.toLocaleString()}</span>
+              <span className="heart-counter-label">hearts</span>
+            </div>
+          </div>
+
+          <div className="heart-msg-divider" />
+
+          {/* 메시지 */}
+          <div className="heart-col">
+            <div className="heart-stage">
+              <button
+                className="msg-icon-btn"
+                onClick={() => setMsgMode((m) => (m === "input" ? "list" : "input"))}
+                aria-label="메시지 남기기"
+              >
+                <span className="msg-bubble-emoji">💬</span>
+              </button>
+            </div>
+            <div className="heart-counter">
+              <span className="heart-counter-label">message</span>
+            </div>
+          </div>
         </div>
 
-        <div className="heart-counter">
-          <span id="heart-count">{heartCount.toLocaleString()}</span>
-          <span className="heart-counter-label">hearts</span>
-        </div>
+        {/* 메시지 입력 폼 */}
+        {msgMode === "input" && (
+          <div className="msg-input-area">
+            <input
+              className="msg-field"
+              placeholder="이름"
+              value={msgName}
+              onChange={(e) => setMsgName(e.target.value)}
+            />
+            <textarea
+              className="msg-field msg-textarea"
+              placeholder="축하 메시지를 남겨주세요"
+              value={msgText}
+              onChange={(e) => setMsgText(e.target.value)}
+            />
+            <button className="msg-submit-btn" onClick={submitMessage} disabled={msgSubmitting}>
+              남기기
+            </button>
+          </div>
+        )}
+
+        {/* 메시지 리스트 */}
+        {msgMode === "list" && (
+          <div className="msg-list">
+            {messages.map((m) => (
+              <div key={m.at} className="msg-item">
+                <div className="msg-name">{m.name}</div>
+                <div className="msg-text">{m.message}</div>
+              </div>
+            ))}
+            {messages.length < msgTotal && (
+              <button className="msg-more-btn" onClick={loadMoreMessages}>더 보기</button>
+            )}
+          </div>
+        )}
       </section>
 
       {/* ══ NOTICE ══════════════════════════════════════════════════════════ */}

@@ -964,6 +964,117 @@ body {
    HEART
 ══════════════════════════════════════════════════════════════════════════════ */
 .heart-section { text-align: center; }
+
+/* ── Heart + Message row ── */
+.heart-msg-row {
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+}
+.heart-col {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.heart-msg-divider {
+  width: 1px;
+  height: 140px;
+  background: #e0dbd5;
+  align-self: center;
+}
+
+/* ── Message icon button ── */
+.msg-icon-btn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  -webkit-tap-highlight-color: transparent;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.msg-bubble-emoji {
+  font-size: 52px;
+  line-height: 1;
+  filter: grayscale(0.3);
+}
+
+/* ── Message input form ── */
+.msg-input-area {
+  margin-top: 2rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+.msg-field {
+  width: 100%;
+  padding: 0.85rem 1rem;
+  border: 1px solid #e0dbd5;
+  border-radius: 10px;
+  font-size: 14px;
+  font-family: var(--font-pretendard), sans-serif;
+  color: #2c2a24;
+  background: #fff;
+  box-sizing: border-box;
+  outline: none;
+  resize: none;
+}
+.msg-field::placeholder { color: #bbb; }
+.msg-field:focus { border-color: #c9bfb5; }
+.msg-textarea { min-height: 100px; }
+.msg-submit-btn {
+  width: 100%;
+  padding: 1rem;
+  background: #2c2a24;
+  color: #fff;
+  border: none;
+  border-radius: 10px;
+  font-size: 15px;
+  font-family: var(--font-pretendard), sans-serif;
+  font-weight: 600;
+  cursor: pointer;
+  letter-spacing: 0.04em;
+}
+.msg-submit-btn:disabled { opacity: 0.5; cursor: default; }
+
+/* ── Message list ── */
+.msg-list {
+  margin-top: 1.8rem;
+  text-align: left;
+}
+.msg-item {
+  padding: 1rem 0;
+  border-bottom: 1px solid #ede9e4;
+}
+.msg-item:first-child { border-top: 1px solid #ede9e4; }
+.msg-name {
+  font-size: 13px;
+  font-weight: 600;
+  color: #2c2a24;
+  font-family: var(--font-pretendard), sans-serif;
+  margin-bottom: 0.3rem;
+}
+.msg-text {
+  font-size: 13px;
+  color: #666;
+  font-family: var(--font-pretendard), sans-serif;
+  line-height: 1.6;
+}
+.msg-more-btn {
+  width: 100%;
+  margin-top: 1rem;
+  padding: 0.9rem;
+  background: none;
+  border: 1px solid #e0dbd5;
+  border-radius: 10px;
+  font-size: 13px;
+  color: #888;
+  font-family: var(--font-pretendard), sans-serif;
+  cursor: pointer;
+  letter-spacing: 0.03em;
+}
 .heart-section .sec-title,
 .sec-title.kr {
   font-family: var(--font-pretendard), sans-serif;
@@ -1171,7 +1282,7 @@ body {
   display: block;
   width: 100%;
   max-width: 420px;
-  margin: 2.4rem auto 2rem;
+  margin: 7rem auto 2rem;
   border-radius: 4px;
   opacity: 0.93;
   mix-blend-mode: multiply;
