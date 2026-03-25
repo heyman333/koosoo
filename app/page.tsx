@@ -885,22 +885,6 @@ export default function Home() {
         </div>
       </section>
 
-      {/* ══ NOTICE ══════════════════════════════════════════════════════════ */}
-      <section className="w-section w-section--narrow fade-in">
-        <h2 className="sec-title">Notice</h2>
-
-        <div className="notice-box">
-          <ul>
-            <li>웨딩홀 주차장은 공간이 넉넉치 않아 건너편 건국대로 안내받으실 수 있습니다. 주차 후 도보로 다시 웨딩홀로 이동하실 때 5-10분 정도 소요됩니다. (웨딩홀 주차장은 1시간 무료, 건국대 주차장은 2시간 무료)</li>
-            <li>연회장은 지하 1층, 예식장은 2층에 위치해있습니다.</li>
-            <li>식사는 12시 30분부터 14시 30분까지 가능합니다.</li>
-          </ul>
-        </div>
-
-        {/* eslint-disable-next-line @next/next/no-img-element */}
-        <img src="/letter.png" alt="신랑신부 편지" className="letter-img" draggable={false} onContextMenu={(e) => e.preventDefault()} />
-      </section>
-
       {/* ══ HEART + MESSAGE ═════════════════════════════════════════════════ */}
       <section className="w-section heart-section fade-in">
         <p className="heart-desc">축하의 마음을 담아 하트를 눌러보세요!<br />백번째마다 재미있는 일이 생겨요.</p>
@@ -973,6 +957,22 @@ export default function Home() {
             )}
           </div>
         )}
+      </section>
+
+      {/* ══ NOTICE ══════════════════════════════════════════════════════════ */}
+      <section className="w-section w-section--narrow fade-in">
+        <h2 className="sec-title">Notice</h2>
+
+        <div className="notice-box">
+          <ul>
+            <li>웨딩홀 주차장은 공간이 넉넉치 않아 건너편 건국대로 안내받으실 수 있습니다. 주차 후 도보로 다시 웨딩홀로 이동하실 때 5-10분 정도 소요됩니다. (웨딩홀 주차장은 1시간 무료, 건국대 주차장은 2시간 무료)</li>
+            <li>연회장은 지하 1층, 예식장은 2층에 위치해있습니다.</li>
+            <li>식사는 12시 30분부터 14시 30분까지 가능합니다.</li>
+          </ul>
+        </div>
+
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+        <img src="/letter.png" alt="신랑신부 편지" className="letter-img" draggable={false} onContextMenu={(e) => e.preventDefault()} />
       </section>
 
       <div className="share-btns fade-in" style={{ padding: "0 2rem 2rem" }}>
