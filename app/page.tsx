@@ -813,6 +813,9 @@ export default function Home() {
           </ul>
         </div>
 
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+        <img src="/letter.png" alt="신랑신부 편지" className="letter-img fade-in" draggable={false} onContextMenu={(e) => e.preventDefault()} />
+
         <div className="share-btns">
           <button className="share-btn" onClick={copyLink}>🔗 링크 복사</button>
           <button className="share-btn" onClick={shareKakao}>💬 카카오톡 공유</button>
