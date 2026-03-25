@@ -321,6 +321,34 @@ export default function Home() {
   function copyLink() {
     navigator.clipboard.writeText(location.href).then(() => alert("링크가 복사되었습니다."));
   }
+  function shareKakao() {
+    const kakao = (window as any).Kakao;
+    if (!kakao) return;
+    if (!kakao.isInitialized()) {
+      kakao.init(process.env.NEXT_PUBLIC_KAKAO_APP_KEY);
+    }
+    kakao.Share.sendDefault({
+      objectType: "feed",
+      content: {
+        title: "한영수 ❤️ 구자민 - 2026.7.5",
+        description: "저희 두 사람의 특별한 날에 초대합니다.",
+        imageUrl: "https://koosoo.vercel.app/illust.png",
+        link: {
+          mobileWebUrl: "https://koosoo.vercel.app",
+          webUrl: "https://koosoo.vercel.app",
+        },
+      },
+      buttons: [
+        {
+          title: "청첩장 보기",
+          link: {
+            mobileWebUrl: "https://koosoo.vercel.app",
+            webUrl: "https://koosoo.vercel.app",
+          },
+        },
+      ],
+    });
+  }
   function submitGuestbook() {
     if (!gbName.trim()) { alert("이름을 입력해주세요."); return; }
     if (!attend) { alert("참석 여부를 선택해주세요."); return; }
@@ -787,7 +815,7 @@ export default function Home() {
 
         <div className="share-btns">
           <button className="share-btn" onClick={copyLink}>🔗 링크 복사</button>
-          <button className="share-btn">💬 카카오톡 공유</button>
+          <button className="share-btn" onClick={shareKakao}>💬 카카오톡 공유</button>
         </div>
       </section>
 

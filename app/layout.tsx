@@ -1,4 +1,5 @@
 import type { Metadata, Viewport } from "next";
+import Script from "next/script";
 import localFont from "next/font/local";
 import { Cormorant_Garamond, Cinzel, Special_Elite, Nunito, Nanum_Myeongjo } from "next/font/google";
 import "./globals.css";
@@ -89,6 +90,10 @@ export default function RootLayout({
         className={`${pretendard.variable} ${cormorant.variable} ${cinzel.variable} ${specialElite.variable} ${nunito.variable} ${nanumMyeongjo.variable} antialiased`}
       >
         {children}
+        <Script
+          src="https://t1.kakaocdn.net/kakao_js_sdk/2.7.4/kakao.min.js"
+          strategy="afterInteractive"
+        />
       </body>
     </html>
   );
