@@ -132,7 +132,6 @@ const ALL_PHOTOS = [...GALLERY_PHOTOS, ...GALLERY_WIDE];
 
 /* ════════════════════════════════════════════════════════════════════════════ */
 export default function Home() {
-  const cursorRef = useRef<HTMLDivElement>(null);
   const [activeTab, setActiveTab] = useState<"groom" | "bride">("groom");
   const galleryRowRef = useRef<HTMLDivElement>(null);
   const [poem1Done, setPoem1Done] = useState(false);
@@ -236,15 +235,6 @@ export default function Home() {
     };
   }, []);
 
-  /* ── cursor ── */
-  useEffect(() => {
-    const cursor = cursorRef.current;
-    if (!cursor) return;
-    const onMove = (e: MouseEvent) =>
-      gsap.to(cursor, { x: e.clientX, y: e.clientY, duration: 0.2, ease: "power2.out", opacity: 1 });
-    window.addEventListener("mousemove", onMove);
-    return () => window.removeEventListener("mousemove", onMove);
-  }, []);
 
   /* ── GSAP hero ── */
   useEffect(() => {
@@ -619,7 +609,6 @@ export default function Home() {
           <div className="lightbox-counter">{lightboxIndex + 1} / {ALL_PHOTOS.length}</div>
         </div>
       )}
-      <div className="cursor-dot" ref={cursorRef} />
       <div id="progress-bar" />
 
       <div className="page-container">
@@ -886,7 +875,37 @@ export default function Home() {
 
           {/* 메시지 */}
           <div className="heart-col">
-            <div className="heart-stage">
+            <div className="heart-stage" style={{ position: "relative" }}>
+              {msgMode !== "input" && (
+                <div style={{
+                  position: "absolute",
+                  bottom: "calc(100% + 10px)",
+                  left: "50%",
+                  transform: "translateX(-50%)",
+                  background: "#fff",
+                  border: "1px solid #f0d9d5",
+                  borderRadius: "10px",
+                  padding: "5px 10px",
+                  fontSize: "0.7rem",
+                  color: "#b0918a",
+                  whiteSpace: "nowrap",
+                  pointerEvents: "none",
+                  boxShadow: "0 2px 8px rgba(0,0,0,0.08)",
+                }}>
+                  눌러서 메시지 남기기 💌
+                  <span style={{
+                    position: "absolute",
+                    bottom: "-5px",
+                    left: "50%",
+                    transform: "translateX(-50%) rotate(45deg)",
+                    width: "8px",
+                    height: "8px",
+                    background: "#fff",
+                    borderRight: "1px solid #f0d9d5",
+                    borderBottom: "1px solid #f0d9d5",
+                  }} />
+                </div>
+              )}
               <button
                 className="msg-icon-btn"
                 onClick={() => setMsgMode((m) => (m === "input" ? "list" : "input"))}
