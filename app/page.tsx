@@ -366,11 +366,22 @@ export default function Home() {
       ],
     });
   }
-  function submitGuestbook() {
+  async function submitGuestbook() {
     if (!gbName.trim()) { alert("이름을 입력해주세요."); return; }
     if (!attend) { alert("참석 여부를 선택해주세요."); return; }
     if (attend === "yes" && !side) { alert("신랑측/신부측을 선택해주세요."); return; }
     if (attend === "yes" && !meal) { alert("식사 여부를 선택해주세요."); return; }
+    try {
+      const res = await fetch("/api/rsvp", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ name: gbName, attend, side, headcount, meal }),
+      });
+      if (!res.ok) throw new Error();
+    } catch {
+      alert("전송에 실패했습니다. 다시 시도해주세요.");
+      return;
+    }
     const sideText = side === "groom" ? "신랑 측" : "신부 측";
     const detail = attend === "yes" ? `${sideText} · ${headcount}명 · 식사 ${meal === "yes" ? "예" : "아니오"}` : "불참";
     alert(`${gbName.trim()}님 — ${detail}\n전달되었습니다. 감사합니다!`);
