@@ -161,6 +161,8 @@ export default function Home() {
   const [msgName, setMsgName] = useState("");
   const [msgText, setMsgText] = useState("");
   const [msgSubmitting, setMsgSubmitting] = useState(false);
+  const [msgLoadingMore, setMsgLoadingMore] = useState(false);
+  const [gbSubmitting, setGbSubmitting] = useState(false);
 
   /* ── fetch initial messages ── */
   useEffect(() => {
@@ -382,6 +384,7 @@ export default function Home() {
     if (!attend) { alert("참석 여부를 선택해주세요."); return; }
     if (attend === "yes" && !side) { alert("신랑측/신부측을 선택해주세요."); return; }
     if (attend === "yes" && !meal) { alert("식사 여부를 선택해주세요."); return; }
+    setGbSubmitting(true);
     try {
       const res = await fetch("/api/rsvp", {
         method: "POST",
@@ -391,8 +394,10 @@ export default function Home() {
       if (!res.ok) throw new Error();
     } catch {
       alert("전송에 실패했습니다. 다시 시도해주세요.");
+      setGbSubmitting(false);
       return;
     }
+    setGbSubmitting(false);
     const sideText = side === "groom" ? "신랑 측" : "신부 측";
     const detail = attend === "yes" ? `${sideText} · ${headcount}명 · 식사 ${meal === "yes" ? "예" : "아니오"}` : "불참";
     alert(`${gbName.trim()}님 — ${detail}\n전달되었습니다. 감사합니다!`);
@@ -486,10 +491,15 @@ export default function Home() {
   }
 
   async function loadMoreMessages() {
-    const res = await fetch(`/api/messages?offset=${msgOffset}`);
-    const data = await res.json();
-    setMessages((prev) => [...prev, ...(data.messages ?? [])]);
-    setMsgOffset((o) => o + 5);
+    setMsgLoadingMore(true);
+    try {
+      const res = await fetch(`/api/messages?offset=${msgOffset}`);
+      const data = await res.json();
+      setMessages((prev) => [...prev, ...(data.messages ?? [])]);
+      setMsgOffset((o) => o + 5);
+    } finally {
+      setMsgLoadingMore(false);
+    }
   }
 
   function flushHearts() {
@@ -951,7 +961,9 @@ export default function Home() {
               </div>
             ))}
             {messages.length < msgTotal && (
-              <button className="msg-more-btn" onClick={loadMoreMessages}>더 보기</button>
+              <button className="msg-more-btn" onClick={loadMoreMessages} disabled={msgLoadingMore}>
+                {msgLoadingMore ? "불러오는 중…" : "더 보기"}
+              </button>
             )}
           </div>
         )}
@@ -1024,7 +1036,9 @@ export default function Home() {
               </div>
             </>
           )}
-          <button className="rsvp-submit" onClick={submitGuestbook}>전달하기</button>
+          <button className="rsvp-submit" onClick={submitGuestbook} disabled={gbSubmitting}>
+            {gbSubmitting ? "전달 중…" : "전달하기"}
+          </button>
         </div>
       </section>
 
