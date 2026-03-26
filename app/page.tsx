@@ -139,10 +139,9 @@ export default function Home() {
   const [poem2Done, setPoem2Done] = useState(false);
   const [poemInView, setPoemInView] = useState(false);
   const poemRef = useRef<HTMLElement>(null);
-  const [heartCount, setHeartCount] = useState<number>(() => {
-    if (typeof window === "undefined") return 0;
-    return parseInt(localStorage.getItem("koosoo-hearts") ?? "0", 10);
-  });
+  const [heartCount, setHeartCount] = useState(0);
+  const pendingDelta = useRef(0);
+  const debounceTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
   const [plusItems, setPlusItems] = useState<{ id: number; x: number; y: number; maxRise?: number }[]>([]);
   const [gbName, setGbName] = useState("");
   const [attend, setAttend] = useState<"yes" | "no" | null>(null);
@@ -174,6 +173,28 @@ export default function Home() {
         setMsgOffset(5);
       })
       .catch(() => {});
+  }, []);
+
+  /* ── fetch global heart count ── */
+  useEffect(() => {
+    fetch("/api/hearts")
+      .then((r) => r.json())
+      .then((data) => setHeartCount(Number(data.count) || 0))
+      .catch(() => {});
+  }, []);
+
+  /* ── flush hearts on page unload ── */
+  useEffect(() => {
+    const onUnload = () => {
+      const delta = pendingDelta.current;
+      if (delta === 0) return;
+      navigator.sendBeacon(
+        "/api/hearts",
+        new Blob([JSON.stringify({ delta })], { type: "application/json" })
+      );
+    };
+    window.addEventListener("beforeunload", onUnload);
+    return () => window.removeEventListener("beforeunload", onUnload);
   }, []);
 
   /* ── smooth scroll throttle (desktop only) ── */
@@ -481,10 +502,24 @@ export default function Home() {
     setMsgOffset((o) => o + 5);
   }
 
+  function flushHearts() {
+    const delta = pendingDelta.current;
+    if (delta === 0) return;
+    pendingDelta.current = 0;
+    fetch("/api/hearts", {
+      method: "PATCH",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ delta }),
+    }).catch(() => {});
+  }
+
   function pressHeart() {
     const next = heartCount + 1;
     setHeartCount(next);
-    localStorage.setItem("koosoo-hearts", String(next));
+    pendingDelta.current += 1;
+
+    if (debounceTimer.current) clearTimeout(debounceTimer.current);
+    debounceTimer.current = setTimeout(flushHearts, 1500);
 
     if (next % 100 === 0) triggerConfetti();
 

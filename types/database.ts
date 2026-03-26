@@ -14,6 +14,21 @@ export type Database = {
   }
   public: {
     Tables: {
+      hearts: {
+        Row: {
+          count: number
+          id: number
+        }
+        Insert: {
+          count?: number
+          id?: number
+        }
+        Update: {
+          count?: number
+          id?: number
+        }
+        Relationships: []
+      }
       messages: {
         Row: {
           at: number
@@ -70,7 +85,7 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
-      [_ in never]: never
+      increment_hearts: { Args: { delta: number }; Returns: number }
     }
     Enums: {
       [_ in never]: never
