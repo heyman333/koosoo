@@ -106,15 +106,15 @@ function FloatingHeart({ originX, originY, maxRise }: { originX: number; originY
 }
 
 const GROOM_ACCOUNTS = [
-  { role: "신랑", name: "한영수", bank: "국민은행", num: "012345-67890-111" },
-  { role: "혼주", name: "한기곤", bank: "국민은행", num: "012345-67890-222" },
-  { role: "혼주", name: "윤미영", bank: "국민은행", num: "012345-67890-333" },
+  { role: "신랑", name: "한영수", bank: "하나은행", num: "345-910458-30707" },
+  { role: "혼주", name: "한기곤", bank: "국민은행", num: "229-24-0346-394" },
+  { role: "혼주", name: "윤미영", bank: "농협", num: "235021-52-056282" },
 ];
 
 const BRIDE_ACCOUNTS = [
-  { role: "신부", name: "구자민", bank: "국민은행", num: "012345-67890-444" },
-  { role: "혼주", name: "구응회", bank: "국민은행", num: "012345-67890-555" },
-  { role: "혼주", name: "김희진", bank: "국민은행", num: "012345-67890-666" },
+  { role: "신부", name: "구자민", bank: "우리은행", num: "1002-159-749866" },
+  { role: "혼주", name: "구응회", bank: "농협", num: "352-0258-8441-13" },
+  { role: "혼주", name: "김희진", bank: "농협", num: "307046-51-025676" },
 ];
 
 
