@@ -107,7 +107,7 @@ function FloatingHeart({ originX, originY, maxRise }: { originX: number; originY
 
 const GROOM_ACCOUNTS = [
   { role: "신랑", name: "한영수", bank: "하나은행", num: "345-910458-30707" },
-  { role: "혼주", name: "한기곤", bank: "국민은행", num: "229-24-0346-394" },
+  { role: "혼주", name: "한기곤", bank: "농협", num: "351-1247-2077-33" },
   { role: "혼주", name: "윤미영", bank: "농협", num: "235021-52-056282" },
 ];
 
@@ -360,18 +360,18 @@ export default function Home() {
       content: {
         title: "한영수 ❤️ 구자민 - 2026.7.5",
         description: "저희 두 사람의 특별한 날에 초대합니다.",
-        imageUrl: "https://koosoo.vercel.app/illust.png",
+        imageUrl: "https://koosoo-wedding.space/illust.png",
         link: {
-          mobileWebUrl: "https://koosoo.vercel.app",
-          webUrl: "https://koosoo.vercel.app",
+          mobileWebUrl: "https://koosoo-wedding.space",
+          webUrl: "https://koosoo-wedding.space",
         },
       },
       buttons: [
         {
           title: "청첩장 보기",
           link: {
-            mobileWebUrl: "https://koosoo.vercel.app",
-            webUrl: "https://koosoo.vercel.app",
+            mobileWebUrl: "https://koosoo-wedding.space",
+            webUrl: "https://koosoo-wedding.space",
           },
         },
       ],

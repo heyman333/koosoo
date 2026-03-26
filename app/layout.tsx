@@ -57,7 +57,7 @@ export const viewport: Viewport = {
 export const metadata: Metadata = {
   metadataBase: new URL(
     process.env.NODE_ENV === "production"
-      ? "https://koosoo.vercel.app"
+      ? "https://koosoo-wedding.space"
       : "http://localhost:3000"
   ),
   title: "한영수 ❤️ 구자민 - 2026.7.5",
