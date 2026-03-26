@@ -79,6 +79,10 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     images: ["/illust.png"],
   },
+  icons: {
+    icon: "/icon.png",
+    apple: "/apple-icon.png",
+  },
 };
 
 export default function RootLayout({
