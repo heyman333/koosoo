@@ -919,12 +919,19 @@ body {
   color: #2c2a24;
   box-shadow: 0 1px 4px rgba(0,0,0,0.06);
 }
-.acc-panel {
-  animation: acc-fade-in 0.28s ease;
+.acc-panel--right {
+  animation: acc-slide-right 0.32s cubic-bezier(0.4, 0, 0.2, 1);
 }
-@keyframes acc-fade-in {
-  from { opacity: 0; transform: translateY(6px); }
-  to   { opacity: 1; transform: translateY(0); }
+.acc-panel--left {
+  animation: acc-slide-left 0.32s cubic-bezier(0.4, 0, 0.2, 1);
+}
+@keyframes acc-slide-right {
+  from { opacity: 0; transform: translateX(28px) scale(0.97); }
+  to   { opacity: 1; transform: translateX(0) scale(1); }
+}
+@keyframes acc-slide-left {
+  from { opacity: 0; transform: translateX(-28px) scale(0.97); }
+  to   { opacity: 1; transform: translateX(0) scale(1); }
 }
 .acc-card {
   background: #f7f7f7;
@@ -1279,6 +1286,179 @@ body {
   transition: background 0.2s;
 }
 .rsvp-submit:hover { background: #444; }
+
+/* ══════════════════════════════════════════════════════════════════════════════
+   TRANSPORTATION
+══════════════════════════════════════════════════════════════════════════════ */
+
+/* 토글 버튼 */
+.transport-toggle {
+  -webkit-appearance: none;
+  appearance: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  width: 100%;
+  margin-top: 1.2rem;
+  padding: 11px 20px;
+  background: #f7f7f7;
+  border: 1.5px solid #e2ddd8;
+  border-radius: 100px;
+  font-size: 13px;
+  font-weight: 500;
+  font-family: var(--font-pretendard), sans-serif;
+  color: #666;
+  letter-spacing: 0.04em;
+  cursor: pointer;
+  box-sizing: border-box;
+  transition: background 0.2s, color 0.2s, border-color 0.2s;
+}
+.transport-toggle:hover {
+  background: #f0ebe4;
+  color: #2c2a24;
+  border-color: #c8c3bc;
+}
+.transport-toggle.open {
+  background: #f0ebe4;
+  color: #2c2a24;
+  border-color: #bbb;
+}
+.transport-chevron {
+  display: block;
+  flex-shrink: 0;
+  transition: transform 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+}
+.transport-toggle.open .transport-chevron {
+  transform: rotate(180deg);
+}
+
+/* 아코디언 */
+.transport-accordion {
+  display: grid;
+  grid-template-rows: 0fr;
+  transition: grid-template-rows 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+.transport-accordion.open {
+  grid-template-rows: 1fr;
+}
+.transport-accordion-inner {
+  overflow: hidden;
+  padding-top: 0;
+}
+.transport-accordion.open .transport-accordion-inner {
+  padding-top: 1rem;
+}
+
+.transport-block {
+  background: #f7f7f7;
+  border-radius: 16px;
+  padding: 1.4rem 1.6rem;
+  margin-bottom: 1rem;
+}
+.transport-block--last {
+  margin-bottom: 0;
+}
+.transport-header {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-bottom: 0.9rem;
+}
+.transport-icon {
+  font-size: 18px;
+}
+.transport-label {
+  font-size: 14px;
+  font-weight: 500;
+  color: #2c2a24;
+  letter-spacing: 0.03em;
+}
+.transport-label em {
+  font-style: italic;
+  font-family: var(--font-cinzel), serif;
+  font-weight: 400;
+  letter-spacing: 0.08em;
+  margin-right: 0.2em;
+}
+.transport-list {
+  list-style: none;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.55rem;
+  font-size: 13px;
+  color: #444;
+  line-height: 1.7;
+}
+.transport-list li {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+}
+.transport-parking-note {
+  margin-top: 0.75rem;
+  font-size: 13px;
+  color: #888;
+  line-height: 1.75;
+}
+.transport-desc {
+  font-size: 13px;
+  color: #555;
+  margin-bottom: 0.7rem;
+  line-height: 1.7;
+}
+.transport-bus-list {
+  list-style: none;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  font-size: 13px;
+  color: #444;
+  line-height: 1.7;
+}
+.transport-bus-list li {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+}
+.bus-sub {
+  color: #888;
+  font-size: 12px;
+}
+/* 지하철 노선 배지 */
+.line-badge {
+  display: inline-block;
+  padding: 2px 9px;
+  border-radius: 20px;
+  font-size: 11px;
+  font-weight: 600;
+  color: #fff;
+  white-space: nowrap;
+  letter-spacing: 0.01em;
+}
+.line-2 { background: #00a84d; }
+.line-7 { background: #747f00; }
+/* 버스 배지 */
+.bus-badge {
+  display: inline-block;
+  padding: 2px 9px;
+  border-radius: 6px;
+  font-size: 11px;
+  font-weight: 600;
+  color: #fff;
+  white-space: nowrap;
+  letter-spacing: 0.01em;
+  min-width: 56px;
+  text-align: center;
+}
+.bus-trunk   { background: #1a56c4; }
+.bus-branch  { background: #3a9c3f; }
+.bus-village { background: #5a9e2f; }
+.bus-airport { background: #5fa8d3; }
 
 /* ══════════════════════════════════════════════════════════════════════════════
    NOTICE

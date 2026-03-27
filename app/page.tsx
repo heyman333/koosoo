@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import { Heart } from "lucide-react";
+import { Heart, ChevronDown } from "lucide-react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import KakaoMap from "./KakaoMap";
@@ -133,6 +133,8 @@ const ALL_PHOTOS = [...GALLERY_PHOTOS, ...GALLERY_WIDE];
 /* ════════════════════════════════════════════════════════════════════════════ */
 export default function Home() {
   const [activeTab, setActiveTab] = useState<"groom" | "bride">("groom");
+  const [accDir, setAccDir] = useState<"left" | "right">("right");
+  const [transportOpen, setTransportOpen] = useState(false);
   const galleryRowRef = useRef<HTMLDivElement>(null);
   const [poem1Done, setPoem1Done] = useState(false);
   const [poem2Done, setPoem2Done] = useState(false);
@@ -799,7 +801,7 @@ export default function Home() {
       <section className="w-section fade-in">
         <h2 className="sec-title">Location</h2>
 
-        <KakaoMap />
+        <KakaoMap showRoute={transportOpen} />
 
         <div className="loc-info">
           <p className="loc-venue">건국대학교 동문회관</p>
@@ -825,6 +827,57 @@ export default function Home() {
             T Map
           </a>
         </div>
+
+        {/* 교통편 토글 버튼 */}
+        <button
+          className={`transport-toggle${transportOpen ? " open" : ""}`}
+          onClick={() => setTransportOpen((v) => !v)}
+          aria-expanded={transportOpen}
+        >
+          <span>교통편 보기</span>
+          <ChevronDown className="transport-chevron" size={16} strokeWidth={2} />
+        </button>
+
+        {/* 교통편 아코디언 */}
+        <div className={`transport-accordion${transportOpen ? " open" : ""}`}>
+          <div className="transport-accordion-inner">
+            <div className="transport-block">
+              <div className="transport-header">
+                <span className="transport-icon">🚇</span>
+                <span className="transport-label">지하철</span>
+              </div>
+              <ul className="transport-list">
+                <li><span className="line-badge line-2">2호선 건대입구역</span> 5번출구 5분거리 내</li>
+                <li><span className="line-badge line-7">7호선 건대입구역</span> 4번출구 5분거리 내</li>
+              </ul>
+            </div>
+
+            <div className="transport-block">
+              <div className="transport-header">
+                <span className="transport-icon">🚌</span>
+                <span className="transport-label">버스</span>
+              </div>
+              <p className="transport-desc">건국대학교앞 또는 건대입구역 정류장 하차</p>
+              <ul className="transport-bus-list">
+                <li><span className="bus-badge bus-trunk">간선버스</span> 240, 721</li>
+                <li><span className="bus-badge bus-branch">지선버스</span> 2222, 2224, 3217, 3220, 4212</li>
+                <li><span className="bus-badge bus-village">마을버스</span> 광진05</li>
+                <li><span className="bus-badge bus-airport">공항버스</span> 6013 <span className="bus-sub">(광진구의회 하차)</span></li>
+              </ul>
+            </div>
+
+            <div className="transport-block transport-block--last">
+              <div className="transport-header">
+                <span className="transport-icon">🚗</span>
+                <span className="transport-label">자가용</span>
+              </div>
+              <ul className="transport-list">
+                <li>네비게이션 : &quot;KU컨벤션웨딩홀&quot; 또는 &quot;건국대학교동문회관&quot; 입력</li>
+              </ul>
+              <p className="transport-parking-note">웨딩홀 주차장은 공간이 넉넉치 않아 건너편 건국대로 안내받으실 수 있습니다. 주차 후 도보로 다시 웨딩홀로 이동하실 때 5-10분 정도 소요됩니다. (웨딩홀 주차장은 1시간 무료, 건국대 주차장은 2시간 무료)</p>
+            </div>
+          </div>
+        </div>
       </section>
 
       {/* ══ ACCOUNT ═════════════════════════════════════════════════════════ */}
@@ -834,19 +887,19 @@ export default function Home() {
         <div className="acc-tabs">
           <button
             className={`acc-tab${activeTab === "groom" ? " active" : ""}`}
-            onClick={() => setActiveTab("groom")}
+            onClick={() => { setAccDir("left"); setActiveTab("groom"); }}
           >
             신랑 측
           </button>
           <button
             className={`acc-tab${activeTab === "bride" ? " active" : ""}`}
-            onClick={() => setActiveTab("bride")}
+            onClick={() => { setAccDir("right"); setActiveTab("bride"); }}
           >
             신부 측
           </button>
         </div>
 
-        <div key={activeTab} className="acc-panel">
+        <div key={activeTab} className={`acc-panel acc-panel--${accDir}`}>
           {(activeTab === "groom" ? GROOM_ACCOUNTS : BRIDE_ACCOUNTS).map(({ role, name, bank, num }) => (
             <div key={name} className="acc-card">
               <div className="acc-name">{role} <strong>{name}</strong></div>

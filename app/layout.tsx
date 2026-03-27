@@ -98,6 +98,17 @@ export default function RootLayout({
           src="https://t1.kakaocdn.net/kakao_js_sdk/2.7.4/kakao.min.js"
           strategy="afterInteractive"
         />
+        {/* Google Analytics */}
+        <Script
+          src="https://www.googletagmanager.com/gtag/js?id=G-D6WPPLN3D0"
+          strategy="afterInteractive"
+        />
+        <Script id="ga-init" strategy="afterInteractive">{`
+          window.dataLayer = window.dataLayer || [];
+          function gtag(){dataLayer.push(arguments);}
+          gtag('js', new Date());
+          gtag('config', 'G-D6WPPLN3D0');
+        `}</Script>
       </body>
     </html>
   );
