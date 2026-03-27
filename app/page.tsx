@@ -141,6 +141,7 @@ export default function Home() {
   const [poemInView, setPoemInView] = useState(false);
   const poemRef = useRef<HTMLElement>(null);
   const [heartCount, setHeartCount] = useState(0);
+  const [heartHinted, setHeartHinted] = useState(false);
   const pendingDelta = useRef(0);
   const debounceTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
   const [plusItems, setPlusItems] = useState<{ id: number; x: number; y: number; maxRise?: number }[]>([]);
@@ -518,6 +519,7 @@ export default function Home() {
   function pressHeart() {
     const next = heartCount + 1;
     setHeartCount(next);
+    if (!heartHinted) setHeartHinted(true);
     pendingDelta.current += 1;
 
     if (debounceTimer.current) clearTimeout(debounceTimer.current);
@@ -924,6 +926,36 @@ export default function Home() {
           {/* 하트 */}
           <div className="heart-col">
             <div className="heart-stage">
+              {!heartHinted && (
+                <div style={{
+                  position: "absolute",
+                  bottom: "calc(100% + 10px)",
+                  left: "50%",
+                  transform: "translateX(-50%)",
+                  background: "#fff",
+                  border: "1px solid #f0d9d5",
+                  borderRadius: "10px",
+                  padding: "5px 10px",
+                  fontSize: "0.7rem",
+                  color: "#b0918a",
+                  whiteSpace: "nowrap",
+                  pointerEvents: "none",
+                  boxShadow: "0 2px 8px rgba(0,0,0,0.08)",
+                }}>
+                  눌러서 하트 보내기 ❤️
+                  <span style={{
+                    position: "absolute",
+                    bottom: "-5px",
+                    left: "50%",
+                    transform: "translateX(-50%) rotate(45deg)",
+                    width: "8px",
+                    height: "8px",
+                    background: "#fff",
+                    borderRight: "1px solid #f0d9d5",
+                    borderBottom: "1px solid #f0d9d5",
+                  }} />
+                </div>
+              )}
               <button id="heart-btn" className="heart-btn" onClick={pressHeart} aria-label="하트 누르기">
                 <Heart size={46} fill="#ED4956" color="#ED4956" strokeWidth={0} />
               </button>
