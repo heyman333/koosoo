@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
+import Image from "next/image";
 import { Heart, ChevronDown } from "lucide-react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
@@ -626,43 +627,59 @@ export default function Home() {
       <div id="progress-bar" />
 
       <div className="page-container">
-      <div className="hearts-portal" aria-hidden="true">
-        {plusItems.map(({ id, x, y, maxRise }) => <FloatingHeart key={id} originX={x} originY={y} maxRise={maxRise} />)}
-      </div>
-      {/* ══ HERO — illust → photo crossfade ══════════════════════════════════ */}
-      <section className="illust-crossfade-section">
-        {/* 실사 사진 (베이스) */}
-        <div className="ic-real-layer">
-          {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img src="/w08.jpg" className="ic-real-img" alt="" draggable={false} onContextMenu={(e) => e.preventDefault()} />
+        <div className="hearts-portal" aria-hidden="true">
+          {plusItems.map(({ id, x, y, maxRise }) => <FloatingHeart key={id} originX={x} originY={y} maxRise={maxRise} />)}
         </div>
-
-        {/* 캐릭터 일러스트 레이아웃 */}
-        <div className="ic-char-layer" style={{ display: "flex", flexDirection: "column", alignItems: "center" }}>
-          <div className="ic-char-top" />
-          <div className="ic-char-mid">
-            {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img src="/og.png" className="ic-char-img" alt="" draggable={false} onContextMenu={(e) => e.preventDefault()} />
+        {/* ══ HERO — illust → photo crossfade ══════════════════════════════════ */}
+        <section className="illust-crossfade-section">
+          {/* 실사 사진 (베이스) */}
+          <div className="ic-real-layer">
+            <Image
+              src="/w08.jpg"
+              alt=""
+              fill
+              priority
+              sizes="(min-width: 768px) 440px, 100vw"
+              className="ic-real-img"
+              draggable={false}
+              onContextMenu={(e) => e.preventDefault()}
+            />
           </div>
-          <div className="ic-char-bottom" style={{ display: "flex", flexDirection: "column", alignItems: "center" }}>
-            <p className="ic-char-names">Han Yeongsoo <span className="ic-char-dot">·</span> Koo Jamin</p>
-            <p className="ic-char-date">2026 · 07 · 05 · Sun · 13:00</p>
+
+          {/* 캐릭터 일러스트 레이아웃 */}
+          <div className="ic-char-layer" style={{ display: "flex", flexDirection: "column", alignItems: "center" }}>
+            <div className="ic-char-top" />
+            <div className="ic-char-mid">
+              <Image
+                src="/og.png"
+                alt=""
+                width={1080}
+                height={1080}
+                priority
+                sizes="(min-width: 768px) 320px, 76vw"
+                className="ic-char-img"
+                draggable={false}
+                onContextMenu={(e) => e.preventDefault()}
+              />
+            </div>
+            <div className="ic-char-bottom" style={{ display: "flex", flexDirection: "column", alignItems: "center" }}>
+              <p className="ic-char-names">Han Yeongsoo <span className="ic-char-dot">·</span> Koo Jamin</p>
+              <p className="ic-char-date">2026 · 07 · 05 · Sun · 13:00</p>
+            </div>
           </div>
-        </div>
 
-        {/* 이름 오버레이 (사진 전환 후) */}
-        <div className="ic-names">
-          <p className="ic-names-text">Han Yeongsoo <span className="ic-names-amp">·</span> Koo Jamin</p>
-          <span className="ic-names-date">2026 · 07 · 05 · Sun · 13:00</span>
-        </div>
+          {/* 이름 오버레이 (사진 전환 후) */}
+          <div className="ic-names">
+            <p className="ic-names-text">Han Yeongsoo <span className="ic-names-amp">·</span> Koo Jamin</p>
+            <span className="ic-names-date">2026 · 07 · 05 · Sun · 13:00</span>
+          </div>
 
-        {/* 스크롤 힌트 */}
-        <div className="ic-scroll-hint">
-          <div className="ic-scroll-bar" />
-          <span className="ic-scroll-label">Scroll</span>
-        </div>
-
-      </section>
+          {/* 스크롤 힌트 */}
+          <div className="ic-scroll-hint">
+            <div className="ic-scroll-bar" />
+            <span className="ic-scroll-label">Scroll</span>
+          </div>
+        </section>
 
       {/* ══ INVITATION ══════════════════════════════════════════════════════ */}
       <section className="w-section inv-section fade-in">
@@ -705,8 +722,15 @@ export default function Home() {
         <div className="pp-card">
           <button type="button" className="pp-photo pp-photo-btn" onClick={() => setProfileZoom("/photo1.jpg")} aria-label="신랑 사진 확대">
             <div className="profile-img">
-              {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img src="/photo1.jpg" alt="신랑 한영수" style={{ objectPosition: "center 75%" }} draggable={false} onContextMenu={(e) => e.preventDefault()} />
+              <Image
+                src="/photo1.jpg"
+                alt="신랑 한영수"
+                fill
+                sizes="(min-width: 768px) 118px, 130px"
+                style={{ objectPosition: "center 75%" }}
+                draggable={false}
+                onContextMenu={(e) => e.preventDefault()}
+              />
             </div>
           </button>
           <div className="pp-info">
@@ -733,8 +757,14 @@ export default function Home() {
         <div className="pp-card pp-card--reverse">
           <button type="button" className="pp-photo pp-photo-btn" onClick={() => setProfileZoom("/photo2.jpg")} aria-label="신부 사진 확대">
             <div className="profile-img">
-              {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img src="/photo2.jpg" alt="신부 구자민" draggable={false} onContextMenu={(e) => e.preventDefault()} />
+              <Image
+                src="/photo2.jpg"
+                alt="신부 구자민"
+                fill
+                sizes="(min-width: 768px) 118px, 130px"
+                draggable={false}
+                onContextMenu={(e) => e.preventDefault()}
+              />
             </div>
           </button>
           <div className="pp-info pp-info--right">
@@ -764,8 +794,14 @@ export default function Home() {
         <div className="gallery-grid">
           {GALLERY_PHOTOS.map((src, i) => (
             <div key={i} className="gallery-item" onClick={() => setLightboxIndex(i)}>
-              {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img src={src} alt="" draggable={false} onContextMenu={(e) => e.preventDefault()} />
+              <Image
+                src={src}
+                alt=""
+                fill
+                sizes="(min-width: 768px) 138px, 30vw"
+                draggable={false}
+                onContextMenu={(e) => e.preventDefault()}
+              />
             </div>
           ))}
         </div>
@@ -792,8 +828,14 @@ export default function Home() {
         >
           {GALLERY_WIDE.map((src, i) => (
             <div key={i} className="gallery-wide-item" onClick={() => setLightboxIndex(GALLERY_PHOTOS.length + i)}>
-              {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img src={src} alt="" draggable={false} onContextMenu={(e) => e.preventDefault()} />
+              <Image
+                src={src}
+                alt=""
+                fill
+                sizes="(min-width: 768px) 232px, 68vw"
+                draggable={false}
+                onContextMenu={(e) => e.preventDefault()}
+              />
             </div>
           ))}
         </div>
@@ -918,8 +960,17 @@ export default function Home() {
       <section className="w-section heart-section fade-in">
         <h2 className="sec-title">Guest Book</h2>
 
-        {/* eslint-disable-next-line @next/next/no-img-element */}
-        <img src="/letter.png" alt="신랑신부 편지" className="letter-img" draggable={false} onContextMenu={(e) => e.preventDefault()} style={{ margin: "60px auto 4rem" }} />
+        <Image
+          src="/letter.png"
+          alt="신랑신부 편지"
+          width={2813}
+          height={4688}
+          sizes="(min-width: 768px) 340px, calc(100vw - 2.8rem)"
+          className="letter-img"
+          draggable={false}
+          onContextMenu={(e) => e.preventDefault()}
+          style={{ margin: "60px auto 4rem" }}
+        />
         <p className="heart-desc">축하의 마음을 담아 하트를 눌러보세요!<br />백번째마다 재미있는 일이 생겨요.</p>
 
         <div className="heart-msg-row">

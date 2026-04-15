@@ -1,5 +1,9 @@
 @import "tailwindcss";
 
+:root {
+  --page-max-width: 480px;
+}
+
 /* ──────────────────────────────────────────────────────────────────────────────
    PALETTE
    Hero/dark   : #0e0d0b bg · #f0ebe4 text
@@ -26,7 +30,7 @@ body {
 }
 
 .page-container {
-  max-width: 480px;
+  max-width: var(--page-max-width);
   margin: 0 auto;
   background: #fff;
   position: relative;
@@ -41,7 +45,7 @@ body {
   transform: translateX(-50%);
   height: 1px;
   width: 0%;
-  max-width: 480px;
+  max-width: var(--page-max-width);
   background: #bbb;
   z-index: 100;
   pointer-events: none;
@@ -622,6 +626,7 @@ body {
   border-radius: 0;
 }
 .gallery-item {
+  position: relative;
   aspect-ratio: 4/5;
   background: #ece8e3;
   overflow: hidden;
@@ -802,6 +807,7 @@ body {
 .gallery-wide-row:active { cursor: grabbing; }
 .gallery-wide-row::-webkit-scrollbar { display: none; }
 .gallery-wide-item {
+  position: relative;
   flex-shrink: 0;
   width: 68vw;
   max-width: 280px;
@@ -1552,6 +1558,31 @@ body {
 }
 
 /* ── Reduced Motion ── */
+@media (min-width: 768px) {
+  :root {
+    --page-max-width: 440px;
+  }
+
+  .ic-char-img {
+    width: clamp(220px, 22vw, 320px);
+  }
+
+  .pp-photo {
+    width: 118px;
+    height: 156px;
+  }
+
+  .gallery-wide-item {
+    width: 232px;
+    max-width: 232px;
+  }
+
+  .letter-img {
+    max-width: 340px;
+    transform: scale(1.08);
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after {
     animation-duration: 0.01ms !important;
