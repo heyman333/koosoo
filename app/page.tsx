@@ -79,12 +79,11 @@ function FloatingHeart({ originX, originY, maxRise }: { originX: number; originY
 
     const tl = gsap.timeline();
 
-    // 팝인
+    // 팝인 — 부드러운 스케일 + 페이드 (오버슛 없음)
     tl.fromTo(ref.current,
-      { scale: 0, opacity: 0, y: 0, x: 0, rotation: 0 },
-      { scale: 1.15, opacity: 1, duration: 0.22, ease: "back.out(2.5)" }
-    )
-    .to(ref.current, { scale: 1, duration: 0.12, ease: "power2.out" });
+      { scale: 0.45, opacity: 0, y: 0, x: 0, rotation: 0 },
+      { scale: 1, opacity: 1, duration: 0.42, ease: "power3.out" }
+    );
 
     // 자유 표류 구간
     waypoints.forEach((wp) => {
@@ -561,6 +560,28 @@ export default function Home() {
     const id = Date.now() + Math.random();
     setPlusItems((prev) => [...prev, { id, x: ox, y: oy, maxRise }]);
     setTimeout(() => setPlusItems((prev) => prev.filter((i) => i.id !== id)), 12000);
+
+    // 링 리플 — 버튼에서 한 번 퍼지는 원
+    if (btn) {
+      const stage = btn.parentElement;
+      if (stage) {
+        const ripple = document.createElement("span");
+        ripple.className = "heart-ripple";
+        const bRect = btn.getBoundingClientRect();
+        const sRect = stage.getBoundingClientRect();
+        ripple.style.left = `${bRect.left - sRect.left + bRect.width / 2}px`;
+        ripple.style.top = `${bRect.top - sRect.top + bRect.height / 2}px`;
+        stage.appendChild(ripple);
+        gsap.fromTo(ripple,
+          { width: 0, height: 0, opacity: 0.45, borderWidth: 2 },
+          {
+            width: 120, height: 120, opacity: 0, borderWidth: 0.5,
+            duration: 0.7, ease: "power2.out",
+            onComplete: () => ripple.remove(),
+          }
+        );
+      }
+    }
   }
 
   /* ════════════════════════════════════════════════════════════════════════ */
