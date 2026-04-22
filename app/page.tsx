@@ -9,42 +9,6 @@ import KakaoMap from "./KakaoMap";
 
 gsap.registerPlugin(ScrollTrigger);
 
-/* ── Typewriter Component ── */
-function TypewriterPoem({
-  text, delay = 0, canStart = true, onComplete,
-}: {
-  text: string; delay?: number; canStart?: boolean; onComplete?: () => void;
-}) {
-  const [displayed, setDisplayed] = useState("");
-  const ref = useRef<HTMLDivElement>(null);
-  const started = useRef(false);
-
-  useEffect(() => {
-    if (!canStart || started.current) return;
-    started.current = true;
-    let i = 0;
-    const timer = setTimeout(() => {
-      const tick = setInterval(() => {
-        i++;
-        setDisplayed(text.slice(0, i));
-        if (i >= text.length) { clearInterval(tick); onComplete?.(); }
-      }, 18);
-      return () => clearInterval(tick);
-    }, delay);
-    return () => clearTimeout(timer);
-  }, [canStart, text, delay, onComplete]);
-
-  return (
-    <div ref={ref}>
-      <div className="poem-text" style={{ whiteSpace: "pre-line" }}>
-        {displayed}
-        {displayed.length < text.length && displayed.length > 0 && <span className="tw-cursor" />}
-        <span style={{ opacity: 0, userSelect: "none" }}>{text.slice(displayed.length)}</span>
-      </div>
-    </div>
-  );
-}
-
 /* ── FloatingHeart 파티클 — 풍선처럼 흔들리며 천천히 상승 ── */
 function FloatingHeart({ originX, originY, maxRise }: { originX: number; originY: number; maxRise?: number }) {
   const ref = useRef<HTMLSpanElement>(null);
@@ -136,10 +100,6 @@ export default function Home() {
   const [accDir, setAccDir] = useState<"left" | "right">("right");
   const [transportOpen, setTransportOpen] = useState(false);
   const galleryRowRef = useRef<HTMLDivElement>(null);
-  const [poem1Done, setPoem1Done] = useState(false);
-  const [poem2Done, setPoem2Done] = useState(false);
-  const [poemInView, setPoemInView] = useState(false);
-  const poemRef = useRef<HTMLElement>(null);
   const [heartCount, setHeartCount] = useState(0);
   const [heartHinted, setHeartHinted] = useState(false);
   const pendingDelta = useRef(0);
@@ -282,18 +242,6 @@ export default function Home() {
     });
 
     return () => ctx.revert();
-  }, []);
-
-  /* ── poem section intersection ── */
-  useEffect(() => {
-    const el = poemRef.current;
-    if (!el) return;
-    const obs = new IntersectionObserver(
-      ([entry]) => { if (entry.isIntersecting) { setPoemInView(true); obs.disconnect(); } },
-      { threshold: 0.2 }
-    );
-    obs.observe(el);
-    return () => obs.disconnect();
   }, []);
 
   /* ── scroll fade-in ── */
@@ -736,74 +684,73 @@ export default function Home() {
 
 
       {/* ══ PROFILE ═════════════════════════════════════════════════════════ */}
-      <section className="w-section profile-section fade-in" ref={poemRef}>
+      <section className="w-section profile-section fade-in">
         <h2 className="sec-title">Groom &amp; Bride</h2>
 
-        {/* 신랑 한영수 — 사진 좌, 텍스트 우 */}
-        <div className="pp-card">
-          <button type="button" className="pp-photo pp-photo-btn" onClick={() => setProfileZoom("/photo1.jpg")} aria-label="신랑 사진 확대">
-            <div className="profile-img">
-              <Image
-                src="/photo1.jpg"
-                alt="신랑 한영수"
-                fill
-                sizes="(min-width: 768px) 118px, 130px"
-                style={{ objectPosition: "center 75%" }}
-                draggable={false}
-                onContextMenu={(e) => e.preventDefault()}
-              />
-            </div>
-          </button>
-          <div className="pp-info">
+        <div className="pp-grid">
+          <div className="pp-col">
+            <button type="button" className="pp-photo pp-photo-btn" onClick={() => setProfileZoom("/photo1.jpg")} aria-label="신랑 사진 확대">
+              <div className="profile-img">
+                <Image
+                  src="/photo1.jpg"
+                  alt="신랑 한영수"
+                  fill
+                  sizes="(min-width: 768px) 200px, 44vw"
+                  style={{ objectPosition: "center 75%" }}
+                  draggable={false}
+                  onContextMenu={(e) => e.preventDefault()}
+                />
+              </div>
+            </button>
             <strong className="pp-name">한영수</strong>
             <span className="pp-name-en">Han Yeongsoo</span>
           </div>
-        </div>
-
-        <div className="poem-block poem-block--right pp-poem">
-          <div className="poem-greeting">영수가 자민에게</div>
-          <p className="poem-anecdote">자민이와 첫 데이트 하던 날 이 시를 써서 선물했어요.</p>
-          <TypewriterPoem
-            canStart={poemInView}
-            delay={300}
-            onComplete={() => setPoem1Done(true)}
-            text={`나의 여름이 모든 색을 잃고 흑백이 되어도 좋습니다.\n내가 세상의 꽃들과 들풀, 숲의 색을 모두 훔쳐올 테니\n전부 그대의 것 하십시오.\n\n그러니 그대는 나의 여름이 되세요.`}
-          />
-          <div className={`poem-cite${poem1Done ? " poem-cite--visible" : ""}`}>도둑이 든 여름 — 서덕준</div>
-        </div>
-
-        <div className="profile-poem-sep" />
-
-        {/* 신부 구자민 — 텍스트 좌(우정렬), 사진 우 */}
-        <div className="pp-card pp-card--reverse">
-          <button type="button" className="pp-photo pp-photo-btn" onClick={() => setProfileZoom("/photo2.jpg")} aria-label="신부 사진 확대">
-            <div className="profile-img">
-              <Image
-                src="/photo2.jpg"
-                alt="신부 구자민"
-                fill
-                sizes="(min-width: 768px) 118px, 130px"
-                draggable={false}
-                onContextMenu={(e) => e.preventDefault()}
-              />
-            </div>
-          </button>
-          <div className="pp-info pp-info--right">
+          <div className="pp-col">
+            <button type="button" className="pp-photo pp-photo-btn" onClick={() => setProfileZoom("/photo2.jpg")} aria-label="신부 사진 확대">
+              <div className="profile-img">
+                <Image
+                  src="/photo2.jpg"
+                  alt="신부 구자민"
+                  fill
+                  sizes="(min-width: 768px) 200px, 44vw"
+                  draggable={false}
+                  onContextMenu={(e) => e.preventDefault()}
+                />
+              </div>
+            </button>
             <strong className="pp-name">구자민</strong>
             <span className="pp-name-en">Koo Jamin</span>
           </div>
         </div>
 
-        <div className="poem-block poem-block--left pp-poem">
-          <div className="poem-greeting">자민이가 영수에게</div>
-          <p className="poem-anecdote">오빠는 저의 초당옥수수에요 🌽</p>
-          <TypewriterPoem
-            canStart={poem1Done}
-            delay={400}
-            onComplete={() => setPoem2Done(true)}
-            text={`좋아하는게 하나 생기면 세계는 그 하나보다 더 넓어진다. 그저 덜 휘청거리며 살면 다행이라고 위로하면서 지내다 불현듯 어떤 것에 마음이 가면 그때부터 일상에 밀도가 생긴다. 납작했던 하루가 포동포동 말랑말랑 입체감을 띈다. 초당옥수수 덕분에 여름을 향한 내 마음의 농도는 더 짙어졌다.`}
-          />
-          <div className={`poem-cite${poem2Done ? " poem-cite--visible" : ""}`}>아무튼 여름 — 김신회</div>
+        <div className="qna-card">
+          <div className="qna-row">
+            <div className="qna-question">서로의 어떤 점을 좋아하나요?</div>
+            <div className="qna-answers">
+              <div className="qna-answer-block">
+                <div className="qna-label">영수</div>
+                <div className="qna-answer">‘이게 사랑이구나’ 싶게 해주는 사람이에요. 대화가 잘 통하고 좋아하는 것, 싫어하는 것까지 닮아 있어서 늘 편안해요. 무엇보다 곁에 있으면 마음이 차분해지는, 안정감을 주는 사람이라는 점이 가장 좋습니다.</div>
+              </div>
+              <div className="qna-answer-block">
+                <div className="qna-label">자민</div>
+                <div className="qna-answer">자민의 답변이 여기에 들어와요.</div>
+              </div>
+            </div>
+          </div>
+          <div className="qna-divider" />
+          <div className="qna-row">
+            <div className="qna-question">앞으로 어떻게 살고 싶나요?</div>
+            <div className="qna-answers">
+              <div className="qna-answer-block">
+                <div className="qna-label">영수</div>
+                <div className="qna-answer">지금처럼 서로 좋아하는 일을 해나가면서, 함께 가보고 싶은 곳과 해보고 싶은 일들을 하나씩 채워가며 둘만의 시간을 오래오래 쌓고 싶습니다.</div>
+              </div>
+              <div className="qna-answer-block">
+                <div className="qna-label">자민</div>
+                <div className="qna-answer">자민의 답변이 여기에 들어와요.</div>
+              </div>
+            </div>
+          </div>
         </div>
       </section>
 
