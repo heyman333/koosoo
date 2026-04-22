@@ -725,15 +725,29 @@ export default function Home() {
 
         <div className="qna-card">
           <div className="qna-row">
+            <div className="qna-question">어떻게 만났나요?</div>
+            <div className="qna-answers">
+              <div className="qna-answer-block">
+                <div className="qna-label">영수</div>
+                <div className="qna-answer">채용담당자와 지원자로 처음 만났어요. 만나자마자 저와 비슷한 사람이라는 생각이 들어 금세 친해졌고, 그 마음이 점점 사랑으로 자라났습니다. 옷 스타일도, 생각하는 것도 저와 잘 맞아서 함께하는 시간이 참 좋았어요.</div>
+              </div>
+              <div className="qna-answer-block">
+                <div className="qna-label">자민</div>
+                <div className="qna-answer">채용담당자와 후보자로 만났어요. 세 번 정도 마주치고, 같은 회사에서 일한 시간은 반나절 정도인데, 직전에 갔던 워크샵에서 서로 좋아하게 된 것 같아요. 퇴사여행을 가는 내내 오빠 생각을 했는데, 둘째 날 보고 싶다고 카톡이 왔어요. 여행에서 돌아온 날부터 만나게 됐어요.</div>
+              </div>
+            </div>
+          </div>
+          <div className="qna-divider" />
+          <div className="qna-row">
             <div className="qna-question">서로의 어떤 점을 좋아하나요?</div>
             <div className="qna-answers">
               <div className="qna-answer-block">
                 <div className="qna-label">영수</div>
-                <div className="qna-answer">‘이게 사랑이구나’ 싶게 해주는 사람이에요. 대화가 잘 통하고 좋아하는 것, 싫어하는 것까지 닮아 있어서 늘 편안해요. 무엇보다 곁에 있으면 마음이 차분해지는, 안정감을 주는 사람이라는 점이 가장 좋습니다.</div>
+                <div className="qna-answer">‘이게 사랑이구나’ 싶게 해주는 사람이에요. 대화가 잘 통하고 좋아하는 것, 싫어하는 것이 닮아 있어서 늘 편안해요. 무엇보다 곁에 있으면 마음이 차분해지고 안정감을 주는 사람이라는 점이 가장 좋습니다.</div>
               </div>
               <div className="qna-answer-block">
                 <div className="qna-label">자민</div>
-                <div className="qna-answer">자민의 답변이 여기에 들어와요.</div>
+                <div className="qna-answer">좋고 예쁘다고 느끼는 것들이 비슷해서 가장 친한 친구가 생긴 것 같아요. 하루에 한 번씩은 크게 소리 내서 웃게 해주는 능력을 가졌어요. 납작했던 일상을 포동포동하게 만들어주는 점이 고마워요.</div>
               </div>
             </div>
           </div>
@@ -743,11 +757,11 @@ export default function Home() {
             <div className="qna-answers">
               <div className="qna-answer-block">
                 <div className="qna-label">영수</div>
-                <div className="qna-answer">지금처럼 서로 좋아하는 일을 해나가면서, 함께 가보고 싶은 곳과 해보고 싶은 일들을 하나씩 채워가며 둘만의 시간을 오래오래 쌓고 싶습니다.</div>
+                <div className="qna-answer">지금처럼 서로 좋아하는 일을 해나가면서 함께 가보고 싶은 곳과 해보고 싶은 일들을 하나씩 채워가며 둘만의 시간을 오래오래 쌓고 싶습니다.</div>
               </div>
               <div className="qna-answer-block">
                 <div className="qna-label">자민</div>
-                <div className="qna-answer">자민의 답변이 여기에 들어와요.</div>
+                <div className="qna-answer">요즘 이상은의 〈비밀의 화원〉을 자주 듣는데, ‘월요일도, 화요일도, 봄에도, 겨울에도, 해가 질 무렵에도 비둘기를 안은 아이같이 행복해줘 나를 위해서’라는 가사가 있어요. 서로의 행복을 누구보다 위해주면서 살고 싶다는 생각을 했어요.</div>
               </div>
             </div>
           </div>
