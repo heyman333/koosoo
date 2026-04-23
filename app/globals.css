@@ -673,6 +673,9 @@ body {
 }
 
 .lightbox-img-wrap {
+  position: relative;
+  width: 92vw;
+  height: 84dvh;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -687,10 +690,6 @@ body {
 }
 
 .lightbox-img-wrap img {
-  max-width: 92vw;
-  max-height: 84dvh;
-  object-fit: contain;
-  display: block;
   border-radius: 4px;
   -webkit-touch-callout: none;
   -webkit-user-select: none;
@@ -772,6 +771,9 @@ body {
   to   { opacity: 1; }
 }
 .profile-zoom-img-wrap {
+  position: relative;
+  width: 88vw;
+  height: 82dvh;
   animation: pz-img-in 0.55s cubic-bezier(0.16, 1, 0.3, 1) both;
   will-change: transform, opacity;
 }
@@ -780,10 +782,6 @@ body {
   to   { transform: scale(1);    opacity: 1; }
 }
 .profile-zoom-img-wrap img {
-  max-width: 88vw;
-  max-height: 82dvh;
-  object-fit: contain;
-  display: block;
   border-radius: 6px;
   pointer-events: none;
   -webkit-touch-callout: none;

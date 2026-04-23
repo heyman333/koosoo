@@ -544,10 +544,12 @@ export default function Home() {
             aria-label="닫기"
           >✕</button>
           <div className="profile-zoom-img-wrap" onClick={(e) => e.stopPropagation()}>
-            {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img
+            <Image
               src={profileZoom}
               alt=""
+              fill
+              sizes="88vw"
+              style={{ objectFit: "contain" }}
               draggable={false}
               onContextMenu={(e) => e.preventDefault()}
             />
@@ -578,10 +580,13 @@ export default function Home() {
             aria-label="이전"
           >&#8249;</button>
           <div key={lightboxIndex} className={`lightbox-img-wrap lb-${lightboxDir}`} onClick={(e) => e.stopPropagation()}>
-            {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img
+            <Image
               src={ALL_PHOTOS[lightboxIndex]}
               alt=""
+              fill
+              sizes="92vw"
+              priority
+              style={{ objectFit: "contain" }}
               draggable={false}
               onContextMenu={(e) => e.preventDefault()}
             />
