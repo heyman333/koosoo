@@ -545,7 +545,7 @@ body {
   background: transparent;
   border: none;
   text-align: left;
-  font-family: 'Apple SD Gothic Neo', -apple-system, BlinkMacSystemFont, sans-serif;
+  font-family: var(--font-pretendard), 'Apple SD Gothic Neo', -apple-system, BlinkMacSystemFont, sans-serif;
   font-size: 14px;
   font-weight: 600;
   color: #2c2a24;
@@ -593,7 +593,7 @@ body {
   margin-bottom: 0.45rem;
 }
 .qna-answer {
-  font-family: var(--font-special-elite), 'Apple SD Gothic Neo', -apple-system, BlinkMacSystemFont, sans-serif;
+  font-family: var(--font-pretendard), 'Apple SD Gothic Neo', -apple-system, BlinkMacSystemFont, sans-serif;
   font-size: 13.5px;
   line-height: 1.85;
   color: #555;
