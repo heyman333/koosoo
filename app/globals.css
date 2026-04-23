@@ -804,13 +804,11 @@ body {
 .gallery-wide-row:active { cursor: grabbing; }
 .gallery-wide-row::-webkit-scrollbar { display: none; }
 .gallery-wide-item {
+  --gw-size: min(68vw, 280px);
   position: relative;
   flex-shrink: 0;
-  width: 68vw;
-  max-width: 280px;
-  height: 68vw;
-  max-height: 280px;
-  aspect-ratio: 1/1;
+  width: var(--gw-size);
+  height: var(--gw-size);
   background: #f0f0f0;
   overflow: hidden;
   border-radius: 8px;
@@ -1566,10 +1564,7 @@ body {
   }
 
   .gallery-wide-item {
-    width: 232px;
-    max-width: 232px;
-    height: 232px;
-    max-height: 232px;
+    --gw-size: 232px;
   }
 
   .letter-img {

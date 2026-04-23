@@ -91,8 +91,9 @@ const GALLERY_PHOTOS = [
 ];
 
 const GALLERY_WIDE = ["/wide01.jpg", "/wide02.jpg", "/wide03.jpg", "/wide04.jpg", "/wide05.jpg", "/wide06.jpg"];
+const GALLERY_WIDE_FULL = ["/wide01-full.jpg", "/wide02-full.jpg", "/wide03-full.jpg", "/wide04-full.jpg", "/wide05-full.jpg", "/wide06-full.jpg"];
 
-const ALL_PHOTOS = [...GALLERY_PHOTOS, ...GALLERY_WIDE];
+const ALL_PHOTOS = [...GALLERY_PHOTOS, ...GALLERY_WIDE_FULL];
 
 /* ════════════════════════════════════════════════════════════════════════════ */
 export default function Home() {
